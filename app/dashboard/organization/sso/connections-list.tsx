@@ -104,7 +104,9 @@ export function ConnectionsList({ connections }: Props) {
                       <DropdownMenuContent>
                         {c.strategy === "oidc" && (
                           <DropdownMenuItem asChild>
-                            <Link href={`/organization/sso/oidc/edit/${c.id}`}>
+                            <Link
+                              href={`/dashboard/organization/sso/oidc/edit/${c.id}`}
+                            >
                               <Pencil2Icon className="mr-1 size-4" />
                               Edit
                             </Link>
@@ -113,7 +115,9 @@ export function ConnectionsList({ connections }: Props) {
 
                         {c.strategy === "samlp" && (
                           <DropdownMenuItem asChild>
-                            <Link href={`/organization/sso/saml/edit/${c.id}`}>
+                            <Link
+                              href={`/dashboard/organization/sso/saml/edit/${c.id}`}
+                            >
                               <Pencil2Icon className="mr-1 size-4" />
                               Edit
                             </Link>
