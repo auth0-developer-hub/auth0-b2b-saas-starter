@@ -4,7 +4,9 @@ A secure and high-performance starting point for building B2B SaaS web applicati
 
 ## Overview
 
-> Just want to install? Jump ahed to the [Getting Started](#getting-started) section.
+![A screenshot of the login view](https://i.imgur.com/teXrIAo.png)
+
+> Just want to download the app and start editing? Jump ahead to the [Getting Started](#getting-started) section.
 
 This sample application provides developers with a solid foundation to kickstart their journey into building a business-to-business software-as-a-service (B2B SaaS) application. With a carefully selected stack of well-documented and widely adopted technologies, along with seamless integration with Auth0 for identity and login management, this starter kit aims to streamline the development process, enabling you to focus on building innovative solutions for your customers instead of worrying about being B2B or enterprise-ready.
 
