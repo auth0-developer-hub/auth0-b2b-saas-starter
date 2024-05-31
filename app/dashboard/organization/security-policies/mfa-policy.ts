@@ -12,6 +12,5 @@ export const DEFAULT_MFA_POLICY: MfaPolicy = {
 
 export const SUPPORTED_PROVIDERS = [
   "otp",
-  "webauthn-platform",
   "webauthn-roaming",
 ]
