@@ -301,7 +301,7 @@ try {
 }
 
 const createAddDefaultRoleAction = ora({
-  text: `Creating "Add Default Role" Action`,
+  text: `Creating Add Default Role Action`,
 }).start();
 let addDefaultRoleAction;
 try {
@@ -334,13 +334,13 @@ try {
   await $`auth0 ${deployActionArgs}`
   createAddDefaultRoleAction.succeed()
 } catch (e) {
-  createAddDefaultRoleAction.fail(`Failed to create the "Add Default Role" Action`)
+  createAddDefaultRoleAction.fail(`Failed to create the Add Default Role Action`)
   console.log(e)
   process.exit(1)
 }
 
 const createAddRoleToTokensAction = ora({
-  text: `Creating "Add Role to Tokens" Action`,
+  text: `Creating Add Role to Tokens Action`,
 }).start();
 let addRoleToTokensAction;
 try {
@@ -370,7 +370,7 @@ try {
 
   createAddRoleToTokensAction.succeed()
 } catch (e) {
-  createAddRoleToTokensAction.fail(`Failed to create the "Add Role to Tokens" Action`)
+  createAddRoleToTokensAction.fail(`Failed to create the Add Role to Tokens Action`)
   console.log(e)
   process.exit(1)
 }
@@ -386,13 +386,6 @@ try {
         {
           "ref": {
             "type": "action_name",
-            "value": securityPoliciesAction.name
-          },
-          display_name: securityPoliciesAction.name
-        },
-        {
-          "ref": {
-            "type": "action_name",
             "value": addDefaultRoleAction.name
           },
           display_name: addDefaultRoleAction.name
@@ -403,6 +396,13 @@ try {
             "value": addRoleToTokensAction.name
           },
           display_name: addRoleToTokensAction.name
+        },
+        {
+          "ref": {
+            "type": "action_name",
+            "value": securityPoliciesAction.name
+          },
+          display_name: securityPoliciesAction.name
         }
       ]
     }),
@@ -498,25 +498,6 @@ try {
   enableWebAuthNRoaming.succeed()
 } catch (e) {
   enableWebAuthNRoaming.fail(`Failed to enable webauthn-roaming MFA factor`)
-  console.log(e)
-  process.exit(1)
-}
-
-const enableWebAuthNPlatform = ora({
-  text: `Enabling webauthn-platform MFA factor`,
-}).start();
-try {
-  const enableWebAuthNPlatformArgs = [
-    "api", "put", "guardian/factors/webauthn-platform",
-    "--data", JSON.stringify({
-      "enabled": true
-    }),
-  ];
-
-  await $`auth0 ${enableWebAuthNPlatformArgs}`;
-  enableWebAuthNPlatform.succeed()
-} catch (e) {
-  enableWebAuthNPlatform.fail(`Failed to enable webauthn-platform MFA factor`)
   console.log(e)
   process.exit(1)
 }
