@@ -54,7 +54,7 @@ export async function UserNav() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href="/api/auth/logout">Log Out</Link>
+          <a href="/api/auth/logout">Log Out</a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
