@@ -1,4 +1,4 @@
-# B2B SaaS Starter Kit *from* Auth0 by Okta
+# **B2B SaaS Starter Kit** from **Auth0 by Okta**
 
 A secure and high-performance starting point for building B2B SaaS web applications.
 

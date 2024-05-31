@@ -56,7 +56,7 @@ export function OrganizationSwitcher({
           role="combobox"
           aria-expanded={open}
           aria-label="Select an organization"
-          className="w-[200px] justify-between"
+          className="w-[100%] justify-between"
         >
           <Avatar className="mr-2 size-5 rounded-sm">
             <AvatarImage
@@ -71,7 +71,7 @@ export function OrganizationSwitcher({
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-[240px] p-0">
         <Command>
           <CommandList>
             <CommandInput placeholder="Search organizations..." />
@@ -118,7 +118,7 @@ export function OrganizationSwitcher({
                 }}
               >
                 <PlusCircledIcon className="mr-2 size-4" />
-                Create Account
+                Create Organization
               </CommandItem>
             </CommandGroup>
           </CommandList>
