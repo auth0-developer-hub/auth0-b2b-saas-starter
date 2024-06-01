@@ -17,10 +17,13 @@ export default async function Create() {
           <blockquote className="space-y-2">
             <div className="space-y-1">
               <p className="text-lg">
-                SaaStart is a reference B2B SaaS application built using Next.js and Auth0 by Okta.
+                SaaStart is a reference B2B SaaS application built using Next.js
+                and Auth0 by Okta.
               </p>
               <p className="text-lg">
-                It features multi-tenancy support, user management and access controls, security policies, self-service Single Sign-On configuration and more out-of-the-box.
+                It features multi-tenancy support, user management and access
+                controls, security policies, self-service Single Sign-On
+                configuration and more out-of-the-box.
               </p>
             </div>
             <footer className="text-sm text-muted-foreground">

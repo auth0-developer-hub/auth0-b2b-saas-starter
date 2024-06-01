@@ -1,8 +1,9 @@
 import Link from "next/link"
+
 import { appClient, managementClient } from "@/lib/auth0"
+import { Separator } from "@/components/ui/separator"
 import { Auth0Logo } from "@/components/auth0-logo"
 import { OrganizationSwitcher } from "@/components/organization-switcher"
-import { Separator } from "@/components/ui/separator"
 import { SidebarNav } from "@/components/sidebar-nav"
 
 const sidebarNavItems = [
@@ -17,12 +18,11 @@ interface AccountLayoutProps {
 }
 
 export default async function AccountLayout({ children }: AccountLayoutProps) {
-
-  const session = await appClient.getSession();
+  const session = await appClient.getSession()
 
   const { data: orgs } = await managementClient.users.getUserOrganizations({
-    id: session?.user.sub,
-  });
+    id: session!.user.sub,
+  })
 
   return (
     <div className="p-8">
@@ -47,7 +47,7 @@ export default async function AccountLayout({ children }: AccountLayoutProps) {
               displayName: o.display_name!,
               logoUrl: o.branding?.logo_url,
             }))}
-            currentOrgId={session.user.org_id}
+            currentOrgId={session!.user.org_id}
           />
           <Separator orientation="horizontal" className="my-4" />
           <SidebarNav items={sidebarNavItems} />
