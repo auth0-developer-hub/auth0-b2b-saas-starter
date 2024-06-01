@@ -5,7 +5,8 @@ declare namespace NodeJS {
     APP_BASE_URL: string
 
     // Global Auth0 SDK configuration
-    NEXT_PUBLIC_AUTH0_DOMAIN: string
+    NEXT_PUBLIC_AUTH0_DOMAIN: string // The domain used to make authentication requests (can be a custom domain)
+    AUTH0_MANAGEMENT_API_DOMAIN: string // The domain used to make management API requests
     SESSION_ENCRYPTION_SECRET: string
 
     // Client ID and secret for the application within the context of an organization

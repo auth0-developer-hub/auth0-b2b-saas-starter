@@ -425,6 +425,7 @@ APP_BASE_URL=${APP_BASE_URL}
 
 # Global Auth0 SDK configuration
 NEXT_PUBLIC_AUTH0_DOMAIN=${AUTH0_DOMAIN}
+AUTH0_MANAGEMENT_API_DOMAIN=${AUTH0_DOMAIN}
 SESSION_ENCRYPTION_SECRET=${randomBytes(32).toString('hex')}
 
 # Client ID and secret for the application within the context of an organization
