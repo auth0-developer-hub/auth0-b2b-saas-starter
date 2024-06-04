@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache"
 import { Session } from "@auth0/nextjs-auth0"
 
 import { managementClient } from "@/lib/auth0"
+import { verifyDnsRecords } from "@/lib/domain-verification"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const updateConnection = withServerActionAuth(
@@ -59,6 +60,17 @@ export const updateConnection = withServerActionAuth(
       domainAliases && typeof domainAliases === "string"
         ? domainAliases.split(",").map((d) => d.trim())
         : []
+
+    // ensure that the domains are verified
+    for (const domain of parsedDomains) {
+      const verified = await verifyDnsRecords(domain, session.user.org_id)
+
+      if (!verified) {
+        return {
+          error: `The domain ${domain} is not verified.`,
+        }
+      }
+    }
 
     // ensure that the connection ID being updated is owned by the organization
     const [{ data: enabledConnection }, { data: connection }] =

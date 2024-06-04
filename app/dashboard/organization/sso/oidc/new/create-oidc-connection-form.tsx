@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { useRouter } from "next/navigation"
-import { CopyIcon, InfoCircledIcon } from "@radix-ui/react-icons"
+import { CopyIcon, InfoCircledIcon, TrashIcon } from "@radix-ui/react-icons"
 import slugify from "@sindresorhus/slugify"
 import { toast } from "sonner"
 
@@ -20,18 +20,23 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
 import { Code } from "@/components/code"
 import { SubmitButton } from "@/components/submit-button"
 
+import { AddDomainDialog } from "../../components/add-domain-dialog"
 import { createConnection } from "./actions"
 
 const CALLBACK_URL = `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/login/callback`
 
-export function CreateOidcConnectionForm() {
+interface Props {
+  domainVerificationToken: string
+}
+
+export function CreateOidcConnectionForm({ domainVerificationToken }: Props) {
   const router = useRouter()
   const [name, setName] = useState("")
   const [type, setType] = useState("front_channel")
+  const [domains, setDomains] = useState<string[]>([])
 
   return (
     <Card>
@@ -169,14 +174,43 @@ export function CreateOidcConnectionForm() {
 
           <div className="grid w-full items-center gap-2">
             <Label htmlFor="domains">Domains</Label>
-            <Textarea
+            <Input
               id="domains"
               name="domains"
-              placeholder="example.com, auth0.com"
+              type="text"
+              className="hidden"
+              value={domains.join(",")}
+              readOnly
             />
-            <p className="text-sm text-muted-foreground">
-              A comma-separated list of domains.
-            </p>
+            {domains.length > 0 ? (
+              domains.map((domain) => (
+                <div key={domain} className="flex space-x-2">
+                  <Input className="font-mono" value={domain} readOnly />
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        setDomains(domains.filter((d) => d !== domain))
+                      }}
+                    >
+                      <TrashIcon className="size-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+                <p className="">No domains have been added yet.</p>
+              </div>
+            )}
+            <div>
+              <AddDomainDialog
+                domains={domains}
+                setDomains={setDomains}
+                domainVerificationToken={domainVerificationToken}
+              />
+            </div>
           </div>
 
           <Alert>
@@ -207,29 +241,9 @@ export function CreateOidcConnectionForm() {
             <RadioGroup
               id="assign_membership_on_login"
               name="assign_membership_on_login"
-              defaultValue="disabled"
+              defaultValue="enabled"
               className="grid grid-cols-2 gap-2"
             >
-              <div>
-                <RadioGroupItem
-                  value="disabled"
-                  id="disable_auto_membership"
-                  className="peer sr-only"
-                />
-                <Label
-                  htmlFor="disable_auto_membership"
-                  className="flex h-full rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
-                >
-                  <div className="space-y-1.5">
-                    <div>Disable Auto-Membership</div>
-                    <div className="leading-normal text-muted-foreground">
-                      All users logging in with this connection will not be
-                      added as members to this organization.
-                    </div>
-                  </div>
-                </Label>
-              </div>
-
               <div>
                 <RadioGroupItem
                   value="enabled"
@@ -245,6 +259,26 @@ export function CreateOidcConnectionForm() {
                     <div className="leading-normal text-muted-foreground">
                       All users logging in with this connection will be
                       automatically added as members of this organization.
+                    </div>
+                  </div>
+                </Label>
+              </div>
+
+              <div>
+                <RadioGroupItem
+                  value="disabled"
+                  id="disable_auto_membership"
+                  className="peer sr-only"
+                />
+                <Label
+                  htmlFor="disable_auto_membership"
+                  className="flex h-full rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary"
+                >
+                  <div className="space-y-1.5">
+                    <div>Disable Auto-Membership</div>
+                    <div className="leading-normal text-muted-foreground">
+                      All users logging in with this connection will not be
+                      added as members to this organization.
                     </div>
                   </div>
                 </Label>
