@@ -74,17 +74,16 @@ export default async function DashboardHome() {
             <h3 className="text-2xl font-bold tracking-tight">
               Explore the SaaS Starter
             </h3>
-            <p className="mt-1 text-muted-foreground">
-              This reference app demonstrates how to build a fully-fledged
-              multi-tenant B2B SaaS application using a modern technology stack,
-              including Auth0 by Okta.
+            <p className="mt-3 text-muted-foreground">
+              This reference app demonstrates how to build a multi-tenant 
+              B2B SaaS application powered by Auth0 by Okta.
             </p>
-            <p className="mt-1 text-muted-foreground">
-              The content that you have access to depends on the logged in
-              user&apos;s role in their Organization. This can be modified by
-              anyone with the admin role, in the settings dashboard.
+            <p className="mt-3 text-muted-foreground">
+              Head over to the Settings Dashboard to explore common administrative 
+              capabilities like membership management, single sign-on configuration, and 
+              security policies.
             </p>
-            <div className="mt-4">
+            <div className="mt-8">
               <Link href="/dashboard/organization/general" className="w-full">
                 <Button className="w-full">
                   Navigate to Settings
@@ -92,6 +91,9 @@ export default async function DashboardHome() {
                 </Button>
               </Link>
             </div>
+            <p className="mt-3 text-muted-foreground">
+              (You must be logged in with an &quot;admin&quot; role in your organization.)
+            </p>
           </div>
         </div>
       </div>
