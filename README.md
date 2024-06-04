@@ -4,7 +4,7 @@ A secure and high-performance starting point for building B2B SaaS web applicati
 
 ## Overview
 
-![A screenshot of the login view](https://i.imgur.com/teXrIAo.png)
+![Screenshot of the signup page for B2B SaaS Starter Kit](https://i.imgur.com/teXrIAo.png)
 
 > Ready to begin? Jump ahead to the [Getting Started](#getting-started) section.
 
@@ -24,84 +24,107 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
   * OIDC 
   * SAML
 * Ability for end-users to verify domain ownership before associating their email domains with [home realm discovery](https://auth0.com/docs/authenticate/login/auth0-universal-login/identifier-first#define-home-realm-discovery-identity-providers)
-* Just-in-time user provisioning OR automatic directory sync with SCIM (coming soon)
-* API client management with self-service create/delete capabilities (coming soon)
+* Just-in-time user provisioning OR automatic directory sync with SCIM _(coming soon)_
+* API client management with self-service create/delete capabilities _(coming soon)_
 * Configurable security policies:
   * Enforce MFA
-  * Session lifetime (coming soon)
-  * Break-glass access for admin roles (coming soon)
+  * Session lifetime _(coming soon)_
+  * Break-glass access for admin roles _(coming soon)_
 
 ## Getting Started
 
 ### Prerequisites
+
 1. Node.js v20 or later is required to run the bootstrapping process. We recommend using [`nvm`](https://github.com/nvm-sh/nvm).
 1. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`.
 1. **Create a fresh Auth0 tenant** which will be configured automatically by our bootstrapping command. See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
 
-    Creating a new tenant before you continue is highly recommended, so that you don't accidentally change the conf
-iguration in any existing Auth0 projects you might have.
+   Creating a new tenant before you continue is highly recommended, so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
 
-### Part One: Clone and install dependencies
+### Step One: Clone and install dependencies
+
 1. Clone this repo to your development environment
 1. Install dependencies: `npm install`
+
 
 ### Part Two: Install and Log in with the Auth0 CLI
 This project uses the Auth0 CLI to make setting up your tenant a lot easier, by scripting away as much manual work as possible. If you want to familiarize yourself with the Auth0 CLI, read [Auth0 CLI Basics](https://developer.auth0.com/resources/labs/tools/auth0-cli-basics).
 
 1. You will need to install the Auth0 CLI. It will be used by the bootstrap script to create the resources needed for this sample in your Auth0 tenant. Instructions for installation are available at the [Auth0 CLI github repo](https://github.com/auth0/auth0-cli).
 
-    **For example**, for users on OSX using , you can run the following command:
-    ```shell
-    brew tap auth0/auth0-cli && brew install auth0
-    ```
+   **For example**, for users on OSX using , you can run the following command:
 
-    You can confirm whether or not the CLI is correctly installed by running the following command:
+   ```shell
+   brew tap auth0/auth0-cli && brew install auth0
+   ```
 
-    ```shell
-    auth0 --version
-    auth0 version 1.4.0 54e9a30eeb58a4a7e40e04dc19af6869036bfb32
-    ```
+   You can confirm whether or not the CLI is correctly installed by running the following command:
 
-    You should see the CLI version number printed out.
+   ```shell
+   auth0 --version
+   ```
 
-1. Log in by entering the following command and following the instructions:
-  
-    ```shell
-    auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
-    ```
+   You should see in response the CLI version number printed out, like this:
 
-    Be sure to select **As a user** when prompted: *"How would you like to authenticate?"*. This take you through a flow to securely retrieve a Management API token for your Auth0 tenant.
+   ```shell
+   auth0 version 1.4.0 54e9a30eeb58a4a7e40e04dc19af6869036bfb32
+   ```
 
-    > ## **Important**
-    > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
- 
-### Part Three: Bootstrap the Auth0 tenant
-**Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at https://auth0.com/signup.
+1. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
+
+   ```shell
+   auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
+   ```
+
+   Be sure to select **As a user** when prompted: _"How would you like to authenticate?"_. This take you through a flow to securely retrieve a Management API token for your Auth0 tenant.
+
+   > ## **Important**
+   >
+   > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
+
+### Step Three: Bootstrap the Auth0 tenant
+
+Behind the scenes, the bootstrap script in this step will use the Auth0 CLI to provision the resources required for this sample application:
+
+- Creating the appropriate clients (called Applications in Auth0)
+- Creating admin and member roles,
+- Creating actions for setting roles and security policies
+- Creating email and login templates
+- Enabling MFA factors
+
+Finally, it will save environment variables for your tenant in the application directory.
 
 1. Run the following command:
 
-    ```shell
-    npm run auth0:bootstrap
-    ```
+**Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at https://auth0.com/signup.
+
+   ```shell
+   npm run auth0:bootstrap
+   ```
     Behind the scenes, the bootstrap script will use the Auth0 CLI to provision the resources required for this sample application: creating the appropriate clients, roles, actions, templates, and MFA factors, and then saving environment variables for your tenant.
 
-    Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
+   Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
 
-### Part Four: Run the sample application
+### Step Four: Run the sample application
+
 1. Run the development server: `npm run dev`
 1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-> Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
+   > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 1. Start editing - for example, modify `app/page.tsx`. The browser will auto-update as you edit the file.
+> Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
 ## Learn More
 
 To learn more about Auth0, take a look at the following resources:
+
 - [Understand how Auth0 Organizations Work](https://auth0.com/docs/manage-users/organizations/organizations-overview) - learn about how this project achieves multi-tenancy
 - [Customize](https://auth0.com/docs/customize) - learn how to brand and internationalize all Auth0 interactions with your end-users
 
+
 ## Contributing
+
 See [CONTRIBUTING](./CONTRIBUTING.md) for information.
