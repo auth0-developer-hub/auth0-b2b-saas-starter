@@ -1,6 +1,7 @@
 "use client"
 
-import { CopyIcon, InfoCircledIcon } from "@radix-ui/react-icons"
+import { useState } from "react"
+import { CopyIcon, InfoCircledIcon, TrashIcon } from "@radix-ui/react-icons"
 import { toast } from "sonner"
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -25,10 +26,10 @@ import {
 } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
-import { Textarea } from "@/components/ui/textarea"
 import { Code } from "@/components/code"
 import { SubmitButton } from "@/components/submit-button"
 
+import { AddDomainDialog } from "../../../components/add-domain-dialog"
 import { updateConnection } from "./actions"
 
 const CALLBACK_URL = `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/login/callback`
@@ -52,9 +53,17 @@ export interface SamlConnection {
 
 interface Props {
   connection: SamlConnection
+  domainVerificationToken: string
 }
 
-export function UpdateSamlConnectionForm({ connection }: Props) {
+export function UpdateSamlConnectionForm({
+  connection,
+  domainVerificationToken,
+}: Props) {
+  const [domains, setDomains] = useState<string[]>(
+    connection.options.domainAliases || []
+  )
+
   return (
     <Card>
       <form
@@ -154,15 +163,43 @@ export function UpdateSamlConnectionForm({ connection }: Props) {
 
           <div className="grid w-full items-center gap-2">
             <Label htmlFor="domains">Domains</Label>
-            <Textarea
+            <Input
               id="domains"
               name="domains"
-              placeholder="example.com, auth0.com"
-              defaultValue={connection.options.domainAliases}
+              type="text"
+              className="hidden"
+              value={domains.join(",")}
+              readOnly
             />
-            <p className="text-sm text-muted-foreground">
-              A comma-separated list of domains.
-            </p>
+            {domains.length > 0 ? (
+              domains.map((domain) => (
+                <div key={domain} className="flex space-x-2">
+                  <Input className="font-mono" value={domain} readOnly />
+                  <div className="flex justify-end">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        setDomains(domains.filter((d) => d !== domain))
+                      }}
+                    >
+                      <TrashIcon className="size-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
+                <p className="">No domains have been added yet.</p>
+              </div>
+            )}
+            <div>
+              <AddDomainDialog
+                domains={domains}
+                setDomains={setDomains}
+                domainVerificationToken={domainVerificationToken}
+              />
+            </div>
           </div>
 
           <div className="flex flex-row items-center justify-between rounded-lg border p-4">

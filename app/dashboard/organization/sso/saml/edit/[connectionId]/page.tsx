@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 
 import { appClient, managementClient } from "@/lib/auth0"
+import { getOrCreateDomainVerificationToken } from "@/lib/domain-verification"
 import { Button } from "@/components/ui/button"
 
 import { UpdateSamlConnectionForm } from "./update-saml-connection-form"
@@ -29,9 +30,10 @@ export default async function UpdateSamlConnection({
     redirect("/dashboard/organization/sso")
   }
 
-  const { data: connection } = await managementClient.connections.get({
-    id: params.connectionId,
-  })
+  const [domainVerificationToken, { data: connection }] = await Promise.all([
+    getOrCreateDomainVerificationToken(session!.user.org_id),
+    managementClient.connections.get({ id: params.connectionId }),
+  ])
 
   return (
     <div className="space-y-6">
@@ -58,6 +60,7 @@ export default async function UpdateSamlConnection({
             signRequest: connection.options.signSAMLRequest,
           },
         }}
+        domainVerificationToken={domainVerificationToken}
       />
     </div>
   )
