@@ -80,9 +80,9 @@ export default async function DashboardHome() {
               including Auth0 by Okta.
             </p>
             <p className="mt-1 text-muted-foreground">
-              The content that you have access to depends on the logged in user's role
-              in their Organization. This can be modified by anyone with the
-              admin role, in the settings dashboard.
+              The content that you have access to depends on the logged in
+              user&apos;s role in their Organization. This can be modified by
+              anyone with the admin role, in the settings dashboard.
             </p>
             <div className="mt-4">
               <Link href="/dashboard/organization/general" className="w-full">

@@ -56,7 +56,7 @@ export function OrganizationSwitcher({
           role="combobox"
           aria-expanded={open}
           aria-label="Select an organization"
-          className="w-[100%] justify-between"
+          className="w-full justify-between"
         >
           <Avatar className="mr-2 size-5 rounded-sm">
             <AvatarImage
