@@ -92,7 +92,7 @@ export default async function DashboardHome() {
               </Link>
             </div>
             <p className="mt-3 text-muted-foreground">
-              (You must be logged in with an "admin" role in your organization.)
+              (You must be logged in with an &quot;admin&quot; role in your organization.)
             </p>
           </div>
         </div>
