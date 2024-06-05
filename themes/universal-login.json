@@ -2,18 +2,18 @@
   "colors": {
     "primary_button": "#0a0a0a",
     "primary_button_label": "#ffffff",
-    "secondary_button_border": "#262626",
+    "secondary_button_border": "#a3a3a3",
     "secondary_button_label": "#0a0a0a",
     "base_focus_color": "#0a0a0a",
     "base_hover_color": "#0a0a0a",
     "links_focused_components": "#0a0a0a",
     "header": "#0a0a0a",
-    "body_text": "#525252",
+    "body_text": "#a3a3a3",
     "widget_background": "#ffffff",
     "widget_border": "#0a0a0a",
     "input_labels_placeholders": "#a3a3a3",
     "input_filled_text": "#0a0a0a",
-    "input_border": "#a3a3a3",
+    "input_border": "#262626",
     "input_background": "#ffffff",
     "icons": "#a3a3a3",
     "error": "#d03c38",
@@ -37,7 +37,7 @@
     },
     "buttons_text": {
       "bold": false,
-      "size": 87.5
+      "size": 100
     },
     "input_labels": {
       "bold": false,
