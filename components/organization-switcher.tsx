@@ -47,6 +47,14 @@ export function OrganizationSwitcher({
   const router = useRouter()
   const pathname = usePathname()
 
+  const handleRedirect = () => {
+    if (pathname.includes("/sso") && pathname.includes("/edit")) {
+      return "/dashboard/organization/sso/"
+    }
+
+    return pathname
+  }
+
   const organization = organizations.find((org) => org.id === currentOrgId)!
 
   return (
@@ -84,7 +92,7 @@ export function OrganizationSwitcher({
                   key={org.id}
                   onSelect={() => {
                     router.push(
-                      `/api/auth/login?organization=${org.id}&returnTo=${pathname}`
+                      `/api/auth/login?organization=${org.id}&returnTo=${handleRedirect()}`
                     )
                     setOpen(false)
                   }}
