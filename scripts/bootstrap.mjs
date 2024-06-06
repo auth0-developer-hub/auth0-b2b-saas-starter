@@ -490,6 +490,23 @@ CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}
   process.exit(1)
 }
 
+// universal login theme
+
+const createUniversalLoginTheme = ora({
+  text: `Creating theme for Universal Login`,
+}).start()
+
+try {
+  await $`cat ./themes/universal-login.json`
+    .pipe`auth0 api post branding/themes`
+
+  createUniversalLoginTheme.succeed()
+} catch (e) {
+  createUniversalLoginTheme.fail(`Failed to create theme for Universal Login`)
+  console.log(e)
+  process.exit(1)
+}
+
 // email templates
 
 const createVerifyEmailTemplate = ora({
