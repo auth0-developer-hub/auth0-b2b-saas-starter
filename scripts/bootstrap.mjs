@@ -59,7 +59,7 @@ try {
       "friendly_name": "SaaStart",
       "picture_url": "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png",
     }),
-  ]
+  ];
 
   await $`auth0 ${tenantSettingsArgs}`
   tenantSettings.succeed()
@@ -77,14 +77,11 @@ const promptSettings = ora({
 try {
   // prettier-ignore
   const promptSettingsArgs = [
-    "api",
-    "patch",
-    "prompts",
-    "--data",
-    JSON.stringify({
-      identifier_first: true,
+    "api", "patch", "prompts",
+    "--data", JSON.stringify({
+      "identifier_first": true,
     }),
-  ]
+  ];
 
   await $`auth0 ${promptSettingsArgs}`
   promptSettings.succeed()
@@ -103,22 +100,14 @@ let managementClient
 try {
   // prettier-ignore
   const createClientArgs = [
-    "apps",
-    "create",
-    "--name",
-    MANAGEMENT_CLIENT_NAME,
-    "--description",
-    "The SaaStart client to manage tenant resources and facilitate account creation.",
-    "--callbacks",
-    `${APP_BASE_URL}/onboarding/callback`,
-    "--logout-urls",
-    APP_BASE_URL,
-    "--type",
-    "regular",
-    "--reveal-secrets",
-    "--json",
-    "--no-input",
-  ]
+    "apps", "create",
+    "--name", MANAGEMENT_CLIENT_NAME,
+    "--description", "The SaaStart client to manage tenant resources and facilitate account creation.",
+    "--callbacks", `${APP_BASE_URL}/onboarding/callback`,
+    "--logout-urls", APP_BASE_URL,
+    "--type", "regular",
+    "--reveal-secrets", "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createClientArgs}`
   managementClient = JSON.parse(stdout)
@@ -137,11 +126,8 @@ const createClientGrant = ora({
 try {
   // prettier-ignore
   const createClientGrantArgs = [
-    "api",
-    "post",
-    "client-grants",
-    "--data",
-    JSON.stringify({
+    "api", "post", "client-grants",
+    "--data", JSON.stringify({
       client_id: managementClient.client_id,
       audience: `https://${AUTH0_DOMAIN}/api/v2/`,
       scope: [
@@ -170,10 +156,10 @@ try {
         "delete:organization_member_roles",
         "create:organization_invitations",
         "read:organization_invitations",
-        "delete:organization_invitations",
-      ],
+        "delete:organization_invitations"
+      ]
     }),
-  ]
+  ];
 
   await $`auth0 ${createClientGrantArgs}`
   createClientGrant.succeed()
@@ -190,29 +176,25 @@ let dashboardClient
 try {
   // prettier-ignore
   const createClientArgs = [
-    "api",
-    "post",
-    "clients",
-    "--data",
-    JSON.stringify({
-      name: DASHBOARD_CLIENT_NAME,
-      description:
-        "The client to facilitate login to the dashboard in the context of an organization.",
-      callbacks: [`${APP_BASE_URL}/api/auth/callback`],
-      allowed_logout_urls: [APP_BASE_URL],
-      initiate_login_uri: "https://example.com/api/auth/login",
-      app_type: "regular_web",
-      oidc_conformant: true,
-      grant_types: ["authorization_code", "refresh_token"],
-      organization_require_behavior: "post_login_prompt",
-      organization_usage: "require",
-      jwt_configuration: {
-        alg: "RS256",
-        lifetime_in_seconds: 36000,
-        secret_encoded: false,
+    "api", "post", "clients",
+    "--data", JSON.stringify({
+      "name": DASHBOARD_CLIENT_NAME,
+      "description": "The client to facilitate login to the dashboard in the context of an organization.",
+      "callbacks": [`${APP_BASE_URL}/api/auth/callback`],
+      "allowed_logout_urls": [APP_BASE_URL],
+      "initiate_login_uri": "https://example.com/api/auth/login",
+      "app_type": "regular_web",
+      "oidc_conformant": true,
+      "grant_types": ["authorization_code","refresh_token"],
+      "organization_require_behavior": "post_login_prompt",
+      "organization_usage": "require",
+      "jwt_configuration": {
+        "alg": "RS256",
+        "lifetime_in_seconds": 36000,
+        "secret_encoded": false
       },
     }),
-  ]
+  ];
 
   const { stdout } = await $`auth0 ${createClientArgs}`
   dashboardClient = JSON.parse(stdout)
@@ -234,17 +216,14 @@ let defaultConnection
 try {
   // prettier-ignore
   const createConnectionArgs = [
-    "api",
-    "post",
-    "connections",
-    "--data",
-    JSON.stringify({
+    "api", "post", "connections",
+    "--data", JSON.stringify({
       strategy: "auth0",
       name: DEFAULT_CONNECTION_NAME,
       display_name: "SaaStart",
       enabled_clients: [dashboardClient.client_id, managementClient.client_id],
     }),
-  ]
+  ];
 
   const { stdout } = await $`auth0 ${createConnectionArgs}`
   defaultConnection = JSON.parse(stdout)
@@ -266,15 +245,11 @@ let adminRole
 try {
   // prettier-ignore
   const createRoleArgs = [
-    "roles",
-    "create",
-    "--name",
-    "admin",
-    "--description",
-    "Manage the organization's configuration.",
-    "--json",
-    "--no-input",
-  ]
+    "roles", "create",
+    "--name", "admin",
+    "--description", "Manage the organization's configuration.",
+    "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createRoleArgs}`
   adminRole = JSON.parse(stdout)
@@ -292,15 +267,11 @@ let memberRole
 try {
   // prettier-ignore
   const createRoleArgs = [
-    "roles",
-    "create",
-    "--name",
-    "member",
-    "--description",
-    "Member of an organization.",
-    "--json",
-    "--no-input",
-  ]
+    "roles", "create",
+    "--name", "member",
+    "--description", "Member of an organization.",
+    "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createRoleArgs}`
   memberRole = JSON.parse(stdout)
@@ -324,19 +295,13 @@ try {
 
   // prettier-ignore
   const createActionArgs = [
-    "actions",
-    "create",
-    "--name",
-    "Security Policies",
-    "--code",
-    code,
-    "--trigger",
-    "post-login",
-    "--secret",
-    `DASHBOARD_CLIENT_ID=${dashboardClient.client_id}`,
-    "--json",
-    "--no-input",
-  ]
+    "actions", "create",
+    "--name", "Security Policies",
+    "--code", code,
+    "--trigger", "post-login",
+    "--secret", `DASHBOARD_CLIENT_ID=${dashboardClient.client_id}`,
+    "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createActionArgs}`
   securityPoliciesAction = JSON.parse(stdout)
@@ -345,12 +310,9 @@ try {
 
   // prettier-ignore
   const deployActionArgs = [
-    "actions",
-    "deploy",
-    securityPoliciesAction.id,
-    "--json",
-    "--no-input",
-  ]
+    "actions", "deploy", securityPoliciesAction.id,
+    "--json", "--no-input"
+  ];
   await $`auth0 ${deployActionArgs}`
 
   createSecurityPoliesAction.succeed()
@@ -373,27 +335,17 @@ try {
 
   // prettier-ignore
   const createActionArgs = [
-    "actions",
-    "create",
-    "--name",
-    "Add Default Role",
-    "--code",
-    code,
-    "--trigger",
-    "post-login",
-    "--secret",
-    `DOMAIN=${AUTH0_DOMAIN}`,
-    "--secret",
-    `CLIENT_ID=${managementClient.client_id}`,
-    "--secret",
-    `CLIENT_SECRET=${managementClient.client_secret}`,
-    "--secret",
-    `MEMBER_ROLE_ID=${memberRole.id}`,
-    "--dependency",
-    "auth0=4.4.0",
-    "--json",
-    "--no-input",
-  ]
+    "actions", "create",
+    "--name", "Add Default Role",
+    "--code", code,
+    "--trigger", "post-login",
+    "--secret", `DOMAIN=${AUTH0_DOMAIN}`,
+    "--secret", `CLIENT_ID=${managementClient.client_id}`,
+    "--secret", `CLIENT_SECRET=${managementClient.client_secret}`,
+    "--secret", `MEMBER_ROLE_ID=${memberRole.id}`,
+    "--dependency", "auth0=4.4.0",
+    "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createActionArgs}`
   addDefaultRoleAction = JSON.parse(stdout)
@@ -402,12 +354,9 @@ try {
 
   // prettier-ignore
   const deployActionArgs = [
-    "actions",
-    "deploy",
-    addDefaultRoleAction.id,
-    "--json",
-    "--no-input",
-  ]
+    "actions", "deploy", addDefaultRoleAction.id,
+    "--json", "--no-input"
+  ];
   await $`auth0 ${deployActionArgs}`
   createAddDefaultRoleAction.succeed()
 } catch (e) {
@@ -429,19 +378,13 @@ try {
 
   // prettier-ignore
   const createActionArgs = [
-    "actions",
-    "create",
-    "--name",
-    "Add Role to Tokens",
-    "--code",
-    code,
-    "--trigger",
-    "post-login",
-    "--secret",
-    `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
-    "--json",
-    "--no-input",
-  ]
+    "actions", "create",
+    "--name", "Add Role to Tokens",
+    "--code", code,
+    "--trigger", "post-login",
+    "--secret", `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
+    "--json", "--no-input"
+  ];
 
   const { stdout } = await $`auth0 ${createActionArgs}`
   addRoleToTokensAction = JSON.parse(stdout)
@@ -450,12 +393,9 @@ try {
 
   // prettier-ignore
   const deployActionArgs = [
-    "actions",
-    "deploy",
-    addRoleToTokensAction.id,
-    "--json",
-    "--no-input",
-  ]
+    "actions", "deploy", addRoleToTokensAction.id,
+    "--json", "--no-input"
+  ];
   await $`auth0 ${deployActionArgs}`
 
   createAddRoleToTokensAction.succeed()
@@ -473,36 +413,33 @@ const updateTriggerBindings = ora({
 try {
   // prettier-ignore
   const updateTriggerBindingsArgs = [
-    "api",
-    "patch",
-    "actions/triggers/post-login/bindings",
-    "--data",
-    JSON.stringify({
-      bindings: [
+    "api", "patch", "actions/triggers/post-login/bindings",
+    "--data", JSON.stringify({
+      "bindings": [
         {
-          ref: {
-            type: "action_name",
-            value: addDefaultRoleAction.name,
+          "ref": {
+            "type": "action_name",
+            "value": addDefaultRoleAction.name
           },
-          display_name: addDefaultRoleAction.name,
+          display_name: addDefaultRoleAction.name
         },
         {
-          ref: {
-            type: "action_name",
-            value: addRoleToTokensAction.name,
+          "ref": {
+            "type": "action_name",
+            "value": addRoleToTokensAction.name
           },
-          display_name: addRoleToTokensAction.name,
+          display_name: addRoleToTokensAction.name
         },
         {
-          ref: {
-            type: "action_name",
-            value: securityPoliciesAction.name,
+          "ref": {
+            "type": "action_name",
+            "value": securityPoliciesAction.name
           },
-          display_name: securityPoliciesAction.name,
-        },
-      ],
+          display_name: securityPoliciesAction.name
+        }
+      ]
     }),
-  ]
+  ];
 
   await $`auth0 ${updateTriggerBindingsArgs}`
   updateTriggerBindings.succeed()
@@ -589,7 +526,7 @@ try {
         "urlLifetimeInSeconds": 432000,
         "enabled": true
     }),
-  ]
+  ];
 
   await $`auth0 ${createVerifyEmailTemplateArgs}`
   createVerifyEmailTemplate.succeed()
@@ -607,14 +544,11 @@ const enableWebAuthNRoaming = ora({
 try {
   // prettier-ignore
   const enableWebAuthNRoamingArgs = [
-    "api",
-    "put",
-    "guardian/factors/webauthn-roaming",
-    "--data",
-    JSON.stringify({
-      enabled: true,
+    "api", "put", "guardian/factors/webauthn-roaming",
+    "--data", JSON.stringify({
+      "enabled": true
     }),
-  ]
+  ];
 
   await $`auth0 ${enableWebAuthNRoamingArgs}`
   enableWebAuthNRoaming.succeed()
@@ -630,14 +564,11 @@ const enableOtp = ora({
 try {
   // prettier-ignore
   const enableOtpArgs = [
-    "api",
-    "put",
-    "guardian/factors/otp",
-    "--data",
-    JSON.stringify({
-      enabled: true,
+    "api", "put", "guardian/factors/otp",
+    "--data", JSON.stringify({
+      "enabled": true
     }),
-  ]
+  ];
 
   await $`auth0 ${enableOtpArgs}`
   enableOtp.succeed()
