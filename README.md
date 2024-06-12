@@ -97,7 +97,7 @@ Finally, it will save environment variables for your tenant in the application d
 
 1. Run the following command:
 
-\*\*Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart](https://auth0.com/signup).
+**Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart](https://auth0.com/signup).
 
 ```shell
 npm run auth0:bootstrap
