@@ -1,4 +1,4 @@
-# B2B SaaS Starter Kit *from* Auth0 by Okta
+# B2B SaaS Starter Kit _from_ Auth0 by Okta
 
 A secure and high-performance starting point for building B2B SaaS web applications.
 
@@ -15,21 +15,22 @@ It incorporates best practices and industry-standard technologies to provide a r
 ## Target use case
 
 Use this to bootstrap a SaaS application with the following commonly needed capabilities:
-* Multi-tenancy with a single pool of users in a shared user database (see: [Multiple Organization Architecture](https://auth0.com/docs/get-started/architecture-scenarios/multiple-organization-architecture#users-shared-between-organizations))
-* Sign up with tenant ([Organization](https://auth0.com/docs/manage-users/organizations)) creation
-* Logged in / Logged out product landing page experience
-* User management with invitation workflows, create/delete user capabilities, and RBAC roles
-* Self-service user profile management, password reset, and MFA configuration
-* Self-service Enterprise Single Sign-On (SSO) configuration using
-  * OIDC 
-  * SAML
-* Ability for end-users to verify domain ownership before associating their email domains with [home realm discovery](https://auth0.com/docs/authenticate/login/auth0-universal-login/identifier-first#define-home-realm-discovery-identity-providers)
-* Just-in-time user provisioning OR automatic directory sync with SCIM _(coming soon)_
-* API client management with self-service create/delete capabilities _(coming soon)_
-* Configurable security policies:
-  * Enforce MFA
-  * Session lifetime _(coming soon)_
-  * Break-glass access for admin roles _(coming soon)_
+
+- Multi-tenancy with a single pool of users in a shared user database (see: [Multiple Organization Architecture](https://auth0.com/docs/get-started/architecture-scenarios/multiple-organization-architecture#users-shared-between-organizations))
+- Sign up with tenant ([Organization](https://auth0.com/docs/manage-users/organizations)) creation
+- Logged in / Logged out product landing page experience
+- User management with invitation workflows, create/delete user capabilities, and RBAC roles
+- Self-service user profile management, password reset, and MFA configuration
+- Self-service Enterprise Single Sign-On (SSO) configuration using
+  - OIDC
+  - SAML
+- Ability for end-users to verify domain ownership before associating their email domains with [home realm discovery](https://auth0.com/docs/authenticate/login/auth0-universal-login/identifier-first#define-home-realm-discovery-identity-providers)
+- Just-in-time user provisioning OR automatic directory sync with SCIM _(coming soon)_
+- API client management with self-service create/delete capabilities _(coming soon)_
+- Configurable security policies:
+  - Enforce MFA
+  - Session lifetime _(coming soon)_
+  - Break-glass access for admin roles _(coming soon)_
 
 ## Getting Started
 
@@ -46,8 +47,8 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 1. Clone this repo to your development environment
 1. Install dependencies: `npm install`
 
-
 ### Part Two: Install and Log in with the Auth0 CLI
+
 This project uses the Auth0 CLI to make setting up your tenant a lot easier, by scripting away as much manual work as possible. If you want to familiarize yourself with the Auth0 CLI, read [Auth0 CLI Basics](https://developer.auth0.com/resources/labs/tools/auth0-cli-basics).
 
 1. You will need to install the Auth0 CLI. It will be used by the bootstrap script to create the resources needed for this sample in your Auth0 tenant. Instructions for installation are available at the [Auth0 CLI github repo](https://github.com/auth0/auth0-cli).
@@ -96,14 +97,15 @@ Finally, it will save environment variables for your tenant in the application d
 
 1. Run the following command:
 
-**Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at https://auth0.com/signup.
+\*\*Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart](https://auth0.com/signup).
 
-   ```shell
-   npm run auth0:bootstrap
-   ```
-    Behind the scenes, the bootstrap script will use the Auth0 CLI to provision the resources required for this sample application: creating the appropriate clients, roles, actions, templates, and MFA factors, and then saving environment variables for your tenant.
+```shell
+npm run auth0:bootstrap
+```
 
-   Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
+Behind the scenes, the bootstrap script will use the Auth0 CLI to provision the resources required for this sample application: creating the appropriate clients, roles, actions, templates, and MFA factors, and then saving environment variables for your tenant.
+
+Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
 
 ### Step Four: Run the sample application
 
@@ -113,7 +115,7 @@ Finally, it will save environment variables for your tenant in the application d
    > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 1. Start editing - for example, modify `app/page.tsx`. The browser will auto-update as you edit the file.
-> Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
+   > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
@@ -123,7 +125,6 @@ To learn more about Auth0, take a look at the following resources:
 
 - [Understand how Auth0 Organizations Work](https://auth0.com/docs/manage-users/organizations/organizations-overview) - learn about how this project achieves multi-tenancy
 - [Customize](https://auth0.com/docs/customize) - learn how to brand and internationalize all Auth0 interactions with your end-users
-
 
 ## Contributing
 
