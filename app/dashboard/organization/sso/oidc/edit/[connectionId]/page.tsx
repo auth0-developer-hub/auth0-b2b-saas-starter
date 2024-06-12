@@ -5,6 +5,7 @@ import { ArrowLeftIcon } from "@radix-ui/react-icons"
 import { appClient, managementClient } from "@/lib/auth0"
 import { getOrCreateDomainVerificationToken } from "@/lib/domain-verification"
 import { Button } from "@/components/ui/button"
+import { AppBreadcrumb } from "@/components/app-breadcrumb"
 
 import { UpdateOidcConnectionForm } from "./update-oidc-connection-form"
 
@@ -36,13 +37,12 @@ export default async function UpdateOidcConnection({
   ])
 
   return (
-    <div className="space-y-6">
-      <div>
-        <Button variant="link" className="px-0 text-muted-foreground" asChild>
-          <Link href="/dashboard/organization/sso">
-            <ArrowLeftIcon className="mr-1.5 size-4" /> Back to connections
-          </Link>
-        </Button>
+    <div className="space-y-1">
+      <div className="px-2 py-3">
+        <AppBreadcrumb
+          title="Back to connections"
+          href="/dashboard/organization/sso"
+        />
       </div>
 
       <UpdateOidcConnectionForm

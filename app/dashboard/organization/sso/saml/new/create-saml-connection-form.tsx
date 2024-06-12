@@ -170,7 +170,7 @@ export function CreateSamlConnectionForm({ domainVerificationToken }: Props) {
               ))
             ) : (
               <div className="rounded-md border border-dashed p-4 text-sm text-muted-foreground">
-                <p className="">No domains have been added yet.</p>
+                <p>No domains have been added yet.</p>
               </div>
             )}
             <div>

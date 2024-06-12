@@ -2,11 +2,12 @@ import type { Metadata } from "next"
 
 import "./globals.css"
 
-import { GeistMono } from "geist/font/mono"
-import { GeistSans } from "geist/font/sans"
+import { Inter } from "next/font/google"
 
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider"
+
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "SaaStart | Auth0 by Okta",
@@ -21,11 +22,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable}`}
-      suppressHydrationWarning
-    >
+    <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">
         <ThemeProvider
           attribute="class"
@@ -36,7 +33,7 @@ export default async function RootLayout({
           {children}
         </ThemeProvider>
 
-        <Toaster />
+        <Toaster position="bottom-right" />
       </body>
     </html>
   )

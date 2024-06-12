@@ -36,10 +36,10 @@ export default async function Home() {
       )}
 
       <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div className="absolute inset-0 bg-zinc-900" />
+        <div className="absolute inset-0 bg-black" />
         <div className="relative z-20 flex items-center text-lg font-medium">
           <Auth0Logo className="mr-2 size-8" />
-          <span className="font-mono font-medium">SaaStart</span>
+          <span className="font-semibold">SaaStart</span>
         </div>
         <div className="relative z-20 mt-auto">
           <blockquote className="space-y-2">
