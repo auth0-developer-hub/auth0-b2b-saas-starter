@@ -1,5 +1,5 @@
 import { appClient, managementClient } from "@/lib/auth0"
-import { Separator } from "@/components/ui/separator"
+import { PageHeader } from "@/components/page-header"
 
 import { DisplayNameForm } from "./display-name-form"
 
@@ -10,15 +10,11 @@ export default async function GeneralSettings() {
   })
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h3 className="text-lg font-medium">General Settings</h3>
-        <p className="text-sm text-muted-foreground">
-          Manage the organization display name and branding.
-        </p>
-      </div>
-
-      <Separator />
+    <div className="space-y-2">
+      <PageHeader
+        title="General Settings"
+        description="Update your organization's general settings."
+      />
 
       <DisplayNameForm
         organization={{

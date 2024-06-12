@@ -2,7 +2,7 @@ import Link from "next/link"
 import { redirect } from "next/navigation"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 
-import { appClient, managementClient } from "@/lib/auth0"
+import { appClient } from "@/lib/auth0"
 import { getRole } from "@/lib/roles"
 import { Button } from "@/components/ui/button"
 import {
@@ -12,10 +12,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Auth0Logo } from "@/components/auth0-logo"
-import { OrganizationSwitcher } from "@/components/organization-switcher"
 import { SidebarNav } from "@/components/sidebar-nav"
+
+const sidebarNavItems = [
+  {
+    title: "General Settings",
+    href: "/dashboard/organization/general",
+  },
+  {
+    title: "Members",
+    href: "/dashboard/organization/members",
+  },
+  {
+    title: "SSO",
+    href: "/dashboard/organization/sso",
+  },
+  {
+    title: "Security Policies",
+    href: "/dashboard/organization/security-policies",
+  },
+]
 
 interface AccountLayoutProps {
   children: React.ReactNode
@@ -24,38 +40,12 @@ interface AccountLayoutProps {
 export default async function AccountLayout({ children }: AccountLayoutProps) {
   const session = await appClient.getSession()
 
-  const { data: orgs } = await managementClient.users.getUserOrganizations({
-    id: session?.user.sub,
-  })
-
   // if the user is not authenticated, redirect to login
   if (!session?.user) {
     redirect("/api/auth/login")
   }
 
-  const adminSidebarNavItems = [
-    {
-      title: "General Settings",
-      href: "/dashboard/organization/general",
-    },
-    {
-      title: "Members",
-      href: "/dashboard/organization/members",
-    },
-    {
-      title: "SSO",
-      href: "/dashboard/organization/sso",
-    },
-    {
-      title: "Security Policies",
-      href: "/dashboard/organization/security-policies",
-    },
-  ]
-
-  const userRole = getRole(session.user)
-  const isAdmin = userRole === "admin"
-
-  if (!isAdmin) {
+  if (getRole(session.user) !== "admin") {
     return (
       <div className="flex items-center justify-center">
         <Card className="w-[450px]">
@@ -86,45 +76,14 @@ export default async function AccountLayout({ children }: AccountLayoutProps) {
   }
 
   return (
-    <div className="wrapper flex">
-      <aside className="flex flex-col p-8 lg:w-1/5">
-        <div className="flex items-center gap-2 pb-8">
-          <Link href="/dashboard">
-            <Auth0Logo className="size-5" />
-          </Link>
-          <Link
-            href="/dashboard"
-            className="text-lg font-medium transition-colors hover:text-muted-foreground"
-          >
-            SaaStart
-          </Link>
+    <div className="space-y-1">
+      <div className="flex min-h-full flex-col space-y-8 lg:flex-row lg:space-x-4 lg:space-y-0">
+        <aside className="lg:w-1/5">
+          <SidebarNav items={sidebarNavItems} />
+        </aside>
+        <div className="rounded-2xl border border-border bg-field p-2 shadow-sm lg:w-4/5">
+          <div className="mx-auto max-w-6xl">{children}</div>
         </div>
-        <OrganizationSwitcher
-          className="flex"
-          organizations={orgs.map((o) => ({
-            id: o.id,
-            slug: o.name,
-            displayName: o.display_name!,
-            logoUrl: o.branding?.logo_url,
-          }))}
-          currentOrgId={session.user.org_id}
-        />
-        <Separator orientation="horizontal" className="my-4" />
-        <SidebarNav items={adminSidebarNavItems} className="grow" />
-        <div className="flex flex-col space-y-2">
-          <Link href="/dashboard/account/profile">Profile</Link>
-          <Link href="/api/auth/logout">Log Out</Link>
-        </div>
-      </aside>
-      <div className="workspace p-8 lg:w-4/5">
-        <nav className="mx-auto flex items-center justify-between">
-          <div className="flex items-center space-x-4">
-            <div className="flex items-center space-x-6"></div>
-          </div>
-
-          <div className="flex items-center space-x-4"></div>
-        </nav>
-        <div className="flex-1">{children}</div>
       </div>
     </div>
   )

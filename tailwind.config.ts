@@ -20,10 +20,12 @@ const config = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-geist-sans)", ...fontFamily.sans],
-        mono: ["var(--font-geist-mono)", ...fontFamily.mono],
+        sans: ["var(--font-inter-sans)", ...fontFamily.sans],
+        mono: [...fontFamily.mono],
       },
       colors: {
+        field: "hsl(var(--field))",
+        hover: "hsl(var(--hover))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

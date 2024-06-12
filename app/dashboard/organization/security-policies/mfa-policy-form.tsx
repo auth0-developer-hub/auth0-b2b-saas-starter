@@ -51,7 +51,7 @@ export function MfaPolicyForm({ organization }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
-          <div className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
+          <div className="flex flex-row items-center justify-between rounded-lg border bg-field p-3 shadow-sm">
             <div className="space-y-1.5">
               <Label>Enforce Multi-Factor Authentication</Label>
               <div className="text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export function MfaPolicyForm({ organization }: Props) {
               Select which MFA providers your users are allowed to use
             </Label>
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                 <Label className="flex items-center space-x-4" htmlFor="otp">
                   <div className="rounded-md border bg-secondary p-3">
                     <KeyIcon className="size-5" />
@@ -113,7 +113,7 @@ export function MfaPolicyForm({ organization }: Props) {
                 />
               </div>
 
-              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
                 <Label
                   className="flex items-center space-x-4"
                   htmlFor="webauthn-roaming"

@@ -71,14 +71,15 @@ export function AddDomainDialog({
         <DialogHeader>
           <DialogTitle>Add a Domain</DialogTitle>
           <DialogDescription>
-          Add a verified domain so that your organization&apos;s end-users can be forwarded directly to this IdP to log in.{" "}
+            Add a verified domain so that your organization&apos;s end-users can
+            be forwarded directly to this IdP to log in.{" "}
             <a
-                  className="underline underline-offset-4"
-                  href={`https://auth0.com/docs/authenticate/login/auth0-universal-login/identifier-first#define-home-realm-discovery-identity-providers`}
-                  target="_blank"
-                >
-                  Learn more
-                </a>
+              className="underline underline-offset-4"
+              href={`https://auth0.com/docs/authenticate/login/auth0-universal-login/identifier-first#define-home-realm-discovery-identity-providers`}
+              target="_blank"
+            >
+              Learn more
+            </a>
             .
           </DialogDescription>
         </DialogHeader>
