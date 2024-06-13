@@ -79,7 +79,7 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
 
    Be sure to select **As a user** when prompted: _"How would you like to authenticate?"_. This take you through a flow to securely retrieve a Management API token for your Auth0 tenant.
 
-   > ## **Important**
+   > #### **Important**
    >
    > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
 
@@ -97,13 +97,11 @@ Finally, it will save environment variables for your tenant in the application d
 
 1. Run the following command:
 
-**Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart](https://auth0.com/signup).
+   ```shell
+   npm run auth0:bootstrap
+   ```
 
-```shell
-npm run auth0:bootstrap
-```
-
-Behind the scenes, the bootstrap script will use the Auth0 CLI to provision the resources required for this sample application: creating the appropriate clients, roles, actions, templates, and MFA factors, and then saving environment variables for your tenant.
+   **Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart).**
 
 Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
 
