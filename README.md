@@ -37,15 +37,15 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 ### Prerequisites
 
 1. Node.js v20 or later is required to run the bootstrapping process. We recommend using [`nvm`](https://github.com/nvm-sh/nvm).
-1. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`.
-1. **Create a fresh Auth0 tenant** which will be configured automatically by our bootstrapping command. See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
+2. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`.
+3. **Create a fresh Auth0 tenant** which will be configured automatically by our bootstrapping command. See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
 
    Creating a new tenant before you continue is highly recommended, so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
 
 ### Step One: Clone and install dependencies
 
 1. Clone this repo to your development environment
-1. Install dependencies: `npm install`
+2. Install dependencies: `npm install`
 
 ### Part Two: Install and Log in with the Auth0 CLI
 
@@ -71,7 +71,7 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
    auth0 version 1.4.0 54e9a30eeb58a4a7e40e04dc19af6869036bfb32
    ```
 
-1. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
+2. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
 
    ```shell
    auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
@@ -79,40 +79,42 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
 
    Be sure to select **As a user** when prompted: _"How would you like to authenticate?"_. This take you through a flow to securely retrieve a Management API token for your Auth0 tenant.
 
-   > #### **Important**
+   > #### Important
    >
    > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
 
 ### Step Three: Bootstrap the Auth0 tenant
 
-Behind the scenes, the bootstrap script in this step will use the Auth0 CLI to provision the resources required for this sample application:
+Run the following command:
 
-- Creating the appropriate clients (called Applications in Auth0)
-- Creating admin and member roles,
-- Creating actions for setting roles and security policies
-- Creating email and login templates
-- Enabling MFA factors
+```shell
+npm run auth0:bootstrap
+```
 
-Finally, it will save environment variables for your tenant in the application directory.
-
-1. Run the following command:
-
-   ```shell
-   npm run auth0:bootstrap
-   ```
-
-   **Important: this will create and update entities in your Auth0 tenant – it is best to use a fresh/new tenant when bootstrapping. You can sign up for a free tenant at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdparty&utm_campaign=saastart).**
+> #### Important
+>
+> This will create and update entities in your Auth0 tenant – it is best to use afresh/new tenant when bootstrapping. You can sign up for a free tenant at [https:/auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart).
+>
+> Behind the scenes, the bootstrap script in this step will use the Auth0 CLI to provision the resources required for this sample application:
+>
+> - Creating the appropriate clients (called Applications in Auth0)
+> - Creating admin and member roles,
+> - Creating actions for setting roles and security policies
+> - Creating email and login templates
+> - Enabling MFA factors
+>
+> Finally, it will save environment variables for your tenant in the application directory.
 
 Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
 
 ### Step Four: Run the sample application
 
 1. Run the development server: `npm run dev`
-1. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
    > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
-1. Start editing - for example, modify `app/page.tsx`. The browser will auto-update as you edit the file.
+3. Start editing - for example, modify `app/page.tsx`. The browser will auto-update as you edit the file.
    > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
