@@ -115,7 +115,6 @@ Once the script has successfully completed, a `.env.local` file containing the e
    > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 3. Start editing - for example, modify `app/page.tsx`. The browser will auto-update as you edit the file.
-   > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
