@@ -13,7 +13,7 @@ export function SignUpForm() {
           Try SaaStart for Free
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your e-mail to sign-up for an SaaStart account.
+          Enter your email address to sign up for an account.
         </p>
       </div>
       <form
@@ -45,7 +45,7 @@ export function SignUpForm() {
         </div>
       </form>
       <p className="px-8 text-center text-sm text-muted-foreground">
-        By clicking continue, you agree to our{" "}
+        By continuing, you agree to our{" "}
         <Link
           href="#"
           className="underline underline-offset-4 hover:text-primary"
