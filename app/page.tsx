@@ -12,7 +12,7 @@ export default async function Home() {
   const session = await appClient.getSession()
 
   return (
-    <div className="container relative hidden h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative sm:grid h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       {session ? (
         <a
           href="/api/auth/logout"
@@ -54,13 +54,10 @@ export default async function Home() {
                 configuration and more out-of-the-box.
               </p>
             </div>
-            <footer className="text-sm text-muted-foreground">
-              — Built by Auth0 by Okta
-            </footer>
           </blockquote>
         </div>
       </div>
-      <div className="lg:p-8">
+      <div className="lg:p-8 flex h-screen">
         {session ? <WelcomeBackCard /> : <SignUpForm />}
       </div>
     </div>
