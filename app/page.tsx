@@ -27,7 +27,7 @@ export default async function Home() {
         <a
           href="/api/auth/login"
           className={cn(
-            buttonVariants({ variant: "ghost" }),
+            buttonVariants({ variant: "link" }),
             "absolute right-4 top-4 md:right-8 md:top-8"
           )}
         >
@@ -41,10 +41,10 @@ export default async function Home() {
           <Auth0Logo className="mr-2 size-8" />
           <span className="font-semibold">SaaStart</span>
         </div>
-        <div className="relative z-20 mt-auto">
+        <div className="relative z-20 m-auto max-w-sm text-center">
           <blockquote className="space-y-2">
-            <div className="space-y-1">
-              <p className="text-lg">
+            <div className="space-y-8">
+              <p className="text-lg font-medium">
                 SaaStart is a reference B2B SaaS application built using Next.js
                 and Auth0 by Okta.
               </p>
