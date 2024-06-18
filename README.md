@@ -128,3 +128,5 @@ To learn more about Auth0, take a look at the following resources:
 ## Contributing
 
 See [CONTRIBUTING](./CONTRIBUTING.md) for information.
+
+Questions? Feedback? Drop us a line in the [Auth0 Community](https://community.auth0.com/t/saastart-b2b-saas-reference-app/136595)
