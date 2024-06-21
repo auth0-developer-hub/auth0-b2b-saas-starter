@@ -1,12 +1,12 @@
 # Contributing to the B2B SaaS Starter Kit
 
-This document provides an outline for interacting with the repository and community, as well as the nitty-gritty details on how to write, test, and submit code changes. If you run into any trouble, email us at [community@okta.com](mailto:community@okta.com) (TODO:VALIDATE THIS EMAIL) or ask for help in our [community channels](https://auth0.com/community) (TODO: VALIDATE THIS URL).
+This document provides an outline for interacting with the repository and community, as well as the nitty-gritty details on how to write, test, and submit code changes. If you run into any trouble, open a discussion in the [Auth0 Community](https://community.auth0.com/t/saastart-b2b-saas-reference-app/136595) and someone will do their best to assist you in a timely manner.
 
 ## Contribution Process
 
 We welcome feedback and contributions from anyone who might be interested in helping the project.
 
-The [project maintainers](./community/blob/main/MAINTAINERS) are here to help. This is the group of people responsible for organizing the backlog of [issues](/issues) and other [issues across our repositories](URL), reviewing [pull requests](https://github.com/repo/pulls), and all code within this repository. Maintainers are working to keep the product aligned with its [design principles](https://github.com/repo/rfcs/blob/main/DESIGN_PRINCIPLES.md), and to make it easy for anyone to take part in building and shaping its development and roadmap.
+The [project maintainers](#TODO) are here to help. This is the group of people responsible for organizing the backlog of [issues](/issues), reviewing [pull requests](/pulls), and all code within this repository. Maintainers are working to keep the product aligned with its [design principles](#TODO), and to make it easy for anyone to take part in building and shaping its development and roadmap.
 
 The rest of this document describes how to contribute code, but there are many other ways to contribute that are incredibly helpful: helping others in Discussions and Slack, providing feedback, triaging Issues, improving the documentation - any little bit helps.
 
