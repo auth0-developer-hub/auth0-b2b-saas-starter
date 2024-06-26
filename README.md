@@ -40,7 +40,8 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 2. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`.
 3. Create a new Auth0 tenant which will be configured automatically by our bootstrapping command. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help. 
 
-   Creating a new tenant before you continue is highly recommended so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
+> [!IMPORTANT]
+> Creating a new tenant before you continue is **highly recommended** so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
 
 
 ### Step One: Clone and install dependencies
