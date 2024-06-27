@@ -46,8 +46,23 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 
 ### Step One: Clone and install dependencies
 
-1. Clone this repo to your development environment
-2. Install dependencies: `npm install`
+1. Clone this repo to your development environment. Navigate to a directory where you want to work in a terminal program, and run the following command: 
+
+   ```shell
+   git clone https://github.com/auth0-developer-hub/auth0-b2b-saas-starter.git
+   ```
+   
+2. Navigate into the directory by typing the following command:
+
+   ```shell
+   cd auth0-b2b-saas-starter
+   ```
+
+3. Install dependencies for the project using your favorite package manager. For example, if you're using npm, type: 
+   
+   ```shell
+   npm install
+   ```
 
 ### Step Two: Install and Log in with the Auth0 CLI
 
