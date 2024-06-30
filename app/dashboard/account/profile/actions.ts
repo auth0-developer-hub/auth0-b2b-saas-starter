@@ -48,3 +48,24 @@ export async function updateDisplayName(formData: FormData) {
 
   return {}
 }
+
+export async function deleteAccount() {
+  const session = await appClient.getSession()
+
+  if (!session) {
+    return redirect("/api/auth/login")
+  }
+
+  try {
+    await managementClient.users.delete({
+      id: session.user.sub,
+    })
+
+    return {}
+  } catch (error) {
+    console.error("failed to delete account", error)
+    return {
+      error: "Failed to delete your account.",
+    }
+  }
+}
