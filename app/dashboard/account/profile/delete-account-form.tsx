@@ -38,7 +38,8 @@ export function DeleteAccountForm() {
           <CardTitle>Delete Account</CardTitle>
           <CardDescription>
             Deleting your account will permanently remove all your data and
-            content. This action cannot be undone.
+            content across all organizations you belong to. This action cannot
+            be undone.
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-end">
