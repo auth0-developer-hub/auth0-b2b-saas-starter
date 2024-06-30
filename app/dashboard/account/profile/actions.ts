@@ -57,25 +57,6 @@ export async function deleteAccount() {
   }
 
   try {
-    const { data: members } = await managementClient.organizations.getMembers({
-      id: session!.user.org_id,
-      fields: ["roles"].join(","),
-      include_fields: true,
-    })
-
-    // ensure the user is not the only admin in the organization
-    const admins = members.filter(
-      (m) =>
-        m.roles && m.roles.some((r) => r.id === process.env.AUTH0_ADMIN_ROLE_ID)
-    )
-
-    if (admins.length === 1) {
-      return {
-        error:
-          "You are the only admin in the organization. You cannot delete your account.",
-      }
-    }
-
     await managementClient.users.delete({
       id: session.user.sub,
     })
