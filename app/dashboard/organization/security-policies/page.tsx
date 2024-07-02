@@ -1,7 +1,7 @@
 import { appClient, managementClient } from "@/lib/auth0"
 import { PageHeader } from "@/components/page-header"
 
-import { DEFAULT_MFA_POLICY } from "./mfa-policy"
+import { DEFAULT_MFA_POLICY } from "../../../../lib/mfa-policy"
 import { MfaPolicyForm } from "./mfa-policy-form"
 
 export default async function SecurityPolicies() {
