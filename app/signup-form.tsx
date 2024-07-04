@@ -13,7 +13,7 @@ export function SignUpForm() {
           Try SaaStart for Free
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your email address to sign up for an account.
+          Enter your email address to sign up and create a new organization for you and your collaborators.
         </p>
       </div>
       <form
