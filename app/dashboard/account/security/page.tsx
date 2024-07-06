@@ -44,23 +44,9 @@ export default appClient.withPageAuthRequired(
           description="Manage your account's security settings."
         />
 
-        <MFAEnrollmentForm
-          factors={filteredFactors}
-          // onFetch={async () => {
-          //   return { factors: filteredFactors, status: 200 }
-          // }}
-          // onCreate={async (factor: string) => {
-          //   return {
-          //     enrollment: { ticket_url: "https://auth0.com" },
-          //     status: 200,
-          //   }
-          // }}
-          // onDelete={async (enrollmentId: string) => {
-          //   return { status: 200 }
-          // }}
-        />
+        <MFAEnrollmentForm factors={filteredFactors} />
       </div>
     )
   },
-  { returnTo: "/dashboard/account/profile" }
+  { returnTo: "/dashboard/account/security" }
 )
