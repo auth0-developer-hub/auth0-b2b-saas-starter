@@ -37,9 +37,8 @@ export function DeleteAccountForm() {
         <CardHeader>
           <CardTitle>Delete Account</CardTitle>
           <CardDescription>
-            Deleting your account will permanently remove all your data and
-            content across all organizations you belong to. This action cannot
-            be undone.
+            <p className="py-2">Permanently remove all profile data across all organizations you belong to.</p>
+            <p><span className="font-bold">Warning:</span> This action is immediate and cannot be undone.</p>
           </CardDescription>
         </CardHeader>
         <CardFooter className="flex justify-end">
