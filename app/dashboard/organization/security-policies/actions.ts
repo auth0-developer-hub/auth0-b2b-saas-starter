@@ -4,9 +4,8 @@ import { revalidatePath } from "next/cache"
 import { Session } from "@auth0/nextjs-auth0"
 
 import { managementClient } from "@/lib/auth0"
+import { DEFAULT_MFA_POLICY, SUPPORTED_PROVIDERS } from "@/lib/mfa-policy"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
-
-import { DEFAULT_MFA_POLICY, SUPPORTED_PROVIDERS } from "./mfa-policy"
 
 export const updateMfaPolicy = withServerActionAuth(
   async function updateMfaPolicy(formData: FormData, session: Session) {
