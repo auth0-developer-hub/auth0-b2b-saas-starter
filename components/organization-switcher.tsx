@@ -28,7 +28,7 @@ import {
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<typeof PopoverTrigger>
 
-interface AccountSwitcherProps extends PopoverTriggerProps {
+interface OrganizationSwitcherProps extends PopoverTriggerProps {
   organizations: {
     id: string
     slug: string
@@ -41,7 +41,7 @@ interface AccountSwitcherProps extends PopoverTriggerProps {
 export function OrganizationSwitcher({
   organizations,
   currentOrgId,
-}: AccountSwitcherProps) {
+}: OrganizationSwitcherProps) {
   const [open, setOpen] = useState(false)
   const router = useRouter()
 

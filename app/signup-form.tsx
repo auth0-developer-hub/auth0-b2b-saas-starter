@@ -13,7 +13,7 @@ export function SignUpForm() {
           Try SaaStart for Free
         </h1>
         <p className="text-sm text-muted-foreground">
-          Enter your email address to sign up for an account.
+          Enter your email address to sign up and create a new organization for you and your collaborators.
         </p>
       </div>
       <form
@@ -47,14 +47,14 @@ export function SignUpForm() {
       <p className="px-8 text-center text-sm text-muted-foreground">
         By continuing, you agree to our{" "}
         <Link
-          href="#"
+          href="/terms"
           className="underline underline-offset-4 hover:text-primary"
         >
           Terms of Service
         </Link>{" "}
         and{" "}
         <Link
-          href="#"
+          href="/privacy"
           className="underline underline-offset-4 hover:text-primary"
         >
           Privacy Policy

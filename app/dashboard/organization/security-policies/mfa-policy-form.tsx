@@ -3,6 +3,7 @@
 import { KeyIcon, KeySquareIcon } from "lucide-react"
 import { toast } from "sonner"
 
+import { MfaPolicy } from "@/lib/mfa-policy"
 import {
   Card,
   CardContent,
@@ -19,7 +20,6 @@ import { Textarea } from "@/components/ui/textarea"
 import { SubmitButton } from "@/components/submit-button"
 
 import { updateMfaPolicy } from "./actions"
-import { MfaPolicy } from "./mfa-policy"
 
 interface Props {
   organization: {
