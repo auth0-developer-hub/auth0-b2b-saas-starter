@@ -5,7 +5,7 @@ import slugify from "@sindresorhus/slugify"
 
 import { managementClient, onboardingClient } from "@/lib/auth0"
 
-export async function createAccount(formData: FormData) {
+export async function createOrganization(formData: FormData) {
   const session = await onboardingClient.getSession()
 
   if (!session) {
@@ -52,9 +52,9 @@ export async function createAccount(formData: FormData) {
       }
     )
   } catch (error) {
-    console.error("failed to create an account", error)
+    console.error("failed to create an organization", error)
     return {
-      error: "Failed to create an account.",
+      error: "Failed to create an organization.",
     }
   }
 

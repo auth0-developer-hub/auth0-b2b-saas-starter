@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Code } from "@/components/code"
 import { SubmitButton } from "@/components/submit-button"
 
-import { createAccount } from "./actions"
+import { createOrganization } from "./actions"
 
 export function CreateOrganizationForm() {
   const { user } = useUser()
@@ -19,12 +19,12 @@ export function CreateOrganizationForm() {
   return (
     <form
       action={async (formData: FormData) => {
-        const { error } = await createAccount(formData)
+        const { error } = await createOrganization(formData)
 
         if (error) {
           toast.error(error)
         } else {
-          toast.success("Your account has been created.")
+          toast.success("Your organization has been created.")
         }
       }}
     >
@@ -58,7 +58,7 @@ export function CreateOrganizationForm() {
             Slug: <Code>{slugify(name || "Acme Corp")}</Code>
           </p>
         </div>
-        <SubmitButton>Create Account</SubmitButton>
+        <SubmitButton>Create Organization</SubmitButton>
       </div>
     </form>
   )
