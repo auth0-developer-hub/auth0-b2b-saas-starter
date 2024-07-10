@@ -4,7 +4,7 @@ A secure and high-performance starting point for building B2B SaaS web applicati
 
 ## Overview
 
-![Screenshot of the signup page for B2B SaaS Starter Kit](https://i.imgur.com/teXrIAo.png)
+![image](https://github.com/auth0-developer-hub/auth0-b2b-saas-starter/assets/6372810/e8ab12fe-d95b-4e11-8e9e-242eb9c547b6)
 
 > Ready to begin? Jump ahead to the [Getting Started](#getting-started) section.
 
