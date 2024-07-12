@@ -2,6 +2,8 @@
 
 A secure and high-performance starting point for building B2B SaaS web applications.
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/auth0-developer-hub/auth0-b2b-saas-starter&repository-name=auth0-saas-starter&external-id=b2b-saas-starter-template&integration-ids=oac_7V7TGP5JUHCpSncpiy3XWwL0)
+
 ## Overview
 
 ![image](https://github.com/auth0-developer-hub/auth0-b2b-saas-starter/assets/6372810/e8ab12fe-d95b-4e11-8e9e-242eb9c547b6)
@@ -38,28 +40,27 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 
 1. Node.js v20 or later is required to run the bootstrapping process. We recommend using [`nvm`](https://github.com/nvm-sh/nvm) to manage node versions in your development environment. Click these links to [learn how to install nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script) or [how to use nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#usage) to make sure you're using Node 20+ in your development environment.
 2. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`, which is automatically included as part of the Node.js installation from prerequisite 1.
-3. Create a new Auth0 tenant. This tenant will be configured automatically by our bootstrapping command during the installation process. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help. 
+3. Create a new Auth0 tenant. This tenant will be configured automatically by our bootstrapping command during the installation process. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
 
 > [!IMPORTANT]
 > Creating a new tenant before you continue is **highly recommended** so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
 
-
 ### Step One: Clone and install dependencies
 
-1. Clone this repo to your development environment. Navigate to a directory where you want to work in a terminal program, and run the following command: 
+1. Clone this repo to your development environment. Navigate to a directory where you want to work in a terminal program, and run the following command:
 
    ```shell
    git clone https://github.com/auth0-developer-hub/auth0-b2b-saas-starter.git
    ```
-   
+
 2. Navigate into the directory by typing the following command:
 
    ```shell
    cd auth0-b2b-saas-starter
    ```
 
-3. Install dependencies for the project using your favorite package manager. For example, if you're using npm, type: 
-   
+3. Install dependencies for the project using your favorite package manager. For example, if you're using npm, type:
+
    ```shell
    npm install
    ```
@@ -115,7 +116,7 @@ Finally, it will save environment variables for your tenant in the application d
 > **Warning**
 >
 > Only run the following command on a newly created tenant to avoid changing existing configuration or introducing conflicting elements to your existing Auth0 tenants!
-> 
+>
 > If you are creating a new Auth0 tenant at this point in the process, go back to step 2 in order to ensure you're logged into the correct Auth0 tenant.
 
 Run the following command:
@@ -132,7 +133,7 @@ Once the script has successfully completed, a `.env.local` file containing the e
 2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
    > Note: If you're running the application on a different port, adjust the provided localhost URL accordingly.
-   
+
    You can proceed to interact with the app as if you were a user: create an account, navigate to the settings, explore the identity capabilities.
 
 3. Start editing to build your own SaaS application - for example, modify `app/page.tsx`. The browser will hot-reload to show changes as you edit the file.
