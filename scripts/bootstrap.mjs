@@ -156,7 +156,11 @@ try {
         "delete:organization_member_roles",
         "create:organization_invitations",
         "read:organization_invitations",
-        "delete:organization_invitations"
+        "delete:organization_invitations",
+        "read:guardian_factors",
+        "read:authentication_methods",
+        "delete:authentication_methods",
+        "create:guardian_enrollment_tickets"
       ]
     }),
   ];

@@ -2,14 +2,14 @@
 
 import { useFormStatus } from "react-dom"
 
-import { Button } from "@/components/ui/button"
+import { Button, ButtonProps } from "@/components/ui/button"
 import { Spinner } from "@/components/spinner"
 
 export function SubmitButton({
   children,
   disabled = false,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+}: ButtonProps) {
   const { pending } = useFormStatus()
 
   return (
