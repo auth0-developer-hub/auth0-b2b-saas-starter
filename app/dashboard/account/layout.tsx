@@ -9,6 +9,10 @@ const sidebarNavItems = [
     title: "Security",
     href: "/dashboard/account/security",
   },
+  {
+    title: "Tokens",
+    href: "/dashboard/account/tokens",
+  },
 ]
 
 interface AccountLayoutProps {

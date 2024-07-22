@@ -1,0 +1,61 @@
+.token-container {
+  margin-bottom: 1rem;
+}
+
+.token-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.token-detail {
+  display: flex;
+  padding: 0.5rem;
+  background-color: #f5f5f5;
+  border-radius: 0.25rem;
+}
+
+.token-key {
+  font-weight: bold;
+  margin-right: 0.25rem;
+}
+
+.token-value {
+  color: #333;
+  text-align: left;
+}
+
+.token-pre {
+  background-color: #f5f5f5;
+  padding: 1rem;
+  border-radius: 0.25rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.jwtio {
+  margin-top: 20px;
+}
+
+.notes {
+  margin-top: 20px;
+  font-size: .875rem;
+  line-height: 1.25rem;
+  background-color: #f9f9f9; /* Light background for contrast */
+  border: 1px solid #ddd; /* Light border for definition */
+  border-radius: 8px; /* Rounded corners for a softer look */
+  padding: 16px; /* Spacing inside the note */
+  margin-top: 16px; /* Space above the note */
+  color: #333; /* Darker text for readability */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.notes p {
+  margin-bottom: 1em; /* Apply margin to all paragraphs */
+}
+.notes p:last-child {
+  margin-bottom: 0; /* Remove margin from the last paragraph */
+}
+.notes a {
+  text-decoration: underline; /* Adds an underline to links inside .token-container */
+}
