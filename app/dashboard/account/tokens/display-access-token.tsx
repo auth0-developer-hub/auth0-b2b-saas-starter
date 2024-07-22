@@ -52,7 +52,7 @@ export function DisplayAccessToken({ accessToken, accessTokenScope, accessTokenE
             Please check the additional information on the documentation page:&nbsp;
             <a href="https://auth0.com/docs/secure/tokens/access-tokens/get-access-tokens">Get Access Tokens</a>
             </p>
-            <p>In order to show a full Access Token, please set the <pre>AUTH0_AUDIENCE</pre> environment variable.</p>
+            <p>In order to show a full Access Token, please set the <strong>AUTH0_AUDIENCE</strong> environment variable.</p>
             </div>
         )}
       </CardContent>

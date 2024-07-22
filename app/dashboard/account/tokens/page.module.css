@@ -13,6 +13,7 @@
   padding: 0.5rem;
   background-color: #f5f5f5;
   border-radius: 0.25rem;
+  font-size: .875rem;
 }
 
 .token-key {
@@ -56,6 +57,6 @@
 .notes p:last-child {
   margin-bottom: 0; /* Remove margin from the last paragraph */
 }
-.notes a {
+.notes  a {
   text-decoration: underline; /* Adds an underline to links inside .token-container */
 }
