@@ -40,7 +40,6 @@ export default appClient.withPageAuthRequired(
           <p>Access Token is not available.</p>
         )}
 
-
       </div>
     );
   },
