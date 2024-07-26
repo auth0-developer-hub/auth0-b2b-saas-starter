@@ -26,6 +26,11 @@ export default async function DashboardLayout({
     id: session.user.sub,
   })
 
+  // if the user does not belong to any organizations, redirect to onboarding
+  if (!orgs.length) {
+    redirect("/onboarding/create")
+  }
+
   return (
     <UserProvider>
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-2 py-4 sm:px-8">
