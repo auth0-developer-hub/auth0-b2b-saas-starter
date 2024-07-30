@@ -1,13 +1,20 @@
+"use client"
+
 import { EnvelopeClosedIcon } from "@radix-ui/react-icons"
+import { toast } from "sonner"
 
 import {
   Card,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
+import { SubmitButton } from "@/components/submit-button"
 
-export default async function Create() {
+import { resendVerificationEmail } from "./actions"
+
+export default function Verify() {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -20,6 +27,24 @@ export default async function Create() {
           your account.
         </CardDescription>
       </CardHeader>
+      <CardFooter>
+        <form
+          action={async () => {
+            const { error } = await resendVerificationEmail()
+
+            if (error) {
+              toast.error(error)
+              return
+            }
+
+            toast.success(
+              "The verification e-mail has successfully been sent. Please check your inbox."
+            )
+          }}
+        >
+          <SubmitButton>Resend Verification</SubmitButton>
+        </form>
+      </CardFooter>
     </Card>
   )
 }
