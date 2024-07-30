@@ -37,6 +37,10 @@ export async function getOrCreateDomainVerificationToken(
 }
 
 export async function verifyDnsRecords(domain: string, organizationId: string) {
+  if (process.env.NODE_ENV === "development" && domain === "example.com") {
+    return true
+  }
+
   const { data: organization } = await managementClient.organizations.get({
     id: organizationId,
   })

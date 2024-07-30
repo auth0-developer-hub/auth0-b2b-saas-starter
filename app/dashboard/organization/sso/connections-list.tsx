@@ -3,7 +3,8 @@
 import Link from "next/link"
 import {
   DotsVerticalIcon,
-  Pencil2Icon,
+  GearIcon,
+  PersonIcon,
   PlusIcon,
   TrashIcon,
 } from "@radix-ui/react-icons"
@@ -101,27 +102,49 @@ export function ConnectionsList({ connections }: Props) {
                           <DotsVerticalIcon className="size-4" />
                         </Button>
                       </DropdownMenuTrigger>
-                      <DropdownMenuContent>
+                      <DropdownMenuContent align="end" className="w-[160px]">
                         {c.strategy === "oidc" && (
-                          <DropdownMenuItem asChild>
-                            <Link
-                              href={`/dashboard/organization/sso/oidc/edit/${c.id}`}
-                            >
-                              <Pencil2Icon className="mr-1 size-4" />
-                              Edit
-                            </Link>
-                          </DropdownMenuItem>
+                          <>
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/dashboard/organization/sso/oidc/edit/${c.id}/settings`}
+                              >
+                                <GearIcon className="mr-1 size-4" />
+                                Settings
+                              </Link>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/dashboard/organization/sso/oidc/edit/${c.id}/provisioning`}
+                              >
+                                <PersonIcon className="mr-1 size-4" />
+                                Provisioning
+                              </Link>
+                            </DropdownMenuItem>
+                          </>
                         )}
 
                         {c.strategy === "samlp" && (
-                          <DropdownMenuItem asChild>
-                            <Link
-                              href={`/dashboard/organization/sso/saml/edit/${c.id}`}
-                            >
-                              <Pencil2Icon className="mr-1 size-4" />
-                              Edit
-                            </Link>
-                          </DropdownMenuItem>
+                          <>
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/dashboard/organization/sso/saml/edit/${c.id}/settings`}
+                              >
+                                <GearIcon className="mr-1 size-4" />
+                                Settings
+                              </Link>
+                            </DropdownMenuItem>
+
+                            <DropdownMenuItem asChild>
+                              <Link
+                                href={`/dashboard/organization/sso/saml/edit/${c.id}/provisioning`}
+                              >
+                                <PersonIcon className="mr-1 size-4" />
+                                Provisioning
+                              </Link>
+                            </DropdownMenuItem>
+                          </>
                         )}
                         <AlertDialogTrigger asChild>
                           <DropdownMenuItem className="text-destructive">
