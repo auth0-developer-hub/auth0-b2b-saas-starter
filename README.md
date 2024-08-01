@@ -8,6 +8,7 @@ A secure and high-performance starting point for building B2B SaaS web applicati
 
 ![image](https://github.com/auth0-developer-hub/auth0-b2b-saas-starter/assets/6372810/e8ab12fe-d95b-4e11-8e9e-242eb9c547b6)
 
+> [!TIP]
 > Ready to begin? Jump ahead to the [Getting Started](#getting-started) section.
 
 This sample application provides developers with a solid foundation to kickstart their journey into building a business-to-business software-as-a-service (B2B SaaS) application. With a carefully selected stack of well-documented and widely adopted technologies, along with seamless integration with Auth0 for identity and login management, this starter kit aims to streamline the development process, enabling you to focus on building out your core product instead of worrying about the complexities of SaaS identity management and secure customer onboarding.
@@ -97,9 +98,8 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
 
    Be sure to select `As a user` when prompted: `How would you like to authenticate?`. This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
 
-   > **Warning**
-   >
-   > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
+> [!WARNING]
+> At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
 
 ### Step Three: Bootstrap the Auth0 tenant
 
@@ -113,10 +113,8 @@ This step will create and update entities in your Auth0 tenant. The provided scr
 
 Finally, it will save environment variables for your tenant in the application directory.
 
-> **Warning**
->
+> [!WARNING]
 > Only run the following command on a newly created tenant to avoid changing existing configuration or introducing conflicting elements to your existing Auth0 tenants!
->
 > If you are creating a new Auth0 tenant at this point in the process, go back to step 2 in order to ensure you're logged into the correct Auth0 tenant.
 
 Run the following command:
