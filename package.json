@@ -2,7 +2,7 @@
   "name": "auth0-b2b-saas-starter",
   "version": "1.0.0",
   "scripts": {
-    "dev": "next dev --turbo",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -32,7 +32,7 @@
     "cmdk": "^1.0.0",
     "execa": "^9.1.0",
     "lucide-react": "^0.379.0",
-    "next": "14.2.3",
+    "next": "^14.2.3",
     "next-themes": "^0.3.0",
     "ora": "^8.0.1",
     "react": "^18.3.1",
