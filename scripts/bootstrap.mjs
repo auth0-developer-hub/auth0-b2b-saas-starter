@@ -3,11 +3,19 @@ import { readFile, writeFile } from "node:fs/promises"
 import { $ } from "execa"
 import ora from "ora"
 
-const APP_BASE_URL = "http://localhost:3000"
+const APP_BASE_URL = process.argv[2] || "http://localhost:3000"
 const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
 const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
 const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
 const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
+
+const isLocalHost = APP_BASE_URL.startsWith('http://localhost')
+const isLocalHostOk = process.argv[2] === "allowLocalhost";
+
+if (isLocalHost && !isLocalHostOk) {
+  console.warn(`ERROR: invite links won't work when using ${APP_BASE_URL} as your application base URL. Checkout the README-ADVANCED.md for instructions on how to use https. To override this and run anyway, re-run using: npm run auth0:bootstrap -- allowLocalhost`)
+  process.exit(-2);
+}
 
 // checks
 
@@ -186,7 +194,7 @@ try {
       "description": "The client to facilitate login to the dashboard in the context of an organization.",
       "callbacks": [`${APP_BASE_URL}/api/auth/callback`],
       "allowed_logout_urls": [APP_BASE_URL],
-      "initiate_login_uri": "https://example.com/api/auth/login",
+      "initiate_login_uri": `${ isLocalHost ? 'https://example.com' : APP_BASE_URL }/api/auth/login`,
       "app_type": "regular_web",
       "oidc_conformant": true,
       "grant_types": ["authorization_code","refresh_token"],
