@@ -26,5 +26,8 @@ declare namespace NodeJS {
 
     // The namespace used to prefix custom claims
     CUSTOM_CLAIMS_NAMESPACE: string
+
+    // Stigg SDK configuration
+    STIGG_SERVER_API_KEY: string
   }
 }

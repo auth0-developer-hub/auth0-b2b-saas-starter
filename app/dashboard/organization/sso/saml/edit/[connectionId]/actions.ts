@@ -139,5 +139,6 @@ export const updateConnection = withServerActionAuth(
   },
   {
     role: "admin",
+    entitlement: "sso"
   }
 )

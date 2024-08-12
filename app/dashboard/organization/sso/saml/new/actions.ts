@@ -115,6 +115,7 @@ export const createConnection = withServerActionAuth(
   },
   {
     role: "admin",
+    entitlement: "sso"
   }
 )
 
@@ -156,5 +157,6 @@ export const deleteConnection = withServerActionAuth(
   },
   {
     role: "admin",
+    entitlement: "sso"
   }
 )

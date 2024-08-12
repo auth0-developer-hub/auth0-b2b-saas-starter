@@ -5,6 +5,7 @@ import "./globals.css"
 import { Inter } from "next/font/google"
 import Script from "next/script"
 
+import {waitForStiggInit} from "@/lib/stigg"
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider"
 
@@ -22,6 +23,9 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Wait for Stigg to initialize before rendering the app, this blocks only once.
+  await waitForStiggInit();
+
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body className="min-h-screen bg-background font-sans antialiased">

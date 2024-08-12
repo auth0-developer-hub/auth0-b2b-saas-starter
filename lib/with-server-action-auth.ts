@@ -1,10 +1,13 @@
 import { Session } from "@auth0/nextjs-auth0"
 
+import { checkAccess, Feature } from "@/lib/entitlements"
+
 import { appClient } from "./auth0"
 import { getRole, Role } from "./roles"
 
 interface Options {
   role?: Role
+  entitlement?: Feature
 }
 
 /**
@@ -21,6 +24,15 @@ export function withServerActionAuth<T extends any[], U extends any>(
     if (!session) {
       return {
         error: "You must be authenticated to perform this action.",
+      }
+    }
+
+    if (options.entitlement) {
+      const hasAccess = await checkAccess(session.user, options.entitlement)
+      if (!hasAccess) {
+        return {
+          error: `Your organization must have a(n) ${options.entitlement} entitlement to perform this action.`,
+        }
       }
     }
 

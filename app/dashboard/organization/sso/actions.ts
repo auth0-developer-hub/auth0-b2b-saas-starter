@@ -26,5 +26,6 @@ export const verifyDomain = withServerActionAuth(
   },
   {
     role: "admin",
+    entitlement: "sso",
   }
 )
