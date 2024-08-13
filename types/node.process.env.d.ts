@@ -29,5 +29,7 @@ declare namespace NodeJS {
 
     // Stigg SDK configuration
     STIGG_SERVER_API_KEY: string
+    NEXT_PUBLIC_STIGG_CLIENT_API_KEY: string
+    STIGG_CUSTOMER_TOKEN_SIGNING_SECRET: string
   }
 }

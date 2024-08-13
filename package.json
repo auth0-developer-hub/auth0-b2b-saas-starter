@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "auth0:bootstrap": "node ./scripts/bootstrap.mjs"
+    "auth0:bootstrap": "node ./scripts/bootstrap.mjs",
+    "stigg:blast-login-events": "node --env-file=.env.local scripts/stigg-blast-login-events.mjs"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^3.5.0",
@@ -27,6 +28,7 @@
     "@radix-ui/react-switch": "^1.0.3",
     "@sindresorhus/slugify": "^2.2.1",
     "@stigg/node-server-sdk": "^3.42.1",
+    "@stigg/react-sdk": "^5.16.0",
     "auth0": "^4.6.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",

@@ -52,7 +52,7 @@ exports.onExecutePostLogin = async (event, api) => {
 
   const crypto = require('crypto');
 
-  const userId = event.user.user_id;x
+  const userId = event.user.user_id;
   const eventName = `user-login`;
 
   // generate a unique idempotency key for the event
