@@ -27,7 +27,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "@radix-ui/react-switch": "^1.0.3",
     "@sindresorhus/slugify": "^2.2.1",
-    "@stigg/node-server-sdk": "^3.42.1",
+    "@stigg/node-server-sdk": "^3.43.0",
     "@stigg/react-sdk": "^5.16.0",
     "auth0": "^4.6.0",
     "class-variance-authority": "^0.7.0",
