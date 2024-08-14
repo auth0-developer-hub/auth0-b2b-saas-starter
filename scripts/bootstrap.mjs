@@ -513,8 +513,17 @@ const createUniversalLoginTheme = ora({
 }).start()
 
 try {
-  await $`cat ./themes/universal-login.json`
-    .pipe`auth0 api post branding/themes`
+  const theme = await readFile("./themes/universal-login.json", {
+    encoding: "utf-8",
+  })
+
+  // prettier-ignore
+  const createUniversalLoginThemeArgs = [
+    "api", "post", "branding/themes",
+    "--data", theme,
+  ];
+
+  await $`auth0 ${createUniversalLoginThemeArgs}`
 
   createUniversalLoginTheme.succeed()
 } catch (e) {
