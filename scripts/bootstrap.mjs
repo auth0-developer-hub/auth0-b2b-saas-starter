@@ -19,10 +19,10 @@ async function main() {
     const isLocalHost = APP_BASE_URL.startsWith('http://localhost');
 
     if (isLocalHost) {
-      const confirmLocalhost = await rl.question('Using localhost may cause invite links to not work. Do you want to continue? (y/n): ');
+      const confirmLocalhost = await rl.question('Using localhost is fine for local development and experimentation, but you might discover invite links do not work due to the lack of https. Do you want to continue? (y/n): ');
     
       if (confirmLocalhost.toLowerCase() !== 'y') {
-        console.log('Exiting. Please check README-ADVANCED.md for instructions on how to use https.');
+        console.log('Exiting. If you want to learn how to set up https, please check the README-ADVANCED.md for instructions.');
     
         return;
       }
