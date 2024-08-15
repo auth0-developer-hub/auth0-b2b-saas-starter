@@ -136,6 +136,16 @@ Once the script has successfully completed, a `.env.local` file containing the e
 
 3. Start editing to build your own SaaS application - for example, modify `app/page.tsx`. The browser will hot-reload to show changes as you edit the file.
 
+---
+
+## Advanced Topics
+
+Reference the [README-ADVANCED.md](README-ADVANCED.md) instructions to learn about:
+* Enabling https:// and production-like URLs while you iterate from within your personal development environment
+* Using an email platform for testing transactional emails (or different workflows that require email verification)
+
+---
+
 ## Learn More
 
 To learn more about Auth0, take a look at the following resources:
