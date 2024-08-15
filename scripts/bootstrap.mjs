@@ -1,81 +1,96 @@
+import { $ } from "execa"
 import { randomBytes } from "node:crypto"
 import { readFile, writeFile } from "node:fs/promises"
-import { $ } from "execa"
 import ora from "ora"
+import readline from 'node:readline/promises';
 
-const APP_BASE_URL = process.argv[2] || "http://localhost:3000"
-const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
-const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
-const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
-const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-const isLocalHost = APP_BASE_URL.startsWith('http://localhost')
-const isLocalHostOk = process.argv[2] === "allowLocalhost";
+async function main() {
+  try {
+    // Prompt user for APP_BASE_URL
+    let APP_BASE_URL = await rl.question('Enter your application base URL (leave blank to use default: http://localhost:3000): ');
+    APP_BASE_URL = APP_BASE_URL.trim() || 'http://localhost:3000';
 
-if (isLocalHost && !isLocalHostOk) {
-  console.warn(`ERROR: invite links won't work when using ${APP_BASE_URL} as your application base URL. Checkout the README-ADVANCED.md for instructions on how to use https. To override this and run anyway, re-run using: npm run auth0:bootstrap -- allowLocalhost`)
-  process.exit(-2);
-}
+    const isLocalHost = APP_BASE_URL.startsWith('http://localhost');
 
-// checks
+    if (isLocalHost) {
+      const confirmLocalhost = await rl.question('Using localhost may cause invite links to not work. Do you want to continue? (y/n): ');
+      if (confirmLocalhost.toLowerCase() !== 'y') {
+        console.log('Exiting. Please check README-ADVANCED.md for instructions on how to use https.');
+        return;
+      }
+    }
 
-if (process.version.replace("v", "").split(".")[0] < 20) {
-  console.error("Node.js version 20 or later is required to run this script.")
-  process.exit(1)
-}
+    console.log(`Using APP_BASE_URL: ${APP_BASE_URL}`);
 
-const cliCheck = ora({
-  text: `Checking that the Auth0 CLI has been installed`,
-}).start()
-try {
-  await $`auth0 --version`
-  cliCheck.succeed()
-} catch (e) {
-  cliCheck.fail(
-    "The Auth0 CLI must be installed: https://github.com/auth0/auth0-cli"
-  )
-  process.exit(1)
-}
+    const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
+    const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
+    const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
+    const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
 
-// NOTE: we're outputting as CSV here due to a bug in the Auth0 CLI that doesn't respect the --json flag
-// https://github.com/auth0/auth0-cli/pull/1002
-const tenantSettingsArgs = ["tenants", "list", "--csv"]
+    // checks
 
-const { stdout } = await $`auth0 ${tenantSettingsArgs}`
+    if (process.version.replace("v", "").split(".")[0] < 20) {
+      console.error("Node.js version 20 or later is required to run this script.")
+      return;
+    }
 
-// parse the CSV to get the current active tenant (skip the first line)
-// and get the one that starts with the "→" symbol
-const AUTH0_DOMAIN = stdout
-  .split("\n")
-  .slice(1)
-  .find((line) => line.includes("→"))
-  .split(",")[1]
-  .trim()
+    const cliCheck = ora({
+      text: `Checking that the Auth0 CLI has been installed`,
+    }).start()
+    try {
+      await $`auth0 --version`
+      cliCheck.succeed()
+    } catch (e) {
+      cliCheck.fail(
+        "The Auth0 CLI must be installed: https://github.com/auth0/auth0-cli"
+      )
+      return;
+    }
 
-// tenant settings
+    // NOTE: we're outputting as CSV here due to a bug in the Auth0 CLI that doesn't respect the --json flag
+    // https://github.com/auth0/auth0-cli/pull/1002
+    const tenantSettingsArgs = ["tenants", "list", "--csv"]
 
-const tenantSettings = ora({
-  text: `Initialize tenant settings`,
-}).start()
-try {
-  // prettier-ignore
-  const tenantSettingsArgs = [
-    "api", "patch", "tenants/settings",
-    "--data", JSON.stringify({
-      "customize_mfa_in_postlogin_action": true,
-      "flags": { "enable_client_connections": false },
-      "friendly_name": "SaaStart",
-      "picture_url": "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png",
-    }),
-  ];
+    const { stdout } = await $`auth0 ${tenantSettingsArgs}`
 
-  await $`auth0 ${tenantSettingsArgs}`
-  tenantSettings.succeed()
-} catch (e) {
-  tenantSettings.fail(`Failed to initialize tenant settings`)
-  console.log(e)
-  process.exit(1)
-}
+    // parse the CSV to get the current active tenant (skip the first line)
+    // and get the one that starts with the "→" symbol
+    const AUTH0_DOMAIN = stdout
+      .split("\n")
+      .slice(1)
+      .find((line) => line.includes("→"))
+      .split(",")[1]
+      .trim()
+
+    // tenant settings
+
+    const tenantSettings = ora({
+      text: `Initialize tenant settings`,
+    }).start()
+    try {
+      // prettier-ignore
+      const tenantSettingsArgs = [
+        "api", "patch", "tenants/settings",
+        "--data", JSON.stringify({
+          "customize_mfa_in_postlogin_action": true,
+          "flags": { "enable_client_connections": false },
+          "friendly_name": "SaaStart",
+          "picture_url": "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png",
+        }),
+      ];
+
+      await $`auth0 ${tenantSettingsArgs}`
+      tenantSettings.succeed()
+    } catch (e) {
+      tenantSettings.fail(`Failed to initialize tenant settings`)
+      console.log(e)
+      return;
+    }
 
 // prompt settings
 
@@ -600,3 +615,11 @@ async function waitUntilActionIsBuilt(actionId) {
     await new Promise((resolve) => setTimeout(resolve, 1500))
   }
 }
+
+
+  } finally {
+    rl.close();
+  }
+}
+
+main().catch(console.error);
