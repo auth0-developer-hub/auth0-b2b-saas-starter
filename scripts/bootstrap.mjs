@@ -1,6 +1,6 @@
-import { $ } from "execa"
 import { randomBytes } from "node:crypto"
 import { readFile, writeFile } from "node:fs/promises"
+import { $ } from "execa"
 import ora from "ora"
 import readline from 'node:readline/promises';
 
@@ -13,14 +13,17 @@ async function main() {
   try {
     // Prompt user for APP_BASE_URL
     let APP_BASE_URL = await rl.question('Enter your application base URL (leave blank to use default: http://localhost:3000): ');
+    
     APP_BASE_URL = APP_BASE_URL.trim() || 'http://localhost:3000';
 
     const isLocalHost = APP_BASE_URL.startsWith('http://localhost');
 
     if (isLocalHost) {
       const confirmLocalhost = await rl.question('Using localhost may cause invite links to not work. Do you want to continue? (y/n): ');
+    
       if (confirmLocalhost.toLowerCase() !== 'y') {
         console.log('Exiting. Please check README-ADVANCED.md for instructions on how to use https.');
+    
         return;
       }
     }
@@ -119,7 +122,9 @@ try {
 const createManagementClient = ora({
   text: `Creating ${MANAGEMENT_CLIENT_NAME} client`,
 }).start()
-let managementClient
+
+let managementClient;
+
 try {
   // prettier-ignore
   const createClientArgs = [
@@ -198,8 +203,10 @@ try {
 
 const createDashboardClient = ora({
   text: `Creating ${DASHBOARD_CLIENT_NAME} client`,
-}).start()
-let dashboardClient
+}).start();
+
+let dashboardClient;
+
 try {
   // prettier-ignore
   const createClientArgs = [
@@ -238,8 +245,10 @@ try {
 
 const createDatabaseConnection = ora({
   text: `Creating ${DEFAULT_CONNECTION_NAME} connection`,
-}).start()
-let defaultConnection
+}).start();
+
+let defaultConnection;
+
 try {
   // prettier-ignore
   const createConnectionArgs = [
@@ -267,8 +276,10 @@ try {
 
 const createAdminRole = ora({
   text: `Creating admin role`,
-}).start()
-let adminRole
+}).start();
+
+let adminRole;
+
 try {
   // prettier-ignore
   const createRoleArgs = [
@@ -289,8 +300,10 @@ try {
 
 const createMemberRole = ora({
   text: `Creating member role`,
-}).start()
-let memberRole
+}).start();
+
+let memberRole;
+
 try {
   // prettier-ignore
   const createRoleArgs = [
@@ -314,7 +327,9 @@ try {
 const createSecurityPoliesAction = ora({
   text: `Creating Security Policies Action`,
 }).start()
-let securityPoliciesAction
+
+let securityPoliciesAction;
+
 try {
   const code = await readFile("./actions/security-policies.js", {
     encoding: "utf-8",
@@ -354,7 +369,9 @@ try {
 const createAddDefaultRoleAction = ora({
   text: `Creating Add Default Role Action`,
 }).start()
-let addDefaultRoleAction
+
+let addDefaultRoleAction;
+
 try {
   const code = await readFile("./actions/add-default-role.js", {
     encoding: "utf-8",
@@ -397,7 +414,9 @@ try {
 const createAddRoleToTokensAction = ora({
   text: `Creating Add Role to Tokens Action`,
 }).start()
-let addRoleToTokensAction
+
+let addRoleToTokensAction;
+
 try {
   const code = await readFile("./actions/add-role-to-tokens.js", {
     encoding: "utf-8",
@@ -588,6 +607,7 @@ try {
 const enableOtp = ora({
   text: `Enabling OTP MFA factor`,
 }).start()
+
 try {
   // prettier-ignore
   const enableOtpArgs = [
@@ -615,7 +635,6 @@ async function waitUntilActionIsBuilt(actionId) {
     await new Promise((resolve) => setTimeout(resolve, 1500))
   }
 }
-
 
   } finally {
     rl.close();
