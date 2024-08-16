@@ -10,6 +10,8 @@ const rl = readline.createInterface({
 });
 
 async function main() {
+  const skipPrompts = process.argv.includes('allowLocalhost');
+  
   try {
     console.log(`================================================================================
 Auth0 B2B SaaS Starter Bootstrap Script
@@ -18,30 +20,37 @@ Auth0 B2B SaaS Starter Bootstrap Script
 This script configures your Auth0 tenant for use with SaaStart. Only run
 this command on a newly created tenant to ensure a clean start. To learn
 more check the README.md file or inspect the /script/bootstrap.mjs file.
-
-Enter your application base URL (leave blank for default: http://localhost:3000):`);
+`);
     
-    // Prompt user for APP_BASE_URL
-    let APP_BASE_URL = await rl.question('');
+    let APP_BASE_URL;
     
-    APP_BASE_URL = APP_BASE_URL.trim() || 'http://localhost:3000';
+    if (skipPrompts) {
+      APP_BASE_URL = 'http://localhost:3000';
+    } else {
+      console.log(`Enter your application base URL (leave blank for default: http://localhost:3000):`);
+      
+      // Prompt user for APP_BASE_URL
+      APP_BASE_URL = await rl.question('');
+    }
 
-    const isLocalHost = APP_BASE_URL.startsWith('http://localhost');
+    const isLocalHost = APP_BASE_URL.startsWith('http://localhost') || APP_BASE_URL === "";
 
-    if (isLocalHost) {
+    if (isLocalHost && skipPrompts === false) {
       console.log("\nUsing localhost is fine for local development and experimentation, but");
       console.log("using a non-https:// URL has limitations and some features (for example");
       console.log("invite links for organizations) will not work."); 
-      const confirmLocalhost = await rl.question('\nDo you want to continue without https://? (y/N): ');
+      
+      const confirmLocalhost = await rl.question('\nDo you want to continue without https://? (y/N):\n');
     
       if (confirmLocalhost.toLowerCase() !== 'y') {
-        console.log('\nExiting. If you want to learn how to set up https://, read README-ADVANCED.md for instructions.');
+        console.log(`\nExiting. If you want to learn how to set up https://, read README-ADVANCED.md for
+instructions.`);
     
         return;
       }
     }
 
-    console.log(`\nUsing APP_BASE_URL: ${APP_BASE_URL}`);
+    console.log(`Using APP_BASE_URL: ${APP_BASE_URL}`);
 
     const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
     const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"

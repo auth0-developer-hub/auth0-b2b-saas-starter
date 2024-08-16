@@ -111,10 +111,7 @@ This step will create and update entities in your Auth0 tenant. The provided scr
 - Creating email and login templates
 - Enabling MFA factors
 
-Finally, it will save environment variables for your tenant in the application directory.
-
-> **Warning**
->
+> [!WARNING]
 > Only run the following command on a newly created tenant to avoid changing existing configuration or introducing conflicting elements to your existing Auth0 tenants!
 >
 > If you are creating a new Auth0 tenant at this point in the process, go back to step 2 in order to ensure you're logged into the correct Auth0 tenant.
@@ -124,6 +121,14 @@ Run the following command:
 ```shell
 npm run auth0:bootstrap
 ```
+
+The script will prompt you to provide an **application base URL**, which defaults to http://localhost:3000. If you're configuring the application to run with HTTPS or on a production URL, this is your opportunity to set it. Learn more about this in [README-ADVANCED.md](README-ADVANCED.md).
+
+> [!TIP]
+> If you want to skip this prompt you can run the bootstrapping command with an arguement:
+> ```bash
+> npm run auth0:bootstrap -- allowLocalhost
+> ```
 
 Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
 
