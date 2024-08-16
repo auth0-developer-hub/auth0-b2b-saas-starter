@@ -11,18 +11,28 @@ const rl = readline.createInterface({
 
 async function main() {
   try {
+    console.log("=============================================");
+    console.log("Auth0 B2B SaaS Starter - Bootstrapping Script");
+    console.log("=============================================\n");
+    console.log("This script configures your Auth0 tenant for use with SaaStart. Only run");
+    console.log("this command on a newly created tenant to ensure a clean start. To learn");
+    console.log("more check the README.md file or inspect the /script/bootstrap.mjs file.\n");
+    
     // Prompt user for APP_BASE_URL
-    let APP_BASE_URL = await rl.question('Enter your application base URL (leave blank to use default: http://localhost:3000): ');
+    let APP_BASE_URL = await rl.question('Enter your application base URL (leave blank for default: http://localhost:3000): ');
     
     APP_BASE_URL = APP_BASE_URL.trim() || 'http://localhost:3000';
 
     const isLocalHost = APP_BASE_URL.startsWith('http://localhost');
 
     if (isLocalHost) {
-      const confirmLocalhost = await rl.question('Using localhost is fine for local development and experimentation, but you might discover invite links do not work due to the lack of https. Do you want to continue? (y/n): ');
+      console.log("\nUsing localhost is fine for local development and experimentation, but");
+      console.log("using a non-https:// URL has limitations and some features (for example");
+      console.log("invite links for organizations) will not work."); 
+      const confirmLocalhost = await rl.question('\nDo you want to continue without https://? (y/N): ');
     
       if (confirmLocalhost.toLowerCase() !== 'y') {
-        console.log('Exiting. If you want to learn how to set up https, please check the README-ADVANCED.md for instructions.');
+        console.log('\nExiting. If you want to learn how to set up https://, read README-ADVANCED.md for instructions.');
     
         return;
       }
