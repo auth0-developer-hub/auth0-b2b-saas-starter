@@ -125,7 +125,7 @@ npm run auth0:bootstrap
 The script will prompt you to provide an **application base URL**, which defaults to http://localhost:3000. If you're configuring the application to run with HTTPS or on a production URL, this is your opportunity to set it. Learn more about this in [README-ADVANCED.md](README-ADVANCED.md).
 
 > [!TIP]
-> If you want to skip this prompt you can run the bootstrapping command with an arguement:
+> If you want to skip this prompt you can run the bootstrapping command with an argument:
 > ```bash
 > npm run auth0:bootstrap -- allowLocalhost
 > ```
