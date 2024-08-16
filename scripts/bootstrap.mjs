@@ -11,15 +11,18 @@ const rl = readline.createInterface({
 
 async function main() {
   try {
-    console.log("=============================================");
-    console.log("Auth0 B2B SaaS Starter - Bootstrapping Script");
-    console.log("=============================================\n");
-    console.log("This script configures your Auth0 tenant for use with SaaStart. Only run");
-    console.log("this command on a newly created tenant to ensure a clean start. To learn");
-    console.log("more check the README.md file or inspect the /script/bootstrap.mjs file.\n");
+    console.log(`================================================================================
+Auth0 B2B SaaS Starter Bootstrap Script
+================================================================================
+
+This script configures your Auth0 tenant for use with SaaStart. Only run
+this command on a newly created tenant to ensure a clean start. To learn
+more check the README.md file or inspect the /script/bootstrap.mjs file.
+
+Enter your application base URL (leave blank for default: http://localhost:3000):`);
     
     // Prompt user for APP_BASE_URL
-    let APP_BASE_URL = await rl.question('Enter your application base URL (leave blank for default: http://localhost:3000): ');
+    let APP_BASE_URL = await rl.question('');
     
     APP_BASE_URL = APP_BASE_URL.trim() || 'http://localhost:3000';
 
@@ -38,7 +41,7 @@ async function main() {
       }
     }
 
-    console.log(`Using APP_BASE_URL: ${APP_BASE_URL}`);
+    console.log(`\nUsing APP_BASE_URL: ${APP_BASE_URL}`);
 
     const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
     const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
