@@ -40,11 +40,12 @@ more check the README.md file or inspect the /script/bootstrap.mjs file.
       console.log("using a non-https:// URL has limitations and some features (for example");
       console.log("invite links for organizations) will not work."); 
       
-      const confirmLocalhost = await rl.question('\nDo you want to continue without https://? (y/N):\n');
+      const confirmLocalhost = await rl.question('\nAre you sure you want to continue without https://? (y/N):\n');
     
       if (confirmLocalhost.toLowerCase() !== 'y') {
-        console.log(`\nExiting. If you want to learn how to set up https://, read README-ADVANCED.md for
-instructions.`);
+        console.log(`\nSetup halted without bootstrapping the Auth0 tenant, as requested. 
+
+To learn how to set up https://, check README-ADVANCED.md for instructions.`);
     
         return;
       }
