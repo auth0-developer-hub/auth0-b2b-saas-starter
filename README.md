@@ -41,14 +41,15 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 
 1. Node.js v20 or later is required to run the bootstrapping process. We recommend using [`nvm`](https://github.com/nvm-sh/nvm) to manage node versions in your development environment. Click these links to [learn how to install nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script) or [how to use nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#usage) to make sure you're using Node 20+ in your development environment.
 2. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`, which is automatically included as part of the Node.js installation from prerequisite 1.
-3. Create a new Auth0 tenant. This tenant will be configured automatically by our bootstrapping command during the installation process. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
+3. Create a new Auth0 tenant. **This is important!** Using a new Auth0 tenant for this sample application ensures you don't encounter any conflicts due to existing configuration in an existing tenant.
+   
+   The tenant you create will be configured automatically by our bootstrapping command during the installation process. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
 
-> [!IMPORTANT]
-> Creating a new tenant before you continue is **highly recommended** so that you don't accidentally change the configuration in any existing Auth0 projects you might have.
+   Once you've created a tenant, nothing else needs to be done inside Auth0 - you can return to this README.md and begin completing the steps below.
 
 ### Step One: Clone and install dependencies
 
-1. Clone this repo to your development environment. Navigate to a directory where you want to work in a terminal program, and run the following command:
+1. Clone this repo to your development environment. To do this, navigate to a directory where you want to work in a terminal program, and run the following command:
 
    ```shell
    git clone https://github.com/auth0-developer-hub/auth0-b2b-saas-starter.git
@@ -60,7 +61,14 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
    cd auth0-b2b-saas-starter
    ```
 
-3. Install dependencies for the project using your favorite package manager. For example, if you're using npm, type:
+3. Install dependencies for the project using your favorite package manager. For example, if you're using npm, check that you're on the correct version of node:
+
+   ```shell
+   node -v
+   ```
+   This should return a version number higher than v20. If you have an earlier version installed, return to the prerequisites and follow step 1. 
+   
+   Otherwise, continue:
 
    ```shell
    npm install
@@ -68,7 +76,7 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 
 ### Step Two: Install and Log in with the Auth0 CLI
 
-This project uses the Auth0 CLI to make setting up your tenant a lot easier, by scripting away as much manual work as possible. If you want to familiarize yourself with the Auth0 CLI, read [Auth0 CLI Basics](https://developer.auth0.com/resources/labs/tools/auth0-cli-basics).
+This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make setting up your tenant a lot easier, by scripting away as much manual work as possible. If you want to familiarize yourself with the Auth0 CLI, read [Auth0 CLI Basics](https://developer.auth0.com/resources/labs/tools/auth0-cli-basics).
 
 1. You will need to install the Auth0 CLI. It will be used by the bootstrap script to create the resources needed for this sample in your Auth0 tenant. Instructions for installation are available at the [Auth0 CLI github repo](https://github.com/auth0/auth0-cli).
 
@@ -99,7 +107,7 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
    Be sure to select `As a user` when prompted: `How would you like to authenticate?`. This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
 
 > [!WARNING]
-> At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
+> At the **Authorize App** step, be sure to select the same NEW tenant that you created in the prerequisites. Whatever you choose during this step will be the tenant that will be bootstrapped in the next steps, so it's important to make sure it's a newly created tenant without existing configuration.
 
 ### Step Three: Bootstrap the Auth0 tenant
 
@@ -134,7 +142,23 @@ Once the script has successfully completed, a `.env.local` file containing the e
 
    You can proceed to interact with the app as if you were a user: create an account, navigate to the settings, explore the identity capabilities.
 
-3. Start editing to build your own SaaS application - for example, modify `app/page.tsx`. The browser will hot-reload to show changes as you edit the file.
+
+Now you're ready to start editing to build your own SaaS application! To see this in action, modify `app/page.tsx` in some way and save the file. The browser will hot-reload to show any changes you've made each time you save.
+
+---
+
+## Features to explore
+
+### Sign up with Organziations
+Each user that creates an account from scratch will be prompted to enter an organization name as part of their sign-up flow. Once an organization is created, users with admin roles can invite additional users who will automatically be added to the organization.
+
+### User Management
+Invite additional users, change their role (and thus what they have permission to do in the application), 
+
+### Connections
+Use the SSO tab in the settings section to create a
+
+TODO: Finish this section
 
 ---
 
