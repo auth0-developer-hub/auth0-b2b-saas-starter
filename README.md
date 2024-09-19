@@ -96,7 +96,7 @@ This project uses the Auth0 CLI to make setting up your tenant a lot easier, by 
    auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
    ```
 
-   Be sure to select `As a user` when prompted: `How would you like to authenticate?`. This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
+   This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
 
 > [!WARNING]
 > At the **Authorize App** step, be sure to select the correct tenant. This is the tenant that will be bootstrapped in the next steps.
