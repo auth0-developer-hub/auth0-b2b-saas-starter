@@ -21,7 +21,7 @@ import { Separator } from "@/components/ui/separator"
 import { Code } from "@/components/code"
 import { SubmitButton } from "@/components/submit-button"
 
-import { AddDomainDialog } from "../../../components/add-domain-dialog"
+import { AddDomainDialog } from "../../../../components/add-domain-dialog"
 import { updateConnection } from "./actions"
 
 const CALLBACK_URL = `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/login/callback`
