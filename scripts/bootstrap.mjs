@@ -2,72 +2,121 @@ import { randomBytes } from "node:crypto"
 import { readFile, writeFile } from "node:fs/promises"
 import { $ } from "execa"
 import ora from "ora"
+import readline from 'node:readline/promises';
 
-const APP_BASE_URL = "http://localhost:3000"
-const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
-const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
-const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
-const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-// checks
+async function main() {
+  const skipPrompts = process.argv.includes('allowLocalhost');
+  
+  try {
+    console.log(`================================================================================
+Auth0 B2B SaaS Starter Bootstrap Script
+================================================================================
 
-if (process.version.replace("v", "").split(".")[0] < 20) {
-  console.error("Node.js version 20 or later is required to run this script.")
-  process.exit(1)
-}
+This script configures your Auth0 tenant for use with SaaStart. Only run
+this command on a newly created tenant to ensure a clean start. To learn
+more check the README.md file or inspect the /script/bootstrap.mjs file.
+`);
+    
+    let APP_BASE_URL;
+    
+    if (skipPrompts) {
+      APP_BASE_URL = 'http://localhost:3000';
+    } else {
+      console.log(`Enter your application base URL (leave blank for default: http://localhost:3000):`);
+      
+      // Prompt user for APP_BASE_URL
+      APP_BASE_URL = await rl.question('');
+    }
 
-const cliCheck = ora({
-  text: `Checking that the Auth0 CLI has been installed`,
-}).start()
-try {
-  await $`auth0 --version`
-  cliCheck.succeed()
-} catch (e) {
-  cliCheck.fail(
-    "The Auth0 CLI must be installed: https://github.com/auth0/auth0-cli"
-  )
-  process.exit(1)
-}
+    const isLocalHost = APP_BASE_URL.startsWith('http://localhost') || APP_BASE_URL === "";
 
-// NOTE: we're outputting as CSV here due to a bug in the Auth0 CLI that doesn't respect the --json flag
-// https://github.com/auth0/auth0-cli/pull/1002
-const tenantSettingsArgs = ["tenants", "list", "--csv"]
+    if (isLocalHost && skipPrompts === false) {
+      console.log("\nUsing localhost is fine for local development and experimentation, but");
+      console.log("using a non-https:// URL has limitations and some features (for example");
+      console.log("invite links for organizations) will not work."); 
+      
+      const confirmLocalhost = await rl.question('\nAre you sure you want to continue without https://? (y/N):\n');
+    
+      if (confirmLocalhost.toLowerCase() !== 'y') {
+        console.log(`\nSetup halted without bootstrapping the Auth0 tenant, as requested. 
 
-const { stdout } = await $`auth0 ${tenantSettingsArgs}`
+To learn how to set up https://, check README-ADVANCED.md for instructions.`);
+    
+        return;
+      }
+    }
 
-// parse the CSV to get the current active tenant (skip the first line)
-// and get the one that starts with the "→" symbol
-const AUTH0_DOMAIN = stdout
-  .split("\n")
-  .slice(1)
-  .find((line) => line.includes("→"))
-  .split(",")[1]
-  .trim()
+    console.log(`Using APP_BASE_URL: ${APP_BASE_URL}`);
 
-// tenant settings
+    const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
+    const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
+    const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
+    const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
 
-const tenantSettings = ora({
-  text: `Initialize tenant settings`,
-}).start()
-try {
-  // prettier-ignore
-  const tenantSettingsArgs = [
-    "api", "patch", "tenants/settings",
-    "--data", JSON.stringify({
-      "customize_mfa_in_postlogin_action": true,
-      "flags": { "enable_client_connections": false },
-      "friendly_name": "SaaStart",
-      "picture_url": "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png",
-    }),
-  ];
+    // checks
 
-  await $`auth0 ${tenantSettingsArgs}`
-  tenantSettings.succeed()
-} catch (e) {
-  tenantSettings.fail(`Failed to initialize tenant settings`)
-  console.log(e)
-  process.exit(1)
-}
+    if (process.version.replace("v", "").split(".")[0] < 20) {
+      console.error("Node.js version 20 or later is required to run this script.")
+      return;
+    }
+
+    const cliCheck = ora({
+      text: `Checking that the Auth0 CLI has been installed`,
+    }).start()
+    try {
+      await $`auth0 --version`
+      cliCheck.succeed()
+    } catch (e) {
+      cliCheck.fail(
+        "The Auth0 CLI must be installed: https://github.com/auth0/auth0-cli"
+      )
+      return;
+    }
+
+    // NOTE: we're outputting as CSV here due to a bug in the Auth0 CLI that doesn't respect the --json flag
+    // https://github.com/auth0/auth0-cli/pull/1002
+    const tenantSettingsArgs = ["tenants", "list", "--csv"]
+
+    const { stdout } = await $`auth0 ${tenantSettingsArgs}`
+
+    // parse the CSV to get the current active tenant (skip the first line)
+    // and get the one that starts with the "→" symbol
+    const AUTH0_DOMAIN = stdout
+      .split("\n")
+      .slice(1)
+      .find((line) => line.includes("→"))
+      .split(",")[1]
+      .trim()
+
+    // tenant settings
+
+    const tenantSettings = ora({
+      text: `Initialize tenant settings`,
+    }).start()
+    try {
+      // prettier-ignore
+      const tenantSettingsArgs = [
+        "api", "patch", "tenants/settings",
+        "--data", JSON.stringify({
+          "customize_mfa_in_postlogin_action": true,
+          "flags": { "enable_client_connections": false },
+          "friendly_name": "SaaStart",
+          "picture_url": "https://cdn.auth0.com/blog/auth0_by_okta_logo_black.png",
+        }),
+      ];
+
+      await $`auth0 ${tenantSettingsArgs}`
+      tenantSettings.succeed()
+    } catch (e) {
+      tenantSettings.fail(`Failed to initialize tenant settings`)
+      console.log(e)
+      return;
+    }
 
 // prompt settings
 
@@ -96,7 +145,9 @@ try {
 const createManagementClient = ora({
   text: `Creating ${MANAGEMENT_CLIENT_NAME} client`,
 }).start()
-let managementClient
+
+let managementClient;
+
 try {
   // prettier-ignore
   const createClientArgs = [
@@ -187,8 +238,10 @@ try {
 
 const createDashboardClient = ora({
   text: `Creating ${DASHBOARD_CLIENT_NAME} client`,
-}).start()
-let dashboardClient
+}).start();
+
+let dashboardClient;
+
 try {
   // prettier-ignore
   const createClientArgs = [
@@ -198,7 +251,7 @@ try {
       "description": "The client to facilitate login to the dashboard in the context of an organization.",
       "callbacks": [`${APP_BASE_URL}/api/auth/callback`],
       "allowed_logout_urls": [APP_BASE_URL],
-      "initiate_login_uri": "https://example.com/api/auth/login",
+      "initiate_login_uri": `${ isLocalHost ? 'https://example.com' : APP_BASE_URL }/api/auth/login`,
       "app_type": "regular_web",
       "oidc_conformant": true,
       "grant_types": ["authorization_code","refresh_token"],
@@ -227,8 +280,10 @@ try {
 
 const createDatabaseConnection = ora({
   text: `Creating ${DEFAULT_CONNECTION_NAME} connection`,
-}).start()
-let defaultConnection
+}).start();
+
+let defaultConnection;
+
 try {
   // prettier-ignore
   const createConnectionArgs = [
@@ -256,8 +311,10 @@ try {
 
 const createAdminRole = ora({
   text: `Creating admin role`,
-}).start()
-let adminRole
+}).start();
+
+let adminRole;
+
 try {
   // prettier-ignore
   const createRoleArgs = [
@@ -278,8 +335,10 @@ try {
 
 const createMemberRole = ora({
   text: `Creating member role`,
-}).start()
-let memberRole
+}).start();
+
+let memberRole;
+
 try {
   // prettier-ignore
   const createRoleArgs = [
@@ -303,7 +362,9 @@ try {
 const createSecurityPoliesAction = ora({
   text: `Creating Security Policies Action`,
 }).start()
-let securityPoliciesAction
+
+let securityPoliciesAction;
+
 try {
   const code = await readFile("./actions/security-policies.js", {
     encoding: "utf-8",
@@ -343,7 +404,9 @@ try {
 const createAddDefaultRoleAction = ora({
   text: `Creating Add Default Role Action`,
 }).start()
-let addDefaultRoleAction
+
+let addDefaultRoleAction;
+
 try {
   const code = await readFile("./actions/add-default-role.js", {
     encoding: "utf-8",
@@ -386,7 +449,9 @@ try {
 const createAddRoleToTokensAction = ora({
   text: `Creating Add Role to Tokens Action`,
 }).start()
-let addRoleToTokensAction
+
+let addRoleToTokensAction;
+
 try {
   const code = await readFile("./actions/add-role-to-tokens.js", {
     encoding: "utf-8",
@@ -586,6 +651,7 @@ try {
 const enableOtp = ora({
   text: `Enabling OTP MFA factor`,
 }).start()
+
 try {
   // prettier-ignore
   const enableOtpArgs = [
@@ -613,3 +679,10 @@ async function waitUntilActionIsBuilt(actionId) {
     await new Promise((resolve) => setTimeout(resolve, 1500))
   }
 }
+
+  } finally {
+    rl.close();
+  }
+}
+
+main().catch(console.error);
