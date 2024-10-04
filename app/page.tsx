@@ -7,6 +7,7 @@ import { Auth0Logo } from "@/components/auth0-logo"
 
 import { SignUpForm } from "./signup-form"
 import { WelcomeBackCard } from "./welcome-back-card"
+import { SubmitButton } from "@/components/submit-button"
 
 export default async function Home() {
   const session = await appClient.getSession()
@@ -21,7 +22,7 @@ export default async function Home() {
             "absolute right-4 top-4 md:right-8 md:top-8"
           )}
         >
-          Logout
+          <SubmitButton>Logout</SubmitButton>
         </a>
       ) : (
         <div
@@ -30,7 +31,7 @@ export default async function Home() {
           className="text-sm underline"
           href="/api/auth/login"
         >
-          Log in
+          <SubmitButton>Log in</SubmitButton>
         </a>
         </div>
       )}
