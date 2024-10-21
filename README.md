@@ -4,16 +4,18 @@ A secure and high-performance starting point for building modern B2B SaaS web ap
 
 ## Jump to a section
 * [Target Use Case](#target-use-case)
-* [Deploy to Vercel](#deploy-to-vercel-in-one-click)
+* [Deploy to Vercel](#deploy-to-vercel)
 * [Installation for Local Development](#installation-for-local-development)
 * [B2B Identity Features to Explore](#b2b-identity-features-to-explore)
 * [Advanced Topics](#advanced-topics)
 * [Learn More](#advanced-topics)
 * [Contributing](#contributing)
 
+<br/>
+
 ## Overview
 
-![image](https://github.com/auth0-developer-hub/auth0-b2b-saas-starter/assets/6372810/e8ab12fe-d95b-4e11-8e9e-242eb9c547b6)
+![Auth0 B2B SaaS Starter](https://github.com/auth0-developer-hub/auth0-b2b-saas-starter/assets/6372810/e8ab12fe-d95b-4e11-8e9e-242eb9c547b6)
 
 > [!TIP]
 > Ready to begin? Jump ahead to the [Getting Started](#getting-started) section.
@@ -22,9 +24,15 @@ This sample application provides developers with a solid foundation to kickstart
 
 It incorporates best practices and industry-standard technologies to provide a robust and scalable solution for building secure software, with all the capabilities needed to be competitive, resilient, and scalable. The project includes the architecture and components you need to get started, authentication and authorization powered by Auth0, and deployment instructions that make it easy to move to staging or production when you're ready.
 
+<br/>
+
 ## Target Use Case
 
-Use this to bootstrap a SaaS application with the following commonly needed capabilities:
+![Value](https://github.com/user-attachments/assets/cd594358-7254-46a3-af3f-e21a702f26e2)
+
+<br/>
+
+Use this sample application to bootstrap a SaaS application with all the identity capabilities you need, ready to use.
 
 - Multi-tenancy with a single pool of users in a shared user database (see: [Multiple Organization Architecture](https://auth0.com/docs/get-started/architecture-scenarios/multiple-organization-architecture#users-shared-between-organizations))
 - Sign up with tenant ([Organization](https://auth0.com/docs/manage-users/organizations)) creation
@@ -42,8 +50,14 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
   - Session lifetime _(coming soon)_
   - Break-glass access for admin roles _(coming soon)_
 
+<br/>
+
 ## Deploy to Vercel
+Click this button to experiment with SaaStart immediately with our Vercel integration.
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/auth0-developer-hub/auth0-b2b-saas-starter&repository-name=auth0-saas-starter&external-id=b2b-saas-starter-template&integration-ids=oac_7V7TGP5JUHCpSncpiy3XWwL0)
+
+<br/>
 
 ## Installation for Local Development
 
