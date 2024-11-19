@@ -38,7 +38,7 @@
     "ora": "^8.0.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "sonner": "^1.4.41",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },

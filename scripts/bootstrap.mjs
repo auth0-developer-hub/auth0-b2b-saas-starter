@@ -126,8 +126,11 @@ const createClientGrant = ora({
 try {
   // prettier-ignore
   const createClientGrantArgs = [
-    "api", "post", "client-grants",
-    "--data", JSON.stringify({
+    "api",
+    "post",
+    "client-grants",
+    "--data",
+    JSON.stringify({
       client_id: managementClient.client_id,
       audience: `https://${AUTH0_DOMAIN}/api/v2/`,
       scope: [
@@ -136,6 +139,16 @@ try {
         "update:users",
         "delete:users",
         "create:users",
+        // Clients
+        "read:clients",
+        "create:clients",
+        "update:clients",
+        "delete:clients",
+        "create:client_keys",
+        "read:client_keys",
+        "update:client_keys",
+        "delete:client_keys",
+        "read:client_credentials",
         // Connections
         "read:connections",
         "update:connections",
@@ -173,9 +186,9 @@ try {
         "create:scim_config",
         "update:scim_config",
         "delete:scim_config",
-      ]
+      ],
     }),
-  ];
+  ]
 
   await $`auth0 ${createClientGrantArgs}`
   createClientGrant.succeed()
