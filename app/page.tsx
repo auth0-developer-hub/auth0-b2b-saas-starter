@@ -9,8 +9,42 @@ import { SignUpForm } from "./signup-form"
 import { WelcomeBackCard } from "./welcome-back-card"
 import { SubmitButton } from "@/components/submit-button"
 
+import {
+  Card,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 export default async function Home() {
-  const session = await appClient.getSession()
+  let session;
+  let error;
+
+  try {
+    const session = await appClient.getSession()
+  } catch (e) {
+    error = e instanceof Error ? e : new Error('An unexpected error occurred')
+  }
+
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <Card className="w-[450px]">
+          <CardHeader>
+            <CardTitle className="text-center text-xl mb-4">Configuration Issue</CardTitle>
+            <CardDescription>Verify that all setup steps have been followed correctly as outlined in the <a className="text-ring underline"
+              href="https://github.com/auth0-developer-hub/auth0-b2b-saas-starter?tab=readme-ov-file#step-three-bootstrap-the-auth0-tenant">README documentation</a>.</CardDescription>
+          </CardHeader>
+          <CardFooter>
+
+          </CardFooter>
+        </Card>
+      </div>
+    )
+  }
+
 
   return (
     <div className="container relative sm:grid h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
@@ -31,8 +65,8 @@ export default async function Home() {
           className="text-sm underline"
           href="/api/auth/login"
         >
-          <SubmitButton>Log in</SubmitButton>
-        </a>
+            <SubmitButton>Log in</SubmitButton>
+          </a>
         </div>
       )}
 
