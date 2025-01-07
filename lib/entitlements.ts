@@ -4,7 +4,6 @@ import { stiggClient } from "@/lib/stigg"
 
 export const features = {
   sso: "feature-sso",
-  mau: "feature-mau",
 }
 
 export type Feature = keyof typeof features
