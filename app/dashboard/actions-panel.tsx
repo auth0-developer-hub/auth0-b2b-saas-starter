@@ -1,6 +1,6 @@
 import { appClient } from "@/lib/auth0"
 
-export type endpoint = "public" | "private"
+export type endpoint = "public" | "private" | "private-scoped"
 
 const fetchData = async (endpoint: endpoint) => {
   const session = await appClient.getAccessToken()
