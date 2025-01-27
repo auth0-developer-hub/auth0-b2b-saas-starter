@@ -2,8 +2,12 @@ import Link from "next/link"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
+import { ActionsPanel } from "./actions-panel"  // <-- import our new client component
 
 export default async function DashboardHome() {
+  // (Optional) server-side logic here
+  // e.g., session checks or data fetching can still run on the server
+
   return (
     <div className="flex flex-1 flex-grow flex-col gap-4 lg:gap-6">
       <div className="flex flex-1 items-center justify-center rounded-3xl border bg-field shadow-sm">
@@ -15,11 +19,8 @@ export default async function DashboardHome() {
             This reference app demonstrates how to build a multi-tenant B2B SaaS
             application powered by Auth0 by Okta.
           </p>
-          <p className="mt-3 text-muted-foreground">
-            Head over to the Settings Dashboard to explore common administrative
-            capabilities like membership management, single sign-on
-            configuration, and security policies.
-          </p>
+
+          {/* Existing content ... */}
           <div className="mt-8">
             <Link href="/dashboard/organization/general" className="w-full">
               <Button className="w-full">
@@ -32,6 +33,9 @@ export default async function DashboardHome() {
             (You must be logged in with an &quot;admin&quot; role in your
             organization.)
           </p>
+
+          {/* Embed the new ActionsPanel client component */}
+          <ActionsPanel />
         </div>
       </div>
     </div>
