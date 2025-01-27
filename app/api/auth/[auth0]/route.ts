@@ -13,12 +13,13 @@ export const GET = appClient.handleAuth({
     const searchParams = request.nextUrl.searchParams
     const organization = searchParams.get("organization")
     const invitation = searchParams.get("invitation")
-
     return {
       authorizationParams: {
         // if the user is accepting an invite, we need to forward it to Auth0
         organization,
         invitation,
+        audience: process.env.AUTH0_API_AUDIENCE,
+        scope: process.env.AUTH0_API_SCOPE,
       },
       returnTo: "/dashboard",
     }

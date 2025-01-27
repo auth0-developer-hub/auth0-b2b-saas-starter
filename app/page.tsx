@@ -4,16 +4,18 @@ import { appClient } from "@/lib/auth0"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
 import { Auth0Logo } from "@/components/auth0-logo"
+import { SubmitButton } from "@/components/submit-button"
 
 import { SignUpForm } from "./signup-form"
 import { WelcomeBackCard } from "./welcome-back-card"
-import { SubmitButton } from "@/components/submit-button"
 
 export default async function Home() {
   const session = await appClient.getSession()
 
+  console.log("session", session)
+
   return (
-    <div className="container relative sm:grid h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+    <div className="container relative h-screen flex-col items-center justify-center sm:grid md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       {session ? (
         <a
           href="/api/auth/logout"
@@ -25,14 +27,11 @@ export default async function Home() {
           <SubmitButton>Logout</SubmitButton>
         </a>
       ) : (
-        <div
-          className="absolute right-4 top-4 md:right-8 md:top-8"
-        ><span className="text-sm">Already joined?</span> <a
-          className="text-sm underline"
-          href="/api/auth/login"
-        >
-          <SubmitButton>Log in</SubmitButton>
-        </a>
+        <div className="absolute right-4 top-4 md:right-8 md:top-8">
+          <span className="text-sm">Already joined?</span>{" "}
+          <a className="text-sm underline" href="/api/auth/login">
+            <SubmitButton>Log in</SubmitButton>
+          </a>
         </div>
       )}
 
@@ -58,7 +57,7 @@ export default async function Home() {
           </blockquote>
         </div>
       </div>
-      <div className="lg:p-8 flex h-screen">
+      <div className="flex h-screen lg:p-8">
         {session ? <WelcomeBackCard /> : <SignUpForm />}
       </div>
     </div>
