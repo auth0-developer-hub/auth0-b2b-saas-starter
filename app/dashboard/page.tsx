@@ -2,7 +2,9 @@ import Link from "next/link"
 import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
-import { ActionsPanel } from "./actions-panel"  // <-- import our new client component
+
+import { ActionsPanel } from "./actions-panel" // <-- import our new client component
+import { UserPanel } from "./user-panel"
 
 export default async function DashboardHome() {
   // (Optional) server-side logic here
