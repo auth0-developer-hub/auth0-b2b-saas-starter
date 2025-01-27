@@ -3,12 +3,12 @@ import { appClient } from "@/lib/auth0"
 export type endpoint = "public" | "private"
 
 const fetchData = async (endpoint: endpoint) => {
-  const { accessToken } = await appClient.getAccessToken()
-
+  const session = await appClient.getAccessToken()
+  console.log(session);
   try {
     const res = await fetch(`http://localhost:8080/api/${endpoint}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${session.accessToken}`,
       },
     })
 
