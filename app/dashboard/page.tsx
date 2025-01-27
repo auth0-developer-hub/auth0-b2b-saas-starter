@@ -3,8 +3,8 @@ import { ArrowRightIcon } from "@radix-ui/react-icons"
 
 import { Button } from "@/components/ui/button"
 
-import { ActionsPanel } from "./actions-panel" // <-- import our new client component
-import { UserPanel } from "./user-panel"
+import { ActionsPanel } from "./actions-panel"
+import { ActionsPanelSwitch } from "./actions-panel-switch"
 
 export default async function DashboardHome() {
   // (Optional) server-side logic here
@@ -37,7 +37,10 @@ export default async function DashboardHome() {
           </p>
 
           {/* Embed the new ActionsPanel client component */}
-          <ActionsPanel />
+          <ActionsPanelSwitch
+            publicSlot={<ActionsPanel endpoint="public" />}
+            privateSlot={<ActionsPanel endpoint="private" />}
+          />
         </div>
       </div>
     </div>
