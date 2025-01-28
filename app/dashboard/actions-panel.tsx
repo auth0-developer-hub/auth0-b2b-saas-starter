@@ -3,7 +3,7 @@ import { appClient } from "@/lib/auth0"
 export type endpoint = "public" | "private" | "private-scoped"
 
 const fetchData = async (endpoint: endpoint) => {
-  const session = await appClient.getAccessToken()
+  const session = await appClient.getAccessToken({refresh: true})
   console.log(session);
   try {
     const res = await fetch(`http://localhost:8080/api/${endpoint}`, {
