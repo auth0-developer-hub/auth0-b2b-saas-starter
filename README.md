@@ -64,7 +64,6 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
    ```shell
    git clone https://github.com/auth0-developer-hub/auth0-b2b-saas-starter.git
    ```
-
 2. Navigate into the directory by typing the following command:
 
    ```shell
