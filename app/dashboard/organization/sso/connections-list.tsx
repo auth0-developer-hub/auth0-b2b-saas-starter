@@ -26,7 +26,6 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -46,7 +45,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-import AddConnectionForm from "./add-connection-form"
+import AddConnectionForm, {
+  ProviderComponentConfig,
+} from "./add-connection-form"
 import { deleteConnection } from "./oidc/new/actions"
 
 interface Props {
@@ -56,9 +57,10 @@ interface Props {
     strategy: string
     assignMembershipOnLogin: boolean
   }[]
+  componentConfig: ProviderComponentConfig
 }
 
-export function ConnectionsList({ connections }: Props) {
+export function ConnectionsList({ connections, componentConfig }: Props) {
   return (
     <>
       <Card>
@@ -189,7 +191,7 @@ export function ConnectionsList({ connections }: Props) {
           </Table>
         </CardContent>
       </Card>
-      <AddConnectionForm />
+      <AddConnectionForm componentConfig={componentConfig} />
     </>
   )
 }

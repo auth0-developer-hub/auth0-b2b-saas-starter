@@ -34,14 +34,14 @@ export const getTicketUrl = withServerActionAuth(
     name: string,
     assign_membership_on_login: boolean,
     show_as_button: boolean,
-    button_display_name: string | null,
+    display_name: string | null,
     session: Session
   ) {
     const payload = {
       name,
       assign_membership_on_login,
       show_as_button,
-      button_display_name,
+      display_name,
     }
 
     const result = await fetch("http://localhost:3001/org/providers/tickets", {

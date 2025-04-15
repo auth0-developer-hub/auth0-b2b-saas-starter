@@ -21,7 +21,18 @@ import { SubmitButton } from "@/components/submit-button"
 
 import { getTicketUrl } from "./actions"
 
-export default function AddConnectionForm() {
+export interface ProviderComponentConfig {
+  organization: {
+    show_as_button: "hidden" | "optional" | "required"
+    assign_membership_on_login: "hidden" | "optional" | "required"
+  }
+}
+
+interface Props {
+  componentConfig: ProviderComponentConfig
+}
+
+export default function AddConnectionForm({ componentConfig }: Props) {
   const popupRef = useRef<Window | null>(null)
   const ref = useRef<HTMLFormElement>(null)
 
@@ -32,7 +43,7 @@ export default function AddConnectionForm() {
       formData.get("name")?.valueOf() as string,
       formData.get("assign_membership_on_login")?.valueOf() as boolean,
       formData.get("show_as_button")?.valueOf() as boolean,
-      formData.get("button_display_name")?.valueOf() as string | null
+      formData.get("display_name")?.valueOf() as string | null
     ) // Fetch the external URL
 
     if (typeof url !== "string") throw new Error(url.error)
@@ -91,61 +102,68 @@ export default function AddConnectionForm() {
                 <Label htmlFor="name">Identity Provider Name</Label>
                 <Input type="text" id="name" name="name" placeholder="my-idp" />
               </div>
-              <div className="grid w-full items-center gap-1.5">
-                <Label htmlFor="button_display_name">Button Display Name</Label>
-                <Input
-                  type="text"
-                  id="button_display_name"
-                  name="button_display_name"
-                  placeholder="Login with My IdP"
-                />
-              </div>
+              {componentConfig.organization.show_as_button !== "hidden" ? (
+                <div className="grid w-full items-center gap-1.5">
+                  <Label htmlFor="display_name">Display Name</Label>
+                  <Input
+                    type="text"
+                    id="display_name"
+                    name="display_name"
+                    placeholder="My IdP"
+                  />
+                </div>
+              ) : null}
             </div>
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                <Label className="flex items-center space-x-4" htmlFor="otp">
-                  <div className="rounded-md border bg-secondary p-3">
-                    <MousePointerClickIcon className="size-5" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <div>Show as Button</div>
-                    <div className="text-muted-foreground">
-                      Display a button only to users of this org to choose this
-                      IdP for signin
+              {componentConfig.organization.show_as_button === "optional" ? (
+                <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                  <Label className="flex items-center space-x-4" htmlFor="otp">
+                    <div className="rounded-md border bg-secondary p-3">
+                      <MousePointerClickIcon className="size-5" />
                     </div>
-                  </div>
-                </Label>
-
-                <Checkbox
-                  defaultChecked={false}
-                  value="true"
-                  id="show_as_button"
-                  className="peer"
-                  name="show_as_button"
-                />
-              </div>
-              <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
-                <Label className="flex items-center space-x-4" htmlFor="otp">
-                  <div className="rounded-md border bg-secondary p-3">
-                    <CircleUserRoundIcon className="size-5" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <div>Assign Membership on Login</div>
-                    <div className="text-muted-foreground">
-                      Anyone who can sign into this IdP should be a member of
-                      this organization.
+                    <div className="space-y-1.5">
+                      <div>Show as Button</div>
+                      <div className="text-muted-foreground">
+                        Display a button only to users of this org to choose
+                        this IdP for signin
+                      </div>
                     </div>
-                  </div>
-                </Label>
+                  </Label>
 
-                <Checkbox
-                  defaultChecked={false}
-                  value="true"
-                  id="assign_membership_on_login"
-                  className="peer"
-                  name="assign_membership_on_login"
-                />
-              </div>
+                  <Checkbox
+                    defaultChecked={false}
+                    value="true"
+                    id="show_as_button"
+                    className="peer"
+                    name="show_as_button"
+                  />
+                </div>
+              ) : null}
+              {componentConfig.organization.assign_membership_on_login ===
+              "optional" ? (
+                <div className="flex justify-between space-x-1 rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent/5 hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary">
+                  <Label className="flex items-center space-x-4" htmlFor="otp">
+                    <div className="rounded-md border bg-secondary p-3">
+                      <CircleUserRoundIcon className="size-5" />
+                    </div>
+                    <div className="space-y-1.5">
+                      <div>Assign Membership on Login</div>
+                      <div className="text-muted-foreground">
+                        Anyone who can sign into this IdP should be a member of
+                        this organization.
+                      </div>
+                    </div>
+                  </Label>
+
+                  <Checkbox
+                    defaultChecked={false}
+                    value="true"
+                    id="assign_membership_on_login"
+                    className="peer"
+                    name="assign_membership_on_login"
+                  />
+                </div>
+              ) : null}
             </div>
           </div>
         </CardContent>
