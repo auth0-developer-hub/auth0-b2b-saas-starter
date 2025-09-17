@@ -8,19 +8,20 @@ import { UpdateOidcConnectionForm } from "./update-oidc-connection-form"
 export default async function UpdateOidcConnection({
   params,
 }: {
-  params: { connectionId: string }
+  params: Promise<{ connectionId: string }>
 }) {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   // ensure that the connection ID being fetched is owned by the organization
+  const { connectionId } = await params
   const { data: enabledConnection } =
     await managementClient.organizations.getEnabledConnection({
-      id: session.user.org_id,
-      connectionId: params.connectionId,
+      id: session.user.org_id!,
+      connectionId,
     })
 
   if (!enabledConnection) {
@@ -28,8 +29,8 @@ export default async function UpdateOidcConnection({
   }
 
   const [domainVerificationToken, { data: connection }] = await Promise.all([
-    getOrCreateDomainVerificationToken(session!.user.org_id),
-    managementClient.connections.get({ id: params.connectionId }),
+    getOrCreateDomainVerificationToken(session!.user.org_id!),
+    managementClient.connections.get({ id: connectionId }),
   ])
 
   return (

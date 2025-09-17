@@ -16,7 +16,7 @@ export default async function Home() {
     <div className="container relative sm:grid h-screen flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0">
       {session ? (
         <a
-          href="/api/auth/logout"
+          href="/auth/logout"
           className={cn(
             buttonVariants({ variant: "ghost" }),
             "absolute right-4 top-4 md:right-8 md:top-8"
@@ -29,7 +29,7 @@ export default async function Home() {
           className="absolute right-4 top-4 md:right-8 md:top-8"
         ><span className="text-sm">Already joined?</span> <a
           className="text-sm underline"
-          href="/api/auth/login"
+          href="/auth/login"
         >
           <SubmitButton>Log in</SubmitButton>
         </a>

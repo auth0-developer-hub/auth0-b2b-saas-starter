@@ -1,13 +1,13 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { managementClient } from "@/lib/auth0"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const updateDisplayName = withServerActionAuth(
-  async function updateDisplayName(formData: FormData, session: Session) {
+  async function updateDisplayName(formData: FormData, session: SessionData) {
     const displayName = formData.get("display_name")
 
     if (!displayName || typeof displayName !== "string") {
@@ -19,7 +19,7 @@ export const updateDisplayName = withServerActionAuth(
     try {
       await managementClient.organizations.update(
         {
-          id: session.user.org_id,
+          id: session.user.org_id!,
         },
         {
           display_name: displayName,

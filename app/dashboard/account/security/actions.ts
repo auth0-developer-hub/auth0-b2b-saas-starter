@@ -9,7 +9,7 @@ export async function createEnrollment(formData: FormData) {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   let factorName = formData.get("factor_name")
@@ -52,7 +52,7 @@ export async function deleteEnrollment(formData: FormData) {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   let enrollmentId = formData.get("enrollment_id")

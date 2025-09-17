@@ -30,7 +30,7 @@ export function DeleteAccountForm() {
               "Your account has been deleted and you will be logged out."
             )
 
-            router.push("/api/auth/logout")
+            router.push("/auth/logout")
           }
         }}
       >

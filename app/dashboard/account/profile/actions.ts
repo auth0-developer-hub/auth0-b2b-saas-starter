@@ -9,7 +9,7 @@ export async function updateDisplayName(formData: FormData) {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   const displayName = formData.get("display_name")
@@ -53,7 +53,7 @@ export async function deleteAccount() {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   try {

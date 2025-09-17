@@ -7,19 +7,20 @@ import { ScimForm } from "../../../../components/provisioning/scim-form"
 export default async function Provisioning({
   params,
 }: {
-  params: { connectionId: string }
+  params: Promise<{ connectionId: string }>
 }) {
   const session = await appClient.getSession()
 
   if (!session) {
-    return redirect("/api/auth/login")
+    return redirect("/auth/login")
   }
 
   // ensure that the connection ID being fetched is owned by the organization
+  const { connectionId } = await params
   const { data: enabledConnection } =
     await managementClient.organizations.getEnabledConnection({
-      id: session.user.org_id,
-      connectionId: params.connectionId,
+      id: session.user.org_id!,
+      connectionId,
     })
 
   if (!enabledConnection) {
@@ -31,10 +32,10 @@ export default async function Provisioning({
   try {
     ;[{ data: scimConfig }, { data: scimTokens }] = await Promise.all([
       managementClient.connections.getScimConfiguration({
-        id: params.connectionId,
+        id: connectionId,
       }),
       managementClient.connections.getScimTokens({
-        id: params.connectionId,
+        id: connectionId,
       }),
     ])
   } catch (e: any) {

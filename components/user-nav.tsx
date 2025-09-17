@@ -52,7 +52,7 @@ export async function UserNav() {
           <Link href="/dashboard/account/profile">Profile</Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <a href="/api/auth/logout">Log Out</a>
+          <a href="/auth/logout">Log Out</a>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
