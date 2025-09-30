@@ -1,14 +1,14 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { managementClient } from "@/lib/auth0"
 import { DEFAULT_MFA_POLICY, SUPPORTED_PROVIDERS } from "@/lib/mfa-policy"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const updateMfaPolicy = withServerActionAuth(
-  async function updateMfaPolicy(formData: FormData, session: Session) {
+  async function updateMfaPolicy(formData: FormData, session: SessionData) {
     const enforce = !!formData.get("enforce")
     const skipForDomains = formData.get("skip_for_domains")
     const providers = SUPPORTED_PROVIDERS.map((p) => formData.get(p)).filter(
@@ -23,7 +23,7 @@ export const updateMfaPolicy = withServerActionAuth(
     try {
       await managementClient.organizations.update(
         {
-          id: session.user.org_id,
+          id: session.user.org_id!,
         },
         {
           metadata: {

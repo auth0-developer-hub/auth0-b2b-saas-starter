@@ -63,5 +63,5 @@ export async function createOrganization(formData: FormData) {
     returnTo: "/dashboard",
   })
 
-  redirect(`/api/auth/login?${authParams.toString()}`)
+  redirect(`/auth/login?${authParams.toString()}`)
 }

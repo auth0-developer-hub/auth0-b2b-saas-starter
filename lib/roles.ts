@@ -1,4 +1,4 @@
-import { UserProfile } from "@auth0/nextjs-auth0/client"
+import { User } from "@auth0/nextjs-auth0/types"
 
 const ROLES_CLAIM_KEY = `${process.env.CUSTOM_CLAIMS_NAMESPACE}/roles`
 
@@ -9,7 +9,7 @@ export const roles = {
 
 export type Role = keyof typeof roles
 
-export function getRole(user: UserProfile) {
+export function getRole(user: User) {
   // we only allow a single role to be assigned to a user
   const role = (user[ROLES_CLAIM_KEY] as string[])[0]
 

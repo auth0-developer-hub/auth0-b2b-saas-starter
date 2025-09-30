@@ -7,7 +7,7 @@ import { MfaPolicyForm } from "./mfa-policy-form"
 export default async function SecurityPolicies() {
   const session = await appClient.getSession()
   const { data: org } = await managementClient.organizations.get({
-    id: session!.user.org_id,
+    id: session!.user.org_id!,
   })
 
   return (

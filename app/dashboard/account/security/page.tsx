@@ -1,3 +1,4 @@
+import { AppRouterPageRoute } from "@auth0/nextjs-auth0/server"
 import { appClient, managementClient } from "@/lib/auth0"
 import { SUPPORTED_PROVIDERS } from "@/lib/mfa-policy"
 import { PageHeader } from "@/components/page-header"
@@ -10,7 +11,7 @@ export default appClient.withPageAuthRequired(
     const userId = session?.user.sub
     const { data: factors } = await managementClient.guardian.getFactors()
     const response = await managementClient.users.getAuthenticationMethods({
-      id: userId,
+      id: userId!,
     })
     const { data: enrollments } = response
 
@@ -47,6 +48,6 @@ export default appClient.withPageAuthRequired(
         <MFAEnrollmentForm factors={filteredFactors} />
       </div>
     )
-  },
+  } as AppRouterPageRoute,
   { returnTo: "/dashboard/account/security" }
-)
+) as React.FC

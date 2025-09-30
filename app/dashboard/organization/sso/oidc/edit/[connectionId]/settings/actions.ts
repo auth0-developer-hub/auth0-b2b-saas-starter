@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { managementClient } from "@/lib/auth0"
 import { verifyDnsRecords } from "@/lib/domain-verification"
@@ -11,7 +11,7 @@ export const updateConnection = withServerActionAuth(
   async function updateConnection(
     connectionId: string,
     formData: FormData,
-    session: Session
+    session: SessionData
   ) {
     const displayName = formData.get("display_name")
     const discoveryUrl = formData.get("discovery_url")
@@ -68,7 +68,7 @@ export const updateConnection = withServerActionAuth(
 
     // ensure that the domains are verified
     for (const domain of parsedDomains) {
-      const verified = await verifyDnsRecords(domain, session.user.org_id)
+      const verified = await verifyDnsRecords(domain, session.user.org_id!)
 
       if (!verified) {
         return {
@@ -80,7 +80,7 @@ export const updateConnection = withServerActionAuth(
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
@@ -108,7 +108,7 @@ export const updateConnection = withServerActionAuth(
         ),
         managementClient.organizations.updateEnabledConnection(
           {
-            id: session.user.org_id,
+            id: session.user.org_id!,
             connectionId,
           },
           {

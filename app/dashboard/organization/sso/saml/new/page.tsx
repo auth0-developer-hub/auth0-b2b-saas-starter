@@ -12,7 +12,7 @@ export default async function CreateSamlConnection() {
   const session = await appClient.getSession()
 
   const domainVerificationToken = await getOrCreateDomainVerificationToken(
-    session!.user.org_id
+    session!.user.org_id!
   )
 
   return (

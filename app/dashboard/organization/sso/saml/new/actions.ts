@@ -2,7 +2,7 @@
 
 import crypto from "crypto"
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 import slugify from "@sindresorhus/slugify"
 
 import { managementClient } from "@/lib/auth0"
@@ -10,7 +10,7 @@ import { verifyDnsRecords } from "@/lib/domain-verification"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const createConnection = withServerActionAuth(
-  async function createConnection(formData: FormData, session: Session) {
+  async function createConnection(formData: FormData, session: SessionData) {
     const displayName = formData.get("display_name")
     const signInUrl = formData.get("sign_in_url")
     const signOutUrl = formData.get("sign_out_url") // optional
@@ -61,7 +61,7 @@ export const createConnection = withServerActionAuth(
 
     // ensure that the domains are verified
     for (const domain of parsedDomains) {
-      const verified = await verifyDnsRecords(domain, session.user.org_id)
+      const verified = await verifyDnsRecords(domain, session.user.org_id!)
 
       if (!verified) {
         return {
@@ -95,7 +95,7 @@ export const createConnection = withServerActionAuth(
       })
 
       await managementClient.organizations.addEnabledConnection(
-        { id: session.user.org_id },
+        { id: session.user.org_id! },
         {
           connection_id: connection.id,
           assign_membership_on_login:
@@ -119,7 +119,7 @@ export const createConnection = withServerActionAuth(
 )
 
 export const deleteConnection = withServerActionAuth(
-  async function deleteConnection(connectionId: string, session: Session) {
+  async function deleteConnection(connectionId: string, session: SessionData) {
     if (!connectionId || typeof connectionId !== "string") {
       return {
         error: "Connection ID is required.",
@@ -130,7 +130,7 @@ export const deleteConnection = withServerActionAuth(
       // ensure that the connection being removed belongs to the organization
       const { data: connection } =
         await managementClient.organizations.getEnabledConnection({
-          id: session.user.org_id,
+          id: session.user.org_id!,
           connectionId,
         })
 

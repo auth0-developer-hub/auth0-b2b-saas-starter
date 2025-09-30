@@ -1,12 +1,12 @@
 "use server"
 
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { verifyDnsRecords } from "@/lib/domain-verification"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const verifyDomain = withServerActionAuth(
-  async function verifyDomain(domain: string, session: Session) {
+  async function verifyDomain(domain: string, session: SessionData) {
     if (!domain || typeof domain !== "string") {
       return {
         error: "Domain is required.",
@@ -14,7 +14,7 @@ export const verifyDomain = withServerActionAuth(
     }
 
     try {
-      const verified = await verifyDnsRecords(domain, session.user.org_id)
+      const verified = await verifyDnsRecords(domain, session.user.org_id!)
 
       return { verified }
     } catch (error) {

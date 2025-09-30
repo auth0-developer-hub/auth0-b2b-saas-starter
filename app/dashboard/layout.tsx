@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
-import { UserProvider } from "@auth0/nextjs-auth0/client"
+import { Auth0Provider } from "@auth0/nextjs-auth0"
 import { SettingsIcon } from "lucide-react"
 
 import { appClient, managementClient } from "@/lib/auth0"
@@ -19,7 +19,7 @@ export default async function DashboardLayout({
 
   // if the user is not authenticated, redirect to login
   if (!session?.user) {
-    redirect("/api/auth/login")
+    redirect("/auth/login")
   }
 
   const { data: orgs } = await managementClient.users.getUserOrganizations({
@@ -32,7 +32,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <UserProvider>
+    <Auth0Provider>
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-2 py-4 sm:px-8">
         <div className="flex items-center space-x-6">
           <OrganizationSwitcher
@@ -42,7 +42,7 @@ export default async function DashboardLayout({
               displayName: o.display_name!,
               logoUrl: o.branding?.logo_url,
             }))}
-            currentOrgId={session.user.org_id}
+            currentOrgId={session.user.org_id!}
           />
 
           <Link
@@ -97,6 +97,6 @@ export default async function DashboardLayout({
           </div>
         </div>
       </footer>
-    </UserProvider>
+    </Auth0Provider>
   )
 }

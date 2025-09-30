@@ -1,4 +1,4 @@
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { appClient } from "./auth0"
 import { getRole, Role } from "./roles"
@@ -12,7 +12,7 @@ interface Options {
  * Optionally, if a role is supplied, then the user must have that role to invoke the Server Action.
  */
 export function withServerActionAuth<T extends any[], U extends any>(
-  serverActionWithSession: (...args: [...T, session: Session]) => U,
+  serverActionWithSession: (...args: [...T, session: SessionData]) => U,
   options: Options
 ) {
   return async function (...args: T) {
