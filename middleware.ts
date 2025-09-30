@@ -3,9 +3,7 @@ import type { NextRequest } from "next/server"
 import { appClient, onboardingClient } from "./lib/auth0" // Adjust path if your auth0 client is elsewhere
 
 export async function middleware(request: NextRequest) {
-  console.log('hello>?', request.url)
   if (request.url.includes("/onboarding")) {
-    console.log('using onboarding client?')
     return await onboardingClient.middleware(request)
   } else {
     return await appClient.middleware(request)
