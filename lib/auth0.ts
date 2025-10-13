@@ -29,7 +29,4 @@ export const appClient = new Auth0Client({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   appBaseUrl: process.env.APP_BASE_URL,
   secret: process.env.SESSION_ENCRYPTION_SECRET,
-  authorizationParameters: {
-    screen_hint: "signup",
-  }
 })
