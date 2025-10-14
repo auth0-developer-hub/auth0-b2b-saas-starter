@@ -8,7 +8,7 @@ export const managementClient = new ManagementClient({
 })
 
 export const onboardingClient = new Auth0Client({
-  domain:  process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
+  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.AUTH0_MANAGEMENT_CLIENT_ID,
   clientSecret: process.env.AUTH0_MANAGEMENT_CLIENT_SECRET,
   appBaseUrl: process.env.APP_BASE_URL,
@@ -16,20 +16,22 @@ export const onboardingClient = new Auth0Client({
   routes: {
     callback: "/onboarding/callback",
     login: "/onboarding/signup",
-    logout: '/'
+    logout: "/",
   },
   authorizationParameters: {
     screen_hint: "signup",
-  }
+  },
 })
 
 export const appClient = new Auth0Client({
-  domain:  process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
+  domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   appBaseUrl: process.env.APP_BASE_URL,
   secret: process.env.SESSION_ENCRYPTION_SECRET,
-  authorizationParameters: {
-    screen_hint: "signup",
-  }
+  async beforeSessionSaved(session) {
+    // For some reason is needed to delay the session persistance
+    // and custom claim to have be stored within the session
+    return { ...session }
+  },
 })

@@ -25,6 +25,7 @@ export function SignUpForm() {
 
           const searchParams = new URLSearchParams({
             login_hint: email,
+            returnTo: '/onboarding/verify'
           })
 
           redirect(`/onboarding/signup?${searchParams.toString()}`)
