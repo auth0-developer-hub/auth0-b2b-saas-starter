@@ -1,5 +1,3 @@
-import Link from "next/link"
-
 import { appClient } from "@/lib/auth0"
 import { cn } from "@/lib/utils"
 import { buttonVariants } from "@/components/ui/button"
@@ -29,7 +27,7 @@ export default async function Home() {
           className="absolute right-4 top-4 md:right-8 md:top-8"
         ><span className="text-sm">Already joined?</span> <a
           className="text-sm underline"
-          href="/auth/login"
+          href="/auth/login?returnTo=/dashboard"
         >
           <SubmitButton>Log in</SubmitButton>
         </a>
