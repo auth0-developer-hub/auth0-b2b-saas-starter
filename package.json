@@ -12,7 +12,6 @@
   "dependencies": {
     "@auth0-web-ui-components/core": "file:../../../../../../downloads/my-org-libs/core-1.2.9",
     "@auth0-web-ui-components/react": "file:../../../../../../downloads/my-org-libs/react-0.3.10",
-    "@auth0/auth0-react": "^2.8.0",
     "@auth0/nextjs-auth0": "^4.9.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
