@@ -1,14 +1,10 @@
-import { appClient, managementClient } from "@/lib/auth0"
+"use client"
+
+import { OrgDetailsEdit } from "@auth0-web-ui-components/react"
+
 import { PageHeader } from "@/components/page-header"
 
-import { DisplayNameForm } from "./display-name-form"
-
 export default async function GeneralSettings() {
-  const session = await appClient.getSession()
-  const { data: org } = await managementClient.organizations.get({
-    id: session!.user.org_id!,
-  })
-
   return (
     <div className="space-y-2">
       <PageHeader
@@ -16,11 +12,16 @@ export default async function GeneralSettings() {
         description="Update your organization's general settings."
       />
 
-      <DisplayNameForm
-        organization={{
-          id: org.id,
-          slug: org.name,
-          displayName: org.display_name,
+      <OrgDetailsEdit 
+        hideHeader={true}
+        customMessages={{
+          details: {
+            sections: {
+              settings: {
+                title: 'Organization Details'
+              }
+            }
+          }
         }}
       />
     </div>

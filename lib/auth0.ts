@@ -29,6 +29,10 @@ export const appClient = new Auth0Client({
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   appBaseUrl: process.env.APP_BASE_URL,
   secret: process.env.SESSION_ENCRYPTION_SECRET,
+  authorizationParameters: {
+    audience: `https://metcodermyorg.test-iamda-myorgapipocweek1.auth0c.com/my-org/`,
+    scope: "openid profile email offline_access read:my_org:details update:my_org:details",
+  },
   async beforeSessionSaved(session) {
     // For some reason is needed to delay the session persistance
     // and custom claim to have be stored within the session
