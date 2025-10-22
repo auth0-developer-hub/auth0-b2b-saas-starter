@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { redirect } from "next/navigation"
+import { ClientProvider } from "@/providers/client-provider"
 import { Auth0Provider } from "@auth0/nextjs-auth0"
 import { SettingsIcon } from "lucide-react"
 
@@ -32,7 +33,7 @@ export default async function DashboardLayout({
   }
 
   return (
-    <Auth0Provider>
+    <ClientProvider>
       <nav className="mx-auto flex max-w-7xl items-center justify-between px-2 py-4 sm:px-8">
         <div className="flex items-center space-x-6">
           <OrganizationSwitcher
@@ -97,6 +98,6 @@ export default async function DashboardLayout({
           </div>
         </div>
       </footer>
-    </Auth0Provider>
+    </ClientProvider>
   )
 }
