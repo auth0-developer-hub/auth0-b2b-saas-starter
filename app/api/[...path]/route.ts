@@ -168,7 +168,6 @@ const proxyHandler = async (req: NextRequest) => {
     }
     return NextResponse.json(result)
   } catch (error) {
-    console.log('error?', error)
     if (error instanceof Error) {
       if (error.message.includes("No access token")) {
         return createErrorResponse(
