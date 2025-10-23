@@ -23,6 +23,19 @@ export const onboardingClient = new Auth0Client({
   },
 })
 
+const MY_ORG_SCOPES = [
+  "openid",
+  "profile",
+  "email",
+  "offline_access",
+  "read:my_org:details",
+  "update:my_org:details",
+  "create:my_org:identity_providers",
+  "read:my_org:identity_providers",
+  "update:my_org:identity_providers",
+  "delete:my_org:identity_providers",
+  "update:my_org:identity_providers_detach",
+]
 export const appClient = new Auth0Client({
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
@@ -31,7 +44,7 @@ export const appClient = new Auth0Client({
   secret: process.env.SESSION_ENCRYPTION_SECRET,
   authorizationParameters: {
     audience: `https://metcodermyorg.test-iamda-myorgapipocweek1.auth0c.com/my-org/`,
-    scope: "openid profile email offline_access read:my_org:details update:my_org:details",
+    scope: MY_ORG_SCOPES.join(" "),
   },
   async beforeSessionSaved(session) {
     // For some reason is needed to delay the session persistance
