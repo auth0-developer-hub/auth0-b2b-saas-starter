@@ -1,6 +1,5 @@
 "use client"
 
-// @ts-expect-error
 import { DomainTable } from "@auth0-web-ui-components/react"
 
 import { PageHeader } from "@/components/page-header"

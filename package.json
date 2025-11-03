@@ -12,7 +12,7 @@
   "dependencies": {
     "@auth0-web-ui-components/core": "file:../../../../../../downloads/my-org-libs/web-ui-components-core-0.1.0-alpha.3",
     "@auth0-web-ui-components/react": "file:../../../../../../downloads/my-org-libs/web-ui-components-react-0.1.0-alpha.3",
-    "@auth0/nextjs-auth0": "^4.9.0",
+    "@auth0/nextjs-auth0": "file:../../../../../../downloads/my-org-libs/auth0-nextjs-auth0-4.11.0",
     "@radix-ui/react-alert-dialog": "^1.0.5",
     "@radix-ui/react-avatar": "^1.0.4",
     "@radix-ui/react-checkbox": "^1.0.4",

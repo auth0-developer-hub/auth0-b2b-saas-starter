@@ -10,17 +10,11 @@ interface ClientProviderProps {
 export function ClientProvider({ children }: ClientProviderProps) {
   return (
     <Auth0ComponentProvider
-      authDetails={{
-        authProxyUrl: "/api", // Use the auth proxy base (For example, MFA service will add /mfa/authenticators)
-        servicesConfig: {
-          myAccount: {
-            enabled: false,
-          },
-          myOrg: {
-            enabled: true
-          },
-        },
-      }}
+      authDetails={
+        {
+          authProxyUrl: "/", // Use the auth proxy base (For example, MFA service will add /mfa/authenticators)
+        }
+      }
       themeSettings={{
         mode: "light",
         theme: "default",
