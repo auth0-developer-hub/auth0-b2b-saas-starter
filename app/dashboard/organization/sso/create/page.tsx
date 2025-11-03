@@ -20,7 +20,7 @@ export default function SsoProviderCreatePage() {
 
   return (
     <div className="p-6 pt-8 space-y-6">
-      <SsoProviderCreate create={createAction} />
+      <SsoProviderCreate createAction={createAction} />
     </div>
   );
 }

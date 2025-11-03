@@ -49,8 +49,8 @@ export default async function SSO() {
             description: "",
           },
         }}
-        create={createAction}
-        edit={editAction}
+        createAction={createAction}
+        editAction={editAction}
       />
     </div>
   )
