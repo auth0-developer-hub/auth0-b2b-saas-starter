@@ -6,7 +6,7 @@ import {
   IdentityProvider,
   SsoProviderTable,
   UseSsoProviderTableReturn,
-} from "@auth0-web-ui-components/react"
+} from "@auth0/web-ui-components-react"
 
 import { PageHeader } from "@/components/page-header"
 

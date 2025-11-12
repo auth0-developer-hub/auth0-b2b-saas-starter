@@ -1,6 +1,6 @@
 "use client"
 
-import { DomainTable } from "@auth0-web-ui-components/react"
+import { DomainTable } from "@auth0/web-ui-components-react"
 
 import { PageHeader } from "@/components/page-header"
 
