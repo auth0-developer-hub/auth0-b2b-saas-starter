@@ -10,7 +10,7 @@ import {
 
 import { PageHeader } from "@/components/page-header"
 
-export default async function SSO() {
+export default function SSO() {
   const router = useRouter()
   const handleCreate = useCallback((): void => {
     router.push("/dashboard/organization/sso/create/")
