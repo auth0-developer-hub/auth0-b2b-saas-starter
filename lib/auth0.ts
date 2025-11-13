@@ -36,16 +36,20 @@ const MY_ORG_SCOPES = [
   "delete:my_org:identity_providers",
   "update:my_org:identity_providers_detach",
   "read:my_org:domains",
+  "delete:my_org:domains",
   "create:my_org:domains",
   "update:my_org:domains",
-  "delete:my_org:domains",
-  "read:my_org:identity_providers_domains",
   "create:my_org:identity_providers_domains",
   "delete:my_org:identity_providers_domains",
-  "read:my_org:scim_tokens",
-  "create:my_org:scim_tokens",
-  "delete:my_org:scim_tokens",
+  "read:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_scim_tokens",
+  "delete:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_provisioning",
+  "read:my_org:identity_providers_provisioning",
+  "delete:my_org:identity_providers_provisioning",
+  "read:my_org:configuration",
 ]
+
 export const appClient = new Auth0Client({
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
@@ -53,7 +57,7 @@ export const appClient = new Auth0Client({
   appBaseUrl: process.env.APP_BASE_URL,
   secret: process.env.SESSION_ENCRYPTION_SECRET,
   authorizationParameters: {
-    audience: `https://metcodermyorg.test-iamda-myorgapipocweek1.auth0c.com/my-org/`,
+    audience: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/my-org/`,
     scope: MY_ORG_SCOPES.join(" "),
   },
   async beforeSessionSaved(session) {

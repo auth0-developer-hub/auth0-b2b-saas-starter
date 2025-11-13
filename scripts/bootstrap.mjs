@@ -8,6 +8,28 @@ const MANAGEMENT_CLIENT_NAME = "SaaStart Management"
 const DASHBOARD_CLIENT_NAME = "SaaStart Dashboard"
 const DEFAULT_CONNECTION_NAME = "SaaStart-Shared-Database"
 const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
+const MYORG_API_SCOPES = [
+  "read:my_org:details",
+  "update:my_org:details",
+  "create:my_org:identity_providers",
+  "read:my_org:identity_providers",
+  "update:my_org:identity_providers",
+  "delete:my_org:identity_providers",
+  "update:my_org:identity_providers_detach",
+  "read:my_org:domains",
+  "delete:my_org:domains",
+  "create:my_org:domains",
+  "update:my_org:domains",
+  "create:my_org:identity_providers_domains",
+  "delete:my_org:identity_providers_domains",
+  "read:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_scim_tokens",
+  "delete:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_provisioning",
+  "read:my_org:identity_providers_provisioning",
+  "delete:my_org:identity_providers_provisioning",
+  "read:my_org:configuration",
+]
 
 // checks
 
@@ -223,6 +245,57 @@ try {
   process.exit(1)
 }
 
+// Resource Servers
+const createMyOrgResourceServer = ora({
+  text: `Enabling My Organization API`,
+}).start()
+try {
+  // prettier-ignore
+  const createMyOrgResourceServerArgs = [
+    "api", "post", "resource-servers",
+    "--data", JSON.stringify({
+      identifier: `https://${AUTH0_DOMAIN}/my-org/`,
+      name: "Auth0 My Organization API",
+      skip_consent_for_verifiable_first_party_clients : false,
+      token_dialect : "rfc9068_profile",
+    }),
+  ];
+
+  await $`auth0 ${createMyOrgResourceServerArgs}`
+  createMyOrgResourceServer.succeed()
+} catch (e) {
+  createMyOrgResourceServer.fail(
+    `Failed to enable My Organization API on Tenant`
+  )
+  console.log(e)
+  process.exit(1)
+}
+
+const createMyOrgGrants = ora({
+  text: `Creating ${DASHBOARD_CLIENT_NAME} client grants for My Org API`,
+}).start()
+try {
+  // prettier-ignore
+  const createClientGrantArgs = [
+    "api", "post", "client-grants",
+    "--data", JSON.stringify({
+      client_id: dashboardClient.client_id,
+      audience: `https://${AUTH0_DOMAIN}/my-org/`,
+      scope: MYORG_API_SCOPES,
+      subject_type: "user"
+    }),
+  ];
+
+  await $`auth0 ${createClientGrantArgs}`
+  createMyOrgGrants.succeed()
+} catch (e) {
+  createMyOrgGrants.fail(
+    `Failed to create the ${DASHBOARD_CLIENT_NAME} client grants for My Organization API`
+  )
+  console.log(e)
+  process.exit(1)
+}
+
 // connections
 
 const createDatabaseConnection = ora({
@@ -253,7 +326,6 @@ try {
 }
 
 // roles
-
 const createAdminRole = ora({
   text: `Creating admin role`,
 }).start()
@@ -299,7 +371,6 @@ try {
 }
 
 // actions
-
 const createSecurityPoliesAction = ora({
   text: `Creating Security Policies Action`,
 }).start()
