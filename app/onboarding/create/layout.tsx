@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation"
-import { UserProvider } from "@auth0/nextjs-auth0/client"
+import { Auth0Provider } from "@auth0/nextjs-auth0"
 
 import { onboardingClient } from "@/lib/auth0"
 
@@ -19,7 +19,7 @@ export default async function CreateLayout({
     new URL("/userinfo", `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}`),
     {
       headers: {
-        Authorization: `Bearer ${(await onboardingClient.getAccessToken()).accessToken}`,
+        Authorization: `Bearer ${(await onboardingClient.getAccessToken()).token}`,
       },
     }
   ).then((res) => res.json())
@@ -30,8 +30,8 @@ export default async function CreateLayout({
   }
 
   return (
-    <UserProvider profileUrl="/onboarding/me">
+    <Auth0Provider>
       <main className="min-h-screen">{children}</main>
-    </UserProvider>
+    </Auth0Provider>
   )
 }

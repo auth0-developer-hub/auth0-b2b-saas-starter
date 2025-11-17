@@ -209,9 +209,9 @@ try {
     "--data", JSON.stringify({
       "name": DASHBOARD_CLIENT_NAME,
       "description": "The client to facilitate login to the dashboard in the context of an organization.",
-      "callbacks": [`${APP_BASE_URL}/api/auth/callback`],
+      "callbacks": [`${APP_BASE_URL}/auth/callback`],
       "allowed_logout_urls": [APP_BASE_URL],
-      "initiate_login_uri": "https://example.com/api/auth/login",
+      "initiate_login_uri": "https://example.com/auth/login",
       "app_type": "regular_web",
       "oidc_conformant": true,
       "grant_types": ["authorization_code","refresh_token"],

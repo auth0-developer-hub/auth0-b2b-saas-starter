@@ -4,7 +4,7 @@ import SsoNavLink from "../../../components/sso-nav-link"
 
 interface EditOidcConnectionLayoutProps {
   children: React.ReactNode
-  params: { connectionId: string }
+  params: Promise<{ connectionId: string }>
 }
 
 export default async function EditOidcConnectionLayout({

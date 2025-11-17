@@ -1,14 +1,14 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { managementClient } from "@/lib/auth0"
 import { Role, roles } from "@/lib/roles"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
 
 export const createInvitation = withServerActionAuth(
-  async function createInvitation(formData: FormData, session: Session) {
+  async function createInvitation(formData: FormData, session: SessionData) {
     const email = formData.get("email")
 
     if (!email || typeof email !== "string") {
@@ -34,14 +34,14 @@ export const createInvitation = withServerActionAuth(
 
       await managementClient.organizations.createInvitation(
         {
-          id: session.user.org_id,
+          id: session.user.org_id!,
         },
         {
           invitee: {
             email,
           },
           inviter: {
-            name: session.user.name,
+            name: session.user.name!,
           },
           client_id: process.env.AUTH0_CLIENT_ID,
           // if the roleId exists, then assign it. Regular members do not have a role assigned,
@@ -66,10 +66,10 @@ export const createInvitation = withServerActionAuth(
 )
 
 export const revokeInvitation = withServerActionAuth(
-  async function revokeInvitation(invitationId: string, session: Session) {
+  async function revokeInvitation(invitationId: string, session: SessionData) {
     try {
       await managementClient.organizations.deleteInvitation({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         invitation_id: invitationId,
       })
 
@@ -89,7 +89,7 @@ export const revokeInvitation = withServerActionAuth(
 )
 
 export const removeMember = withServerActionAuth(
-  async function removeMember(userId: string, session: Session) {
+  async function removeMember(userId: string, session: SessionData) {
     if (userId === session.user.sub) {
       return {
         error: "You cannot remove yourself from an organization.",
@@ -99,7 +99,7 @@ export const removeMember = withServerActionAuth(
     try {
       await managementClient.organizations.deleteMembers(
         {
-          id: session.user.org_id,
+          id: session.user.org_id!,
         },
         {
           members: [userId],
@@ -122,7 +122,7 @@ export const removeMember = withServerActionAuth(
 )
 
 export const updateRole = withServerActionAuth(
-  async function updateRole(userId: string, role: Role, session: Session) {
+  async function updateRole(userId: string, role: Role, session: SessionData) {
     if (userId === session.user.sub) {
       return {
         error: "You cannot update your own role.",
@@ -144,7 +144,7 @@ export const updateRole = withServerActionAuth(
     try {
       const { data: currentRoles } =
         await managementClient.organizations.getMemberRoles({
-          id: session.user.org_id,
+          id: session.user.org_id!,
           user_id: userId,
         })
 
@@ -152,7 +152,7 @@ export const updateRole = withServerActionAuth(
       if (currentRoles.length) {
         await managementClient.organizations.deleteMemberRoles(
           {
-            id: session.user.org_id,
+            id: session.user.org_id!,
             user_id: userId,
           },
           {
@@ -165,7 +165,7 @@ export const updateRole = withServerActionAuth(
       if (roleId) {
         await managementClient.organizations.addMemberRoles(
           {
-            id: session.user.org_id,
+            id: session.user.org_id!,
             user_id: userId,
           },
           {

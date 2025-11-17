@@ -6,7 +6,7 @@ import { DisplayNameForm } from "./display-name-form"
 export default async function GeneralSettings() {
   const session = await appClient.getSession()
   const { data: org } = await managementClient.organizations.get({
-    id: session!.user.org_id,
+    id: session!.user.org_id!,
   })
 
   return (

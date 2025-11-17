@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useUser } from "@auth0/nextjs-auth0/client"
+import { useUser } from "@auth0/nextjs-auth0"
 import slugify from "@sindresorhus/slugify"
 import { toast } from "sonner"
 

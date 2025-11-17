@@ -87,7 +87,7 @@ export function OrganizationSwitcher({
                   key={org.id}
                   onSelect={() => {
                     router.push(
-                      `/api/auth/login?organization=${org.id}&returnTo=/dashboard`
+                      `/auth/login?organization=${org.id}&returnTo=/dashboard`
                     )
                     setOpen(false)
                   }}

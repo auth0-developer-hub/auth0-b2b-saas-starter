@@ -1,7 +1,7 @@
 "use server"
 
 import { revalidatePath } from "next/cache"
-import { Session } from "@auth0/nextjs-auth0"
+import { SessionData } from "@auth0/nextjs-auth0/types"
 
 import { managementClient } from "@/lib/auth0"
 import { withServerActionAuth } from "@/lib/with-server-action-auth"
@@ -14,11 +14,11 @@ const connStrategyToSlug: {
 }
 
 export const createScimConfig = withServerActionAuth(
-  async function createScimConfig(connectionId: string, session: Session) {
+  async function createScimConfig(connectionId: string, session: SessionData) {
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
@@ -54,11 +54,11 @@ export const createScimConfig = withServerActionAuth(
 )
 
 export const deleteScimConfig = withServerActionAuth(
-  async function deleteScimConfig(connectionId: string, session: Session) {
+  async function deleteScimConfig(connectionId: string, session: SessionData) {
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
@@ -94,7 +94,7 @@ export const updateScimConfig = withServerActionAuth(
   async function updateScimConfig(
     connectionId: string,
     formData: FormData,
-    session: Session
+    session: SessionData
   ) {
     const userIdAttribute = formData.get("user_id_attribute") as string
 
@@ -107,7 +107,7 @@ export const updateScimConfig = withServerActionAuth(
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
@@ -149,11 +149,11 @@ export const updateScimConfig = withServerActionAuth(
 )
 
 export const createScimToken = withServerActionAuth(
-  async function createScimToken(connectionId: string, session: Session) {
+  async function createScimToken(connectionId: string, session: SessionData) {
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
@@ -195,12 +195,12 @@ export const deleteScimToken = withServerActionAuth(
   async function deleteScimToken(
     connectionId: string,
     tokenId: string,
-    session: Session
+    session: SessionData
   ) {
     // ensure that the connection ID being updated is owned by the organization
     const { data: enabledConnection } =
       await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id,
+        id: session.user.org_id!,
         connectionId: connectionId,
       })
 
