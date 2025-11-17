@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { Auth0ComponentProvider } from "@auth0/web-ui-components-react"
+import { Auth0ComponentProvider } from "@auth0/web-ui-components-react/rwa"
 
 interface ClientProviderProps {
   children: React.ReactNode

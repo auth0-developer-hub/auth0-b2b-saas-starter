@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo } from "react"
 import { useParams, useRouter } from "next/navigation"
-import { SsoProviderEdit } from "@auth0/web-ui-components-react"
+import { SsoProviderEdit } from "@auth0/web-ui-components-react/rwa"
 
 export default function SsoProviderEditPage() {
   const router = useRouter()

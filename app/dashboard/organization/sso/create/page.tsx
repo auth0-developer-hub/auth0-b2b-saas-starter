@@ -1,6 +1,6 @@
 'use client';
 
-import { SsoProviderCreate } from '@auth0/web-ui-components-react';
+import { SsoProviderCreate } from '@auth0/web-ui-components-react/rwa';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo } from 'react';
 
