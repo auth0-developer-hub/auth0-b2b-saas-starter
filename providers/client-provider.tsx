@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+// import "@auth0/web-ui-components-react/styles"
 import { Auth0ComponentProvider } from "@auth0/web-ui-components-react/rwa"
 
 interface ClientProviderProps {
