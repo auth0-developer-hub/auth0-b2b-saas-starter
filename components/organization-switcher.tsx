@@ -56,7 +56,7 @@ export function OrganizationSwitcher({
           aria-expanded={open}
           aria-label="Select an organization"
           className={cn(
-            "flex h-12 w-full min-w-[240px] justify-between rounded-xl border border-border bg-field p-2",
+            "flex h-12 w-full min-w-60 justify-between rounded-xl border border-border bg-field p-2",
             "hover:border-accent hover:bg-accent/15"
           )}
         >
@@ -75,7 +75,7 @@ export function OrganizationSwitcher({
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[240px] rounded-xl p-0">
+      <PopoverContent className="w-60 rounded-xl p-0">
         <Command>
           <CommandList>
             <CommandInput placeholder="Search organizations..." />
