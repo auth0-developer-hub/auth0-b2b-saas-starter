@@ -51,7 +51,7 @@ export function MfaPolicyForm({ organization }: Props) {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-6">
-          <div className="flex flex-row items-center justify-between rounded-lg border bg-field p-3 shadow-sm">
+          <div className="flex flex-row items-center justify-between rounded-lg border bg-field p-3 shadow-xs">
             <div className="space-y-1.5">
               <Label>Enforce Multi-Factor Authentication</Label>
               <div className="text-sm text-muted-foreground">

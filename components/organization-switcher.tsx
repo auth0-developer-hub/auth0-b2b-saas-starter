@@ -47,6 +47,8 @@ export function OrganizationSwitcher({
 
   const organization = organizations.find((org) => org.id === currentOrgId)!
 
+  const { logoUrl, displayName = 'Organization', slug } = organization || {};
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -56,26 +58,26 @@ export function OrganizationSwitcher({
           aria-expanded={open}
           aria-label="Select an organization"
           className={cn(
-            "flex h-12 w-full min-w-[240px] justify-between rounded-xl border border-border bg-field p-2",
+            "flex h-12 w-full min-w-60 justify-between rounded-xl border border-border bg-field p-2",
             "hover:border-accent hover:bg-accent/15"
           )}
         >
           <Avatar className="mr-2 size-8 rounded-sm">
             <AvatarImage
-              src={organization.logoUrl}
-              alt={organization.displayName}
+              src={logoUrl}
+              alt={displayName}
             />
             <AvatarFallback className="rounded-sm">
-              {organization.displayName[0].toUpperCase()}
+              {displayName[0].toUpperCase()}
             </AvatarFallback>
           </Avatar>
           <span className="min-w-16 truncate text-left">
-            {organization.displayName}
+            {displayName}
           </span>
           <CaretSortIcon className="ml-auto h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[240px] rounded-xl p-0">
+      <PopoverContent className="w-60 rounded-xl p-0">
         <Command>
           <CommandList>
             <CommandInput placeholder="Search organizations..." />
@@ -94,16 +96,16 @@ export function OrganizationSwitcher({
                   className="text-sm"
                 >
                   <Avatar className="mr-2 size-8 rounded-sm">
-                    <AvatarImage src={org.logoUrl} alt={org.displayName} />
+                    <AvatarImage src={org?.logoUrl} alt={org?.displayName} />
                     <AvatarFallback className="rounded-sm">
-                      {org.displayName[0].toUpperCase()}
+                      {org?.displayName[0].toUpperCase()}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="truncate">{org.displayName}</span>
+                  <span className="truncate">{org?.displayName}</span>
                   <CheckIcon
                     className={cn(
                       "ml-auto h-4 w-4",
-                      organization.slug === org.slug
+                      slug === org?.slug
                         ? "opacity-100"
                         : "opacity-0"
                     )}
