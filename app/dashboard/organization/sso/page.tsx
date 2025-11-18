@@ -5,10 +5,7 @@ import { useRouter } from "next/navigation"
 import {
   IdentityProvider,
   SsoProviderTable,
-  UseSsoProviderTableReturn,
 } from "@auth0/web-ui-components-react/rwa"
-
-import { PageHeader } from "@/components/page-header"
 
 export default function SSO() {
   const router = useRouter()
@@ -36,19 +33,8 @@ export default function SSO() {
     [handleEdit]
   )
   return (
-    <div className="space-y-2">
-      <PageHeader
-        title="Single Sign-On"
-        description="Configure SSO for your organization."
-      />
-
+    <div className="space-y-2 p-6">
       <SsoProviderTable
-        customMessages={{
-          header: {
-            title: "SSO Providers",
-            description: "",
-          },
-        }}
         createAction={createAction}
         editAction={editAction}
       />

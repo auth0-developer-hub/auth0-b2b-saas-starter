@@ -2,17 +2,18 @@
 
 import { DomainTable } from "@auth0/web-ui-components-react/rwa"
 
-import { PageHeader } from "@/components/page-header"
-
-export default async function Domains() {
+export default function Domains() {
   return (
-    <div className="space-y-2">
-      <PageHeader
-        title="Domains"
-        description="Configure Domains for your organization."
+    <div className="space-y-2 p-6">
+      <DomainTable
+        customMessages={{
+          header: {
+            title: "Domains",
+            description: "Configure Domains for your organization.",
+            create_button_text: "Add new Domain",
+          },
+        }}
       />
-
-      <DomainTable />
     </div>
   )
 }

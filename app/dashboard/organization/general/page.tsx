@@ -4,7 +4,7 @@ import { OrgDetailsEdit } from "@auth0/web-ui-components-react/rwa"
 
 import { PageHeader } from "@/components/page-header"
 
-export default async function GeneralSettings() {
+export default function GeneralSettings() {
   return (
     <div className="space-y-2">
       <PageHeader
@@ -14,15 +14,6 @@ export default async function GeneralSettings() {
 
       <OrgDetailsEdit 
         hideHeader={true}
-        customMessages={{
-          details: {
-            sections: {
-              settings: {
-                title: 'Organization Details'
-              }
-            }
-          }
-        }}
       />
     </div>
   )
