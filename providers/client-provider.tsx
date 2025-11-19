@@ -14,6 +14,7 @@ export function ClientProvider({ children }: ClientProviderProps) {
       authDetails={
         {
           authProxyUrl: "/", // Use the auth proxy base (For example, MFA service will add /mfa/authenticators)
+          domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN
         }
       }
       themeSettings={{

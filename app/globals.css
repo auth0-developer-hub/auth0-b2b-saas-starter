@@ -30,7 +30,7 @@
 
     --hover: hsl(240 6% 96%);
     --border: hsl(240 6% 96%);
-    --input: hsl(0 0% 90%);
+    --input: hsl(0 0% 100%);
     --ring: hsl(0 0% 4%);
 
     --field: hsl(0 0% 100%);
@@ -60,8 +60,8 @@
     --accent: hsl(240 5% 32%);
     --accent-foreground: hsl(0 0% 98%);
 
-    --destructive: hsl(0 84% 64%);
-    --destructive-foreground: hsl(10 75% 55%);;
+    --destructive: hsl(10.25 100% 92%);
+    --destructive-foreground: hsl(6.05 65% 48%);
 
     --hover: hsl(240 6% 10%);
     --border: hsl(240 4% 10%);

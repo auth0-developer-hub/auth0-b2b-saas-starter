@@ -91,7 +91,7 @@ export function InvitationsList({ invitations }: Props) {
                         Copy invitation link
                       </DropdownMenuItem>
                       <DropdownMenuItem
-                        className="text-destructive"
+                        className="text-destructive-foreground"
                         onSelect={async () => {
                           const { error } = await revokeInvitation(
                             invitation.id

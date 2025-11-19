@@ -117,7 +117,7 @@ export function MembersList({ members }: Props) {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuItem
-                        className="text-destructive"
+                        className="text-destructive-foreground"
                         onSelect={async () => {
                           const { error } = await removeMember(member.id)
                           if (error) {
