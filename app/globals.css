@@ -7,7 +7,7 @@
     --background: hsl(240 5% 96%);
     --foreground: hsl(0 0% 4%);
 
-    --card: hsl(0, 0%, 100%);
+    --card: hsl(0 0% 98%);
     --card-foreground: hsl(0 0% 4%);
 
     --popover: hsl(0 0% 100%);
@@ -29,8 +29,8 @@
     --destructive-foreground: hsl(1, 79%, 54%);
 
     --hover: hsl(240 6% 96%);
-    --border: hsl(0, 0%, 89%);
-    --input: hsl(0 0% 90%);
+    --border: hsl(240 6% 96%);
+    --input: hsl(0 0% 100%);
     --ring: hsl(0 0% 4%);
 
     --field: hsl(0 0% 100%);
