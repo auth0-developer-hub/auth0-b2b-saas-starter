@@ -2,10 +2,220 @@ import { readFile } from "node:fs/promises"
 import { $ } from "execa"
 import ora from "ora"
 
-import { confirmWithUser, waitUntilActionIsBuilt } from "./helpers.mjs"
+import { ChangeAction, createChangeItem } from "./change-plan.mjs"
+import { waitUntilActionIsBuilt } from "./helpers.mjs"
 
 // Constants
 export const CUSTOM_CLAIMS_NAMESPACE = "https://example.com"
+
+// ============================================================================
+// CHECK FUNCTIONS - Determine what changes are needed
+// ============================================================================
+
+/**
+ * Check if Security Policies Action needs changes
+ * Compares code with existing action
+ */
+export async function checkSecurityPoliciesActionChanges(existingActions) {
+  const existingAction = existingActions.find(
+    (a) => a.name === "Security Policies"
+  )
+
+  if (!existingAction) {
+    return createChangeItem(ChangeAction.CREATE, {
+      resource: "Security Policies Action",
+      name: "Security Policies",
+    })
+  }
+
+  // Read the desired code
+  const desiredCode = await readFile("./actions/security-policies.js", "utf8")
+
+  // Get the current action code
+  const { stdout } = await $`auth0 api get actions/actions/${existingAction.id}`
+  const currentAction = JSON.parse(stdout)
+
+  // Compare code (ignoring whitespace differences)
+  const currentCodeNormalized = currentAction.code?.trim()
+  const desiredCodeNormalized = desiredCode.trim()
+
+  if (currentCodeNormalized !== desiredCodeNormalized) {
+    return createChangeItem(ChangeAction.UPDATE, {
+      resource: "Security Policies Action",
+      name: "Security Policies",
+      existing: existingAction,
+      summary: "Update code",
+    })
+  }
+
+  return createChangeItem(ChangeAction.SKIP, {
+    resource: "Security Policies Action",
+    name: "Security Policies",
+    existing: existingAction,
+  })
+}
+
+/**
+ * Check if Add Default Role Action needs changes
+ * Compares code with existing action
+ */
+export async function checkAddDefaultRoleActionChanges(existingActions) {
+  const existingAction = existingActions.find(
+    (a) => a.name === "Add Default Role"
+  )
+
+  if (!existingAction) {
+    return createChangeItem(ChangeAction.CREATE, {
+      resource: "Add Default Role Action",
+      name: "Add Default Role",
+    })
+  }
+
+  // Read the desired code
+  const desiredCode = await readFile("./actions/add-default-role.js", "utf8")
+
+  // Get the current action code
+  const { stdout } = await $`auth0 api get actions/actions/${existingAction.id}`
+  const currentAction = JSON.parse(stdout)
+
+  // Compare code (ignoring whitespace differences)
+  const currentCodeNormalized = currentAction.code?.trim()
+  const desiredCodeNormalized = desiredCode.trim()
+
+  if (currentCodeNormalized !== desiredCodeNormalized) {
+    return createChangeItem(ChangeAction.UPDATE, {
+      resource: "Add Default Role Action",
+      name: "Add Default Role",
+      existing: existingAction,
+      summary: "Update code",
+    })
+  }
+
+  return createChangeItem(ChangeAction.SKIP, {
+    resource: "Add Default Role Action",
+    name: "Add Default Role",
+    existing: existingAction,
+  })
+}
+
+/**
+ * Check if Add Role to Tokens Action needs changes
+ * Compares code with existing action
+ */
+export async function checkAddRoleToTokensActionChanges(existingActions) {
+  const existingAction = existingActions.find(
+    (a) => a.name === "Add Role to Tokens"
+  )
+
+  if (!existingAction) {
+    return createChangeItem(ChangeAction.CREATE, {
+      resource: "Add Role to Tokens Action",
+      name: "Add Role to Tokens",
+    })
+  }
+
+  // Read the desired code
+  const desiredCode = await readFile("./actions/add-role-to-tokens.js", "utf8")
+
+  // Get the current action code
+  const { stdout } = await $`auth0 api get actions/actions/${existingAction.id}`
+  const currentAction = JSON.parse(stdout)
+
+  // Compare code (ignoring whitespace differences)
+  const currentCodeNormalized = currentAction.code?.trim()
+  const desiredCodeNormalized = desiredCode.trim()
+
+  if (currentCodeNormalized !== desiredCodeNormalized) {
+    return createChangeItem(ChangeAction.UPDATE, {
+      resource: "Add Role to Tokens Action",
+      name: "Add Role to Tokens",
+      existing: existingAction,
+      summary: "Update code",
+    })
+  }
+
+  return createChangeItem(ChangeAction.SKIP, {
+    resource: "Add Role to Tokens Action",
+    name: "Add Role to Tokens",
+    existing: existingAction,
+  })
+}
+
+/**
+ * Check if Action Trigger Bindings need changes
+ * Compares current bindings with desired bindings
+ */
+export async function checkActionTriggerBindingsChanges(existingActions) {
+  try {
+    // Get current bindings for post-login trigger
+    const { stdout } =
+      await $`auth0 api get actions/triggers/post-login/bindings`
+    const currentBindings = JSON.parse(stdout)
+
+    // Build desired binding order based on existing actions
+    const securityPoliciesAction = existingActions.find(
+      (a) => a.name === "Security Policies"
+    )
+    const addDefaultRoleAction = existingActions.find(
+      (a) => a.name === "Add Default Role"
+    )
+    const addRoleToTokensAction = existingActions.find(
+      (a) => a.name === "Add Role to Tokens"
+    )
+
+    // If any action doesn't exist yet, we'll need to update bindings later
+    if (
+      !securityPoliciesAction ||
+      !addDefaultRoleAction ||
+      !addRoleToTokensAction
+    ) {
+      return createChangeItem(ChangeAction.UPDATE, {
+        resource: "Action Trigger Bindings",
+        summary: "Update post-login trigger bindings (actions not yet created)",
+      })
+    }
+
+    // Check if current bindings match desired order
+    // Correct order: Add Default Role -> Add Role to Tokens -> Security Policies
+    const desiredOrder = [
+      addDefaultRoleAction.id,
+      addRoleToTokensAction.id,
+      securityPoliciesAction.id,
+    ]
+
+    const currentOrder = currentBindings.bindings?.map((b) => b.action.id) || []
+
+    // Compare arrays
+    const bindingsMatch =
+      desiredOrder.length === currentOrder.length &&
+      desiredOrder.every((id, index) => id === currentOrder[index])
+
+    if (bindingsMatch) {
+      return createChangeItem(ChangeAction.SKIP, {
+        resource: "Action Trigger Bindings",
+        summary: "Post-login trigger bindings already up-to-date",
+      })
+    }
+
+    return createChangeItem(ChangeAction.UPDATE, {
+      resource: "Action Trigger Bindings",
+      summary: "Update post-login trigger bindings",
+    })
+  } catch (e) {
+    // If we can't fetch current bindings, assume we need to update
+    console.warn(
+      `⚠️  Warning: Could not check current action bindings: ${e.message}`
+    )
+    return createChangeItem(ChangeAction.UPDATE, {
+      resource: "Action Trigger Bindings",
+      summary: "Update post-login trigger bindings (couldn't verify current)",
+    })
+  }
+}
+
+// ============================================================================
+// APPLY FUNCTIONS - Execute changes based on cached plan
+// ============================================================================
 
 /**
  * Update an existing action with new code and secrets
@@ -55,240 +265,220 @@ async function updateAction(actionId, code, secrets, dependencies = []) {
 }
 
 /**
- * Ensure Security Policies Action exists
+ * Apply Security Policies Action changes
  */
-export async function ensureSecurityPoliciesAction(
-  existing,
+export async function applySecurityPoliciesActionChanges(
+  changePlan,
   dashboardClientId
 ) {
-  const existingAction = existing.actions.find(
-    (a) => a.name === "Security Policies"
-  )
+  if (changePlan.action === ChangeAction.SKIP) {
+    const spinner = ora({
+      text: `Using existing Security Policies Action without changes`,
+    }).start()
+    spinner.succeed()
+    return changePlan.existing
+  }
 
-  if (existingAction) {
-    console.log("\n⚠️  Security Policies Action already exists")
-    const shouldUpdate = await confirmWithUser(
-      "Do you want to update it with the latest code? (yes/no): "
-    )
+  if (changePlan.action === ChangeAction.CREATE) {
+    const spinner = ora({
+      text: `Creating Security Policies Action`,
+    }).start()
 
-    if (shouldUpdate) {
+    try {
       const code = await readFile("./actions/security-policies.js", {
         encoding: "utf-8",
       })
-      await updateAction(existingAction.id, code, [
-        `DASHBOARD_CLIENT_ID=${dashboardClientId}`,
-      ])
-      return existingAction
-    } else {
-      const spinner = ora({
-        text: `Using existing Security Policies Action without changes`,
-      }).start()
-      spinner.succeed()
-      return existingAction
+
+      // prettier-ignore
+      const createActionArgs = [
+        "actions", "create",
+        "--name", "Security Policies",
+        "--code", code,
+        "--trigger", "post-login",
+        "--secret", `DASHBOARD_CLIENT_ID=${dashboardClientId}`,
+        "--json", "--no-input"
+      ];
+
+      const { stdout } = await $`auth0 ${createActionArgs}`
+      const action = JSON.parse(stdout)
+
+      await waitUntilActionIsBuilt(action.id)
+
+      // prettier-ignore
+      const deployActionArgs = [
+        "actions", "deploy", action.id,
+        "--json", "--no-input"
+      ];
+      await $`auth0 ${deployActionArgs}`
+
+      spinner.succeed("Created Security Policies Action")
+      return action
+    } catch (e) {
+      spinner.fail(`Failed to create the Security Policies Action`)
+      throw e
     }
   }
 
-  const spinner = ora({
-    text: `Creating Security Policies Action`,
-  }).start()
-
-  try {
+  if (changePlan.action === ChangeAction.UPDATE) {
     const code = await readFile("./actions/security-policies.js", {
       encoding: "utf-8",
     })
-
-    // prettier-ignore
-    const createActionArgs = [
-      "actions", "create",
-      "--name", "Security Policies",
-      "--code", code,
-      "--trigger", "post-login",
-      "--secret", `DASHBOARD_CLIENT_ID=${dashboardClientId}`,
-      "--json", "--no-input"
-    ];
-
-    const { stdout } = await $`auth0 ${createActionArgs}`
-    const action = JSON.parse(stdout)
-
-    await waitUntilActionIsBuilt(action.id)
-
-    // prettier-ignore
-    const deployActionArgs = [
-      "actions", "deploy", action.id,
-      "--json", "--no-input"
-    ];
-    await $`auth0 ${deployActionArgs}`
-
-    spinner.succeed("Created Security Policies Action")
-    return action
-  } catch (e) {
-    spinner.fail(`Failed to create the Security Policies Action`)
-    throw e
+    await updateAction(changePlan.existing.id, code, [
+      `DASHBOARD_CLIENT_ID=${dashboardClientId}`,
+    ])
+    return changePlan.existing
   }
 }
 
 /**
- * Ensure Add Default Role Action exists
+ * Apply Add Default Role Action changes
  */
-export async function ensureAddDefaultRoleAction(
-  existing,
+export async function applyAddDefaultRoleActionChanges(
+  changePlan,
   domain,
   managementClientId,
   managementClientSecret,
   memberRoleId
 ) {
-  const existingAction = existing.actions.find(
-    (a) => a.name === "Add Default Role"
-  )
+  if (changePlan.action === ChangeAction.SKIP) {
+    const spinner = ora({
+      text: `Using existing Add Default Role Action without changes`,
+    }).start()
+    spinner.succeed()
+    return changePlan.existing
+  }
 
-  if (existingAction) {
-    console.log("\n⚠️  Add Default Role Action already exists")
-    const shouldUpdate = await confirmWithUser(
-      "Do you want to update it with the latest code? (yes/no): "
-    )
+  if (changePlan.action === ChangeAction.CREATE) {
+    const spinner = ora({
+      text: `Creating Add Default Role Action`,
+    }).start()
 
-    if (shouldUpdate) {
+    try {
       const code = await readFile("./actions/add-default-role.js", {
         encoding: "utf-8",
       })
-      await updateAction(
-        existingAction.id,
-        code,
-        [
-          `DOMAIN=${domain}`,
-          `CLIENT_ID=${managementClientId}`,
-          `CLIENT_SECRET=${managementClientSecret}`,
-          `MEMBER_ROLE_ID=${memberRoleId}`,
-        ],
-        ["auth0=4.4.0"]
-      )
-      return existingAction
-    } else {
-      const spinner = ora({
-        text: `Using existing Add Default Role Action without changes`,
-      }).start()
-      spinner.succeed()
-      return existingAction
+
+      // prettier-ignore
+      const createActionArgs = [
+        "actions", "create",
+        "--name", "Add Default Role",
+        "--code", code,
+        "--trigger", "post-login",
+        "--secret", `DOMAIN=${domain}`,
+        "--secret", `CLIENT_ID=${managementClientId}`,
+        "--secret", `CLIENT_SECRET=${managementClientSecret}`,
+        "--secret", `MEMBER_ROLE_ID=${memberRoleId}`,
+        "--dependency", "auth0=4.4.0",
+        "--json", "--no-input"
+      ];
+
+      const { stdout } = await $`auth0 ${createActionArgs}`
+      const action = JSON.parse(stdout)
+
+      await waitUntilActionIsBuilt(action.id)
+
+      // prettier-ignore
+      const deployActionArgs = [
+        "actions", "deploy", action.id,
+        "--json", "--no-input"
+      ];
+      await $`auth0 ${deployActionArgs}`
+
+      spinner.succeed("Created Add Default Role Action")
+      return action
+    } catch (e) {
+      spinner.fail(`Failed to create the Add Default Role Action`)
+      throw e
     }
   }
 
-  const spinner = ora({
-    text: `Creating Add Default Role Action`,
-  }).start()
-
-  try {
+  if (changePlan.action === ChangeAction.UPDATE) {
     const code = await readFile("./actions/add-default-role.js", {
       encoding: "utf-8",
     })
-
-    // prettier-ignore
-    const createActionArgs = [
-      "actions", "create",
-      "--name", "Add Default Role",
-      "--code", code,
-      "--trigger", "post-login",
-      "--secret", `DOMAIN=${domain}`,
-      "--secret", `CLIENT_ID=${managementClientId}`,
-      "--secret", `CLIENT_SECRET=${managementClientSecret}`,
-      "--secret", `MEMBER_ROLE_ID=${memberRoleId}`,
-      "--dependency", "auth0=4.4.0",
-      "--json", "--no-input"
-    ];
-
-    const { stdout } = await $`auth0 ${createActionArgs}`
-    const action = JSON.parse(stdout)
-
-    await waitUntilActionIsBuilt(action.id)
-
-    // prettier-ignore
-    const deployActionArgs = [
-      "actions", "deploy", action.id,
-      "--json", "--no-input"
-    ];
-    await $`auth0 ${deployActionArgs}`
-
-    spinner.succeed("Created Add Default Role Action")
-    return action
-  } catch (e) {
-    spinner.fail(`Failed to create the Add Default Role Action`)
-    throw e
+    await updateAction(
+      changePlan.existing.id,
+      code,
+      [
+        `DOMAIN=${domain}`,
+        `CLIENT_ID=${managementClientId}`,
+        `CLIENT_SECRET=${managementClientSecret}`,
+        `MEMBER_ROLE_ID=${memberRoleId}`,
+      ],
+      ["auth0=4.4.0"]
+    )
+    return changePlan.existing
   }
 }
 
 /**
- * Ensure Add Role to Tokens Action exists
+ * Apply Add Role to Tokens Action changes
  */
-export async function ensureAddRoleToTokensAction(existing) {
-  const existingAction = existing.actions.find(
-    (a) => a.name === "Add Role to Tokens"
-  )
+export async function applyAddRoleToTokensActionChanges(changePlan) {
+  if (changePlan.action === ChangeAction.SKIP) {
+    const spinner = ora({
+      text: `Using existing Add Role to Tokens Action without changes`,
+    }).start()
+    spinner.succeed()
+    return changePlan.existing
+  }
 
-  if (existingAction) {
-    console.log("\n⚠️  Add Role to Tokens Action already exists")
-    const shouldUpdate = await confirmWithUser(
-      "Do you want to update it with the latest code? (yes/no): "
-    )
+  if (changePlan.action === ChangeAction.CREATE) {
+    const spinner = ora({
+      text: `Creating Add Role to Tokens Action`,
+    }).start()
 
-    if (shouldUpdate) {
+    try {
       const code = await readFile("./actions/add-role-to-tokens.js", {
         encoding: "utf-8",
       })
-      await updateAction(existingAction.id, code, [
-        `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
-      ])
-      return existingAction
-    } else {
-      const spinner = ora({
-        text: `Using existing Add Role to Tokens Action without changes`,
-      }).start()
-      spinner.succeed()
-      return existingAction
+
+      // prettier-ignore
+      const createActionArgs = [
+        "actions", "create",
+        "--name", "Add Role to Tokens",
+        "--code", code,
+        "--trigger", "post-login",
+        "--secret", `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
+        "--json", "--no-input"
+      ];
+
+      const { stdout } = await $`auth0 ${createActionArgs}`
+      const action = JSON.parse(stdout)
+
+      await waitUntilActionIsBuilt(action.id)
+
+      // prettier-ignore
+      const deployActionArgs = [
+        "actions", "deploy", action.id,
+        "--json", "--no-input"
+      ];
+      await $`auth0 ${deployActionArgs}`
+
+      spinner.succeed("Created Add Role to Tokens Action")
+      return action
+    } catch (e) {
+      spinner.fail(`Failed to create the Add Role to Tokens Action`)
+      throw e
     }
   }
 
-  const spinner = ora({
-    text: `Creating Add Role to Tokens Action`,
-  }).start()
-
-  try {
+  if (changePlan.action === ChangeAction.UPDATE) {
     const code = await readFile("./actions/add-role-to-tokens.js", {
       encoding: "utf-8",
     })
-
-    // prettier-ignore
-    const createActionArgs = [
-      "actions", "create",
-      "--name", "Add Role to Tokens",
-      "--code", code,
-      "--trigger", "post-login",
-      "--secret", `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
-      "--json", "--no-input"
-    ];
-
-    const { stdout } = await $`auth0 ${createActionArgs}`
-    const action = JSON.parse(stdout)
-
-    await waitUntilActionIsBuilt(action.id)
-
-    // prettier-ignore
-    const deployActionArgs = [
-      "actions", "deploy", action.id,
-      "--json", "--no-input"
-    ];
-    await $`auth0 ${deployActionArgs}`
-
-    spinner.succeed("Created Add Role to Tokens Action")
-    return action
-  } catch (e) {
-    spinner.fail(`Failed to create the Add Role to Tokens Action`)
-    throw e
+    await updateAction(changePlan.existing.id, code, [
+      `CUSTOM_CLAIMS_NAMESPACE=${CUSTOM_CLAIMS_NAMESPACE}`,
+    ])
+    return changePlan.existing
   }
 }
 
 /**
- * Update trigger bindings for Actions
+ * Apply Action Trigger Bindings changes
  */
-export async function updateActionTriggerBindings(
+export async function applyActionTriggerBindingsChanges(
+  changePlan,
   addDefaultRoleAction,
   addRoleToTokensAction,
   securityPoliciesAction
@@ -329,7 +519,7 @@ export async function updateActionTriggerBindings(
     ];
 
     await $`auth0 ${updateTriggerBindingsArgs}`
-    spinner.succeed()
+    spinner.succeed("Updated trigger bindings")
   } catch (e) {
     spinner.fail(`Failed to update trigger bindings for Actions`)
     throw e

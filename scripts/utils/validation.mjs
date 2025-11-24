@@ -1,4 +1,3 @@
-import dotenv from "dotenv"
 import { $ } from "execa"
 import ora from "ora"
 
@@ -35,17 +34,25 @@ export async function checkAuth0CLI() {
 
 /**
  * Validate tenant configuration
+ * @param {string} tenantName - Required tenant name from command line argument
  */
-export async function validateTenant() {
+export async function validateTenant(tenantName) {
+  if (!tenantName) {
+    console.error("\n❌ Error: Tenant name is required")
+    console.error("\nUsage: node scripts/bootstrap.mjs <tenant-domain>")
+    console.error("\nExample:")
+    console.error("   node scripts/bootstrap.mjs my-tenant.us.auth0.com")
+    console.error(
+      "\nThis is a safety measure to prevent accidentally configuring the wrong tenant."
+    )
+    process.exit(1)
+  }
+
   const spinner = ora({
-    text: `Validating tenant configuration`,
+    text: `Validating tenant: ${tenantName}`,
   }).start()
 
   try {
-    // Load .env.local if it exists (using dotenv)
-    const envConfig = dotenv.config({ path: ".env.local" })
-    const envDomain = envConfig.parsed?.AUTH0_MANAGEMENT_API_DOMAIN
-
     // Get current tenant from CLI
     // NOTE: we're outputting as CSV here due to a bug in the Auth0 CLI that doesn't respect the --json flag
     // https://github.com/auth0/auth0-cli/pull/1002
@@ -74,18 +81,21 @@ export async function validateTenant() {
       process.exit(1)
     }
 
-    // If .env.local exists with a domain, verify it matches
-    if (envDomain && envDomain !== cliDomain) {
+    // Verify the provided tenant name matches the CLI active tenant
+    if (tenantName !== cliDomain) {
       spinner.fail("Tenant mismatch detected")
       console.error(`\n❌ Tenant mismatch:`)
-      console.error(`   .env.local has: ${envDomain}`)
-      console.error(`   CLI is using:   ${cliDomain}`)
+      console.error(`   Requested tenant: ${tenantName}`)
+      console.error(`   CLI is using:     ${cliDomain}`)
       console.error("\nPlease ensure you're using the correct tenant:")
-      console.error(`   Run: auth0 tenants use ${envDomain}`)
+      console.error(`   Run: auth0 tenants use ${tenantName}`)
+      console.error(
+        "\nThis is a safety measure to prevent accidentally configuring the wrong tenant."
+      )
       process.exit(1)
     }
 
-    spinner.succeed(`Using tenant: ${cliDomain}`)
+    spinner.succeed(`Validated tenant: ${cliDomain}`)
     return cliDomain
   } catch (e) {
     spinner.fail("Failed to validate tenant")
