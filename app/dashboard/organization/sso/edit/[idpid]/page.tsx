@@ -7,7 +7,7 @@ import { SsoProviderEdit } from "@auth0/web-ui-components-react/rwa"
 export default function SsoProviderEditPage() {
   const router = useRouter()
   const params = useParams()
-  const idpId = params.idpId as string
+  const idpId = params.idpid as string
 
   const handleUpdate = useCallback((): void => {
     router.push("/dashboard/organization/sso")
