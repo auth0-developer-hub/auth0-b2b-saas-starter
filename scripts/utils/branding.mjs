@@ -22,6 +22,17 @@ export async function checkBrandingChanges() {
     const { stdout } = await $`auth0 api get branding/themes/default`
     const currentTheme = JSON.parse(stdout)
 
+    // Check if the response is an error (404, theme not found)
+    if (
+      currentTheme.statusCode === 404 ||
+      currentTheme.errorCode === "theme_not_found"
+    ) {
+      return createChangeItem(ChangeAction.CREATE, {
+        resource: "Branding",
+        summary: "Create Universal Login theme",
+      })
+    }
+
     // Helper to do deep comparison ignoring key order
     const deepEqual = (obj1, obj2) => {
       if (obj1 === obj2) return true
@@ -56,7 +67,11 @@ export async function checkBrandingChanges() {
     })
   } catch (e) {
     // If we can't fetch current theme (404), we need to create one
-    if (e.message && e.message.includes("404")) {
+    if (
+      e.message?.includes("404") ||
+      e.stderr?.includes("404") ||
+      e.exitCode === 1
+    ) {
       return createChangeItem(ChangeAction.CREATE, {
         resource: "Branding",
         summary: "Create Universal Login theme",
