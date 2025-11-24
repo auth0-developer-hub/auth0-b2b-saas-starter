@@ -231,13 +231,13 @@ async function updateAction(actionId, code, secrets, dependencies = []) {
       code,
     }
 
-    await $`auth0 api patch actions/${actionId} --data ${JSON.stringify(updateData)}`
+    await $`auth0 api patch actions/actions/${actionId} --data ${JSON.stringify(updateData)}`
 
     // Update secrets if provided
     if (secrets && secrets.length > 0) {
       for (const secret of secrets) {
         const [key, value] = secret.split("=")
-        await $`auth0 api patch actions/${actionId}/secrets --data ${JSON.stringify({ secrets: [{ name: key, value }] })}`
+        await $`auth0 api patch actions/actions/${actionId}/secrets --data ${JSON.stringify({ secrets: [{ name: key, value }] })}`
       }
     }
 
@@ -249,7 +249,7 @@ async function updateAction(actionId, code, secrets, dependencies = []) {
           return { name, version }
         }),
       }
-      await $`auth0 api patch actions/${actionId} --data ${JSON.stringify(depsData)}`
+      await $`auth0 api patch actions/actions/${actionId} --data ${JSON.stringify(depsData)}`
     }
 
     await waitUntilActionIsBuilt(actionId)

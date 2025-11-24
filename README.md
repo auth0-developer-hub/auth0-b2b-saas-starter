@@ -124,7 +124,7 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
 2. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
 
    ```shell
-   auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
+   auth0 login --scopes "read:clients,create:clients,update:clients,read:client_keys,read:roles,create:roles,update:roles,read:resource_servers,create:resource_servers,update:resource_servers,read:connections,create:connections,update:connections,read:client_grants,create:client_grants,update:client_grants,delete:client_grants,read:actions,create:actions,update:actions,read:triggers,update:triggers,read:branding,create:branding,update:branding,read:email_templates,create:email_templates,update:email_templates,update:guardian_factors,update:tenant_settings,read:connection_profiles,create:connection_profiles,update:connection_profiles,read:user_attribute_profiles,create:user_attribute_profiles,update:user_attribute_profiles"
    ```
 
    This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
@@ -144,7 +144,7 @@ Before running the bootstrap script, you need to create a file with user-specifi
 
 2. Edit `.env.local.user` and fill in the following values:
    - `APP_BASE_URL`: The URL where your app will run (default: `http://localhost:3000`)
-   - `NEXT_PUBLIC_AUTH0_DOMAIN`: Your Auth0 tenant domain (e.g., `my-tenant.us.auth0.com`)
+   - `NEXT_PUBLIC_AUTH0_DOMAIN`: Your Auth0 tenant domain use your custom domain if you have one, otherwise use the tenant canonical domain (e.g., `auth.mydomain.com` or `my-tenant.us.auth0.com`)
    - `SESSION_ENCRYPTION_SECRET`: A random 32-character string for session encryption
      - Generate one with: `openssl rand -hex 32`
    - `CUSTOM_CLAIMS_NAMESPACE`: A namespace for custom claims (default: `https://example.com`)
@@ -164,10 +164,10 @@ This step will create and update entities in your Auth0 tenant. The provided scr
 Finally, it will save environment variables for your tenant in the application directory.
 
 > [!WARNING]
-> Only run the following command on a newly created tenant to avoid changing existing configuration or introducing conflicting elements to your existing Auth0 tenants!
-> If you are creating a new Auth0 tenant at this point in the process, go back to step 2 in order to ensure you're logged into the correct Auth0 tenant.
+> Only run the following command on a tenant specifically for this purpose. It will make changes to the tenant!
+> This command was intended for a fresh tenant and/or a tenant built specifically for this application.
 
-Run the following command, replacing `<your-tenant-domain>` with your Auth0 tenant domain (e.g., `my-tenant.us.auth0.com`):
+Run the following command, replacing `<your-tenant-domain>` with your canonical Auth0 tenant domain (e.g., `my-tenant.us.auth0.com`, not your custom domain):
 
 ```shell
 npm run auth0:bootstrap <your-tenant-domain>

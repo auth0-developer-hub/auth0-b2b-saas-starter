@@ -14,7 +14,7 @@ export async function auth0ApiCall(method, endpoint, data = null) {
     const { stdout } = await $`auth0 ${args}`
     return stdout ? JSON.parse(stdout) : null
   } catch (e) {
-    // Return null on error instead of throwing
-    return null
+    console.warn(`⚠️  Warning: API Call failed: ${e.message}`)
+    throw e
   }
 }
