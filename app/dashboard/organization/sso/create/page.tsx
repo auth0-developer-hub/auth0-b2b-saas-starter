@@ -7,6 +7,10 @@ import { useCallback, useMemo } from 'react';
 export default function SsoProviderCreatePage() {
   const router = useRouter();
 
+  const handleBack = useCallback((): void => {
+    router.push("/dashboard/organization/sso")
+  }, [router])
+
   const handleCreate = useCallback((): void => {
     router.push('/dashboard/organization/sso');
   }, []);
@@ -20,7 +24,7 @@ export default function SsoProviderCreatePage() {
 
   return (
     <div className="p-6 pt-8 space-y-6">
-      <SsoProviderCreate createAction={createAction} />
+      <SsoProviderCreate createAction={createAction} backButton={{ onClick: handleBack }} />
     </div>
   );
 }
