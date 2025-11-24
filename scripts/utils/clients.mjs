@@ -244,7 +244,7 @@ export async function checkDashboardClientChanges(
     return createChangeItem(ChangeAction.UPDATE, {
       resource: "Dashboard Client",
       name: DASHBOARD_CLIENT_NAME,
-      existing: existingClient,
+      existing: clientToCheck,
       updates: {
         missingCallbacks,
         missingLogoutUrls,
@@ -261,7 +261,7 @@ export async function checkDashboardClientChanges(
   return createChangeItem(ChangeAction.SKIP, {
     resource: "Dashboard Client",
     name: DASHBOARD_CLIENT_NAME,
-    existing: existingClient,
+    existing: clientToCheck,
   })
 }
 
