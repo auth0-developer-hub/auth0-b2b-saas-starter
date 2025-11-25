@@ -3,13 +3,14 @@
 A secure and high-performance starting point for building modern B2B SaaS web applications.
 
 ## Jump to a section
-* [Target Use Case](#target-use-case)
-* [Deploy to Vercel](#deploy-to-vercel-in-one-click)
-* [Installation for Local Development](#installation-for-local-development)
-* [B2B Identity Features to Explore](#b2b-identity-features-to-explore)
-* [Advanced Topics](#advanced-topics)
-* [Learn More](#advanced-topics)
-* [Contributing](#contributing)
+
+- [Target Use Case](#target-use-case)
+- [Deploy to Vercel](#deploy-to-vercel-in-one-click)
+- [Installation for Local Development](#installation-for-local-development)
+- [B2B Identity Features to Explore](#b2b-identity-features-to-explore)
+- [Advanced Topics](#advanced-topics)
+- [Learn More](#advanced-topics)
+- [Contributing](#contributing)
 
 ## Overview
 
@@ -43,6 +44,7 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
   - Break-glass access for admin roles _(coming soon)_
 
 ## Deploy to Vercel
+
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/auth0-developer-hub/auth0-b2b-saas-starter&repository-name=auth0-saas-starter&external-id=b2b-saas-starter-template&integration-ids=oac_7V7TGP5JUHCpSncpiy3XWwL0)
 
 ## Installation for Local Development
@@ -52,7 +54,7 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
 1. Node.js v20 or later is required to run the bootstrapping process. We recommend using [`nvm`](https://github.com/nvm-sh/nvm) to manage node versions in your development environment. Click these links to [learn how to install nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#install--update-script) or [how to use nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#usage) to make sure you're using Node 20+ in your development environment.
 2. You must have [`npm`](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm) or a comparable package manager installed in your development environment. These instructions assume that you're using `npm`, which is automatically included as part of the Node.js installation from prerequisite 1.
 3. Create a new Auth0 tenant. **This is important!** Using a new Auth0 tenant for this sample application ensures you don't encounter any conflicts due to existing configuration in an existing tenant.
-   
+
    The tenant you create will be configured automatically by our bootstrapping command during the installation process. You can sign up for a free Auth0 account at [https://auth0.com/signup](https://auth0.com/signup?utm_source=github&utm_medium=thirdpartyutm_campaign=saastart). See [Create Tenants](https://auth0.com/docs/get-started/auth0-overview/create-tenants) in the Auth0 docs if you need help.
 
    Once you've created a tenant, nothing else needs to be done inside Auth0 - you can return to this README.md and begin completing the steps below.
@@ -76,8 +78,9 @@ Use this to bootstrap a SaaS application with the following commonly needed capa
    ```shell
    node -v
    ```
-   This should return a version number higher than v20. If you have an earlier version installed, return to the prerequisites and follow step 1. 
-   
+
+   This should return a version number higher than v20. If you have an earlier version installed, return to the prerequisites and follow step 1.
+
    Otherwise, continue:
 
    ```shell
@@ -90,7 +93,6 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
 
 1. You will need to install the Auth0 CLI. It will be used by the bootstrap script to create the resources needed for this sample in your Auth0 tenant. Instructions for installation are available at the [Auth0 CLI github repo](https://github.com/auth0/auth0-cli).
 
-   
    **For example**, users on **Linux or OSX** using [Homebrew](https://brew.sh/) can run the following command to install the CLI:
 
    ```shell
@@ -98,9 +100,11 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
    ```
 
    **For example**, users on **Windows** using [Scoop](https://scoop.sh/) can run the following commands to install the CLI:
+
    ```powershell
    scoop bucket add auth0 https://github.com/auth0/scoop-auth0-cli.git
    ```
+
    ```powershell
    scoop install auth0
    ```
@@ -120,7 +124,7 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
 2. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
 
    ```shell
-   auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
+   auth0 login --scopes "read:clients,create:clients,update:clients,read:client_keys,read:roles,create:roles,update:roles,read:resource_servers,create:resource_servers,update:resource_servers,read:connections,create:connections,update:connections,read:client_grants,create:client_grants,update:client_grants,delete:client_grants,read:actions,create:actions,update:actions,read:triggers,update:triggers,read:branding,create:branding,update:branding,read:email_templates,create:email_templates,update:email_templates,update:guardian_factors,update:tenant_settings,read:connection_profiles,create:connection_profiles,update:connection_profiles,read:user_attribute_profiles,create:user_attribute_profiles,update:user_attribute_profiles"
    ```
 
    This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
@@ -128,7 +132,26 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
 > [!WARNING]
 > At the **Authorize App** step, be sure to select the same NEW tenant that you created in the prerequisites. Whatever you choose during this step will be the tenant that will be bootstrapped in the next steps, so it's important to make sure it's a newly created tenant without existing configuration.
 
-### Step Three: Bootstrap the Auth0 tenant
+### Step Three: Set up user-specific environment variables
+
+Before running the bootstrap script, you need to create a file with user-specific configuration. The bootstrap script will merge these values into the final `.env.local` file.
+
+1. Copy the example file:
+
+   ```shell
+   cp .env.local.user.example .env.local.user
+   ```
+
+2. Edit `.env.local.user` and fill in the following values:
+   - `APP_BASE_URL`: The URL where your app will run (default: `http://localhost:3000`)
+   - `NEXT_PUBLIC_AUTH0_DOMAIN`: Your Auth0 tenant domain use your custom domain if you have one, otherwise use the tenant canonical domain (e.g., `auth.mydomain.com` or `my-tenant.us.auth0.com`)
+   - `SESSION_ENCRYPTION_SECRET`: A random 32-character string for session encryption
+     - Generate one with: `openssl rand -hex 32`
+   - `CUSTOM_CLAIMS_NAMESPACE`: A namespace for custom claims (default: `https://example.com`)
+
+   > **Note:** The bootstrap script will automatically merge `.env.local.user` into `.env.local`, so you only need to maintain your user-specific values in this file.
+
+### Step Four: Bootstrap the Auth0 tenant
 
 This step will create and update entities in your Auth0 tenant. The provided script will use the Auth0 CLI to provision the resources required for this sample application:
 
@@ -141,18 +164,20 @@ This step will create and update entities in your Auth0 tenant. The provided scr
 Finally, it will save environment variables for your tenant in the application directory.
 
 > [!WARNING]
-> Only run the following command on a newly created tenant to avoid changing existing configuration or introducing conflicting elements to your existing Auth0 tenants!
-> If you are creating a new Auth0 tenant at this point in the process, go back to step 2 in order to ensure you're logged into the correct Auth0 tenant.
+> Only run the following command on a tenant specifically for this purpose. It will make changes to the tenant!
+> This command was intended for a fresh tenant and/or a tenant built specifically for this application.
 
-Run the following command:
+Run the following command, replacing `<your-tenant-domain>` with your canonical Auth0 tenant domain (e.g., `my-tenant.us.auth0.com`, not your custom domain):
 
 ```shell
-npm run auth0:bootstrap
+npm run auth0:bootstrap <your-tenant-domain>
 ```
 
-Once the script has successfully completed, a `.env.local` file containing the environment variables will be written to the root of your project directory.
+**Important:** You must provide your tenant domain as an argument. This is a safety measure to prevent accidentally configuring the wrong tenant. The script will verify that the tenant domain you provide matches the Auth0 CLI's active tenant before making any changes.
 
-### Step Four: Run the sample application
+Once the script has successfully completed, a `.env.local` file will be created that merges the Auth0 configuration with your user-specific settings from `.env.local.user`.
+
+### Step Five: Run the sample application
 
 1. Run the development server: `npm run dev`
 2. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
@@ -170,21 +195,27 @@ Now you're ready to start editing to build your own SaaS application! To see thi
 By clicking through the application's front-end, you can explore the management experience that your customers would have. This sample application comes preconfigured with key identity workflows that are crucial for anyone that wants their application to be adopted by business customers, so that you can focus on coding your own functionality instead.
 
 ### Sign up with Organziations
+
 Each user that creates an account from scratch will be prompted to enter an organization name as part of their sign-up flow. Once an organization is created, users with admin roles can invite additional users who will automatically be added to the organization.
 
 ### User Management
+
 Invite additional users, change users' roles (and thus what they have permission to do in the application), and delete users. You'll notice as you perform these operations in SaaStart, you're changing the user database and organizations in your Auth0 tenant.
 
 ### Connections
+
 Use the SSO tab in the settings section to connect an external IDP (eg, Okta WIC, Google Workforce, Azure AD, etc) via SAML or OIDC. This allows your business customers to set up their own Single Sign On connections right in your application. You can also optionally enable SCIM provisioning using the same connections.
 
 ### Security Policies
+
 Configure multi-factor authentication (MFA) policies for your organization, including a selection of which MFA providers (eg, One-time Password, or Security Keys) your users are allowed to use. Optionally, you can configure email domains for which users be exempted from having to MFA in your app. This is useful when using SSO, and users are already completing MFA when they sign in to their workforce identity provider, so that they won't be prompted for a second MFA when they log in to your application.
 
 ### Organization Switching
+
 Users can be invited to a company organization, but can also create their own hobby or personal organizations. This allows your app to handle scenarios like when contractors or external collaborators need to belong to multiple organizations, or when employees want to have their own personal accounts for experimentation or side projects. Switching contexts is easy.
 
 ### User Profile and Security
+
 Your users can set their own user profile settings, set and reset their own passwords, and manage their own multi-factor authentication (MFA) enrollments. They can also manage and delete their own account data.
 
 ---
@@ -192,8 +223,9 @@ Your users can set their own user profile settings, set and reset their own pass
 ## Advanced Topics
 
 Reference the [README-ADVANCED.md](README-ADVANCED.md) instructions to learn about:
-* Enabling https:// and production-like URLs while you iterate from within your personal development environment
-* Using an email platform for testing transactional emails (or different workflows that require email verification)
+
+- Enabling https:// and production-like URLs while you iterate from within your personal development environment
+- Using an email platform for testing transactional emails (or different workflows that require email verification)
 
 ---
 
