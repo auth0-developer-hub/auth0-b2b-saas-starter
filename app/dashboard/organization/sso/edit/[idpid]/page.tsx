@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useMemo } from "react"
+import { useCallback } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { SsoProviderEdit } from "@auth0/web-ui-components-react/rwa"
 
@@ -8,10 +8,6 @@ export default function SsoProviderEditPage() {
   const router = useRouter()
   const params = useParams()
   const idpId = params.idpid as string
-
-  const handleUpdate = useCallback((): void => {
-    router.push("/dashboard/organization/sso")
-  }, [router])
 
   const handleBack = useCallback((): void => {
     router.push("/dashboard/organization/sso")
@@ -23,12 +19,6 @@ export default function SsoProviderEditPage() {
       <SsoProviderEdit
         providerId={idpId!}
         sso={{
-          updateAction: useMemo(
-            () => ({
-              onAfter: handleUpdate,
-            }),
-            [handleUpdate]
-          ),
           deleteAction: {
             onAfter: () => {
               router.push("/dashboard/organization/sso")
