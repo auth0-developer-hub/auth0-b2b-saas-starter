@@ -60,6 +60,7 @@ export const appClient = new Auth0Client({
     audience: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/my-org/`,
     scope: MY_ORG_SCOPES.join(" "),
   },
+  httpTimeout: 20000, // 20 seconds
   async beforeSessionSaved(session) {
     // For some reason is needed to delay the session persistance
     // and custom claim to have be stored within the session
