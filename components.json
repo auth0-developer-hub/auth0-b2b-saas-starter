@@ -12,6 +12,7 @@
   },
   "aliases": {
     "components": "@/components",
+    "providers": "@/providers",
     "utils": "@/lib/utils"
   }
 }

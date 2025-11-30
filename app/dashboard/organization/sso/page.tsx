@@ -1,32 +1,42 @@
-import { appClient, managementClient } from "@/lib/auth0"
-import { PageHeader } from "@/components/page-header"
+"use client"
 
-import { ConnectionsList } from "./connections-list"
+import { useCallback, useMemo } from "react"
+import { useRouter } from "next/navigation"
+import {
+  IdentityProvider,
+  SsoProviderTable,
+} from "@auth0/web-ui-components-react/rwa"
 
-export default async function SSO() {
-  const session = await appClient.getSession()
-  const { data: connections } =
-    await managementClient.organizations.getEnabledConnections({
-      id: session!.user.org_id!,
-    })
+export default function SSO() {
+  const router = useRouter()
+  const handleCreate = useCallback((): void => {
+    router.push("/dashboard/organization/sso/create/")
+  }, [])
 
+  const handleEdit = useCallback((provider: IdentityProvider): void => {
+    router.push(`/dashboard/organization/sso/edit/${provider.id}`)
+  }, [])
+
+  const createAction = useMemo(
+    () => ({
+      onAfter: handleCreate,
+      disabled: false,
+    }),
+    [handleCreate]
+  )
+
+  const editAction = useMemo(
+    () => ({
+      onAfter: handleEdit,
+      disabled: false,
+    }),
+    [handleEdit]
+  )
   return (
-    <div className="space-y-2">
-      <PageHeader
-        title="Single Sign-On"
-        description="Configure SSO for your organization."
-      />
-
-      <ConnectionsList
-        connections={connections
-          // filter out the default connection ID assigned to all organizations
-          .filter((c) => c.connection_id !== process.env.DEFAULT_CONNECTION_ID)
-          .map((c) => ({
-            id: c.connection_id,
-            name: c.connection.name,
-            strategy: c.connection.strategy,
-            assignMembershipOnLogin: c.assign_membership_on_login,
-          }))}
+    <div className="space-y-2 p-6">
+      <SsoProviderTable
+        createAction={createAction}
+        editAction={editAction}
       />
     </div>
   )

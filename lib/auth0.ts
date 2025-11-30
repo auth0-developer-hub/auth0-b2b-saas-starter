@@ -23,12 +23,44 @@ export const onboardingClient = new Auth0Client({
   },
 })
 
+const MY_ORG_SCOPES = [
+  "openid",
+  "profile",
+  "email",
+  "offline_access",
+  "read:my_org:details",
+  "update:my_org:details",
+  "create:my_org:identity_providers",
+  "read:my_org:identity_providers",
+  "update:my_org:identity_providers",
+  "delete:my_org:identity_providers",
+  "update:my_org:identity_providers_detach",
+  "read:my_org:domains",
+  "delete:my_org:domains",
+  "create:my_org:domains",
+  "update:my_org:domains",
+  "create:my_org:identity_providers_domains",
+  "delete:my_org:identity_providers_domains",
+  "read:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_scim_tokens",
+  "delete:my_org:identity_providers_scim_tokens",
+  "create:my_org:identity_providers_provisioning",
+  "read:my_org:identity_providers_provisioning",
+  "delete:my_org:identity_providers_provisioning",
+  "read:my_org:configuration",
+]
+
 export const appClient = new Auth0Client({
   domain: process.env.NEXT_PUBLIC_AUTH0_DOMAIN,
   clientId: process.env.AUTH0_CLIENT_ID,
   clientSecret: process.env.AUTH0_CLIENT_SECRET,
   appBaseUrl: process.env.APP_BASE_URL,
   secret: process.env.SESSION_ENCRYPTION_SECRET,
+  authorizationParameters: {
+    audience: `https://${process.env.NEXT_PUBLIC_AUTH0_DOMAIN}/my-org/`,
+    scope: MY_ORG_SCOPES.join(" "),
+  },
+  httpTimeout: 20000, // 20 seconds
   async beforeSessionSaved(session) {
     // For some reason is needed to delay the session persistance
     // and custom claim to have be stored within the session

@@ -1,76 +1,75 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import '@auth0/web-ui-components-react/styles';
+@import 'tailwindcss';
 
-@layer base {
+@config "../tailwind.config.ts";
+
   :root {
-    --background: 240 5% 96%;
-    --foreground: 0 0% 4%;
+    --background: hsl(240 5% 96%);
+    --foreground: hsl(0 0% 4%);
 
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 4%;
+    --card: hsl(0 0% 98%);
+    --card-foreground: hsl(0 0% 4%);
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 4%;
+    --popover: hsl(0 0% 100%);
+    --popover-foreground: hsl(0 0% 4%);
 
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --primary: hsl(0 0% 9%);
+    --primary-foreground: hsl(0 0% 98%);
 
-    --secondary: 240 6% 90%;
-    --secondary-foreground: 0 0% 9%;
+    --secondary: hsl(240 6% 90%);
+    --secondary-foreground: hsl(0 0% 9%);
 
-    --muted: 240 6% 90%;
-    --muted-foreground: 0 0% 40%;
+    --muted: hsl(240 6% 90%);
+    --muted-foreground: hsl(0 0% 40%);
 
-    --accent: 240 6% 84%;
-    --accent-foreground: 0 0% 8%;
+    --accent: hsl(240 6% 84%);
+    --accent-foreground: hsl(0 0% 8%);
 
-    --destructive: 0 84% 64%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: hsl(8, 100%, 95%);
+    --destructive-foreground: hsl(1, 79%, 54%);
 
-    --hover: 240 6% 96%;
-    --border: 240 6% 96%;
-    --input: 240 6% 84%;
-    --ring: 0 0% 4%;
+    --hover: hsl(240 6% 96%);
+    --border: hsl(240 6% 96%);
+    --input: hsl(0 0% 100%);
+    --ring: hsl(0 0% 4%);
 
-    --field: 0 0% 100%;
+    --field: hsl(0 0% 100%);
 
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 240 6% 10%;
-    --foreground: 0 0% 98%;
+    --background: hsl(240 6% 10%);
+    --foreground: hsl(0 0% 98%);
 
-    --card: 240 6% 6%;
-    --card-foreground: 0 0% 98%;
+    --card: hsl(240 6% 6%);
+    --card-foreground: hsl(0 0% 98%);
 
-    --popover: 0 0% 4%;
-    --popover-foreground: 0 0% 98%;
+    --popover: hsl(0 0% 4%);
+    --popover-foreground: hsl(0 0% 98%);
 
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
+    --primary: hsl(0 0% 98%);
+    --primary-foreground: hsl(0 0% 9%);
 
-    --secondary: 240 6% 20%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: hsl(240 6% 20%);
+    --secondary-foreground: hsl(0 0% 98%);
 
-    --muted: 240 6% 20%;
-    --muted-foreground: 0 0% 56%;
+    --muted: hsl(240 6% 20%);
+    --muted-foreground: hsl(0 0% 56%);
 
-    --accent: 240 5% 32%;
-    --accent-foreground: 0 0% 98%;
+    --accent: hsl(240 5% 32%);
+    --accent-foreground: hsl(0 0% 98%);
 
-    --destructive: 0 62% 64%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: hsl(8, 100%, 95%);
+    --destructive-foreground: hsl(1, 79%, 54%);
 
-    --hover: 240 6% 10%;
-    --border: 240 4% 10%;
-    --input: 240 5% 26%;
-    --ring: 0 0% 83.1%;
+    --hover: hsl(240 6% 10%);
+    --border: hsl(240 4% 10%);
+    --input: hsl(240 5% 26%);
+    --ring: hsl(0 0% 83.1%);
 
-    --field: 0 0% 0%;
+    --field: hsl(0 0% 0%);
   }
-}
 
 @layer base {
   * {
