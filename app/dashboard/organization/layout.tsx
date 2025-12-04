@@ -24,6 +24,10 @@ const sidebarNavItems = [
     href: "/dashboard/organization/members",
   },
   {
+    title: "API Clients",
+    href: "/dashboard/organization/clients",
+  },
+  {
     title: "SSO",
     href: "/dashboard/organization/sso",
   },
