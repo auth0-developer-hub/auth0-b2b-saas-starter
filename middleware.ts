@@ -2,7 +2,7 @@ import type { NextRequest } from "next/server"
 
 import { appClient, onboardingClient } from "./lib/auth0"
 
-export async function proxy(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   if (request.url.includes("/onboarding")) {
     return await onboardingClient.middleware(request)
   } else {
