@@ -1,6 +1,6 @@
 "use client"
 
-import { OrgDetailsEdit } from "@auth0/web-ui-components-react/rwa"
+import { OrgDetailsEdit } from "@auth0/universal-components-react/rwa"
 
 import { PageHeader } from "@/components/page-header"
 

@@ -1,6 +1,6 @@
 "use client"
 
-import { DomainTable } from "@auth0/web-ui-components-react/rwa"
+import { DomainTable } from "@auth0/universal-components-react/rwa"
 
 export default function Domains() {
   return (

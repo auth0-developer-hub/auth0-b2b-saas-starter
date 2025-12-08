@@ -2,7 +2,7 @@
 
 import React from "react"
 // import "@auth0/web-ui-components-react/styles"
-import { Auth0ComponentProvider } from "@auth0/web-ui-components-react/rwa"
+import { Auth0ComponentProvider } from "@auth0/universal-components-react/rwa"
 
 interface ClientProviderProps {
   children: React.ReactNode

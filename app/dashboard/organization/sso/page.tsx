@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import {
   IdentityProvider,
   SsoProviderTable,
-} from "@auth0/web-ui-components-react/rwa"
+} from "@auth0/universal-components-react/rwa"
 
 export default function SSO() {
   const router = useRouter()
