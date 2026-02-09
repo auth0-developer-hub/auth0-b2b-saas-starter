@@ -1,4 +1,4 @@
-# **SaaStart** from Auth0 by Okta
+# **SaaStart** from Auth0
 
 A secure and high-performance starting point for building modern B2B SaaS web applications.
 
