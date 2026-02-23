@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 
 export default async function DashboardHome() {
   return (
-    <div className="flex flex-1 flex-grow flex-col gap-4 lg:gap-6">
-      <div className="flex flex-1 items-center justify-center rounded-3xl border bg-field shadow-sm">
+    <div className="flex flex-1 grow flex-col gap-4 lg:gap-6">
+      <div className="flex flex-1 items-center justify-center rounded-3xl border bg-field shadow-xs">
         <div className="flex max-w-[500px] flex-col items-center gap-1 text-center">
           <h3 className="text-2xl font-bold tracking-tight">
             Explore the SaaS Starter
