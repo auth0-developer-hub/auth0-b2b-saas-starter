@@ -9,11 +9,9 @@ export default appClient.withPageAuthRequired(
   async function Profile() {
     const session = await appClient.getSession()
     const userId = session?.user.sub
-    const { data: factors } = await managementClient.guardian.getFactors()
-    const response = await managementClient.users.getAuthenticationMethods({
-      id: userId!,
-    })
-    const { data: enrollments } = response
+    const factors = await managementClient.guardian.factors.list()
+    const { data: enrollments } =
+      await managementClient.users.authenticationMethods.list(userId!)
 
     const filteredFactors = factors
       .filter((factor: any) => {

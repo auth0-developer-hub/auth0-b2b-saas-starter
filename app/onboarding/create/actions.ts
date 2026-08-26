@@ -23,7 +23,7 @@ export async function createOrganization(formData: FormData) {
   let organization
 
   try {
-    ;({ data: organization } = await managementClient.organizations.create({
+    organization = await managementClient.organizations.create({
       name: slugify(organizationName),
       display_name: organizationName,
       enabled_connections: [
@@ -31,22 +31,15 @@ export async function createOrganization(formData: FormData) {
           connection_id: process.env.DEFAULT_CONNECTION_ID,
         },
       ],
-    }))
+    })
 
-    await managementClient.organizations.addMembers(
-      {
-        id: organization.id,
-      },
-      {
-        members: [session.user.sub],
-      }
-    )
+    await managementClient.organizations.members.create(organization.id!, {
+      members: [session.user.sub],
+    })
 
-    await managementClient.organizations.addMemberRoles(
-      {
-        id: organization.id,
-        user_id: session.user.sub,
-      },
+    await managementClient.organizations.members.roles.assign(
+      organization.id!,
+      session.user.sub,
       {
         roles: [process.env.AUTH0_ADMIN_ROLE_ID],
       }
@@ -59,7 +52,7 @@ export async function createOrganization(formData: FormData) {
   }
 
   const authParams = new URLSearchParams({
-    organization: organization.id,
+    organization: organization.id!,
     returnTo: "/dashboard",
   })
 

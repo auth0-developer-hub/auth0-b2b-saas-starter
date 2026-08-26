@@ -22,9 +22,9 @@ export default async function DashboardLayout({
     redirect("/auth/login")
   }
 
-  const { data: orgs } = await managementClient.users.getUserOrganizations({
-    id: session.user.sub,
-  })
+  const { data: orgs } = await managementClient.users.organizations.list(
+    session.user.sub
+  )
 
   // if the user does not belong to any organizations, redirect to onboarding
   if (!orgs.length) {
@@ -37,8 +37,8 @@ export default async function DashboardLayout({
         <div className="flex items-center space-x-6">
           <OrganizationSwitcher
             organizations={orgs.map((o) => ({
-              id: o.id,
-              slug: o.name,
+              id: o.id!,
+              slug: o.name!,
               displayName: o.display_name!,
               logoUrl: o.branding?.logo_url,
             }))}

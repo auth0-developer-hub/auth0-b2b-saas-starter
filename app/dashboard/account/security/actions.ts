@@ -27,13 +27,12 @@ export async function createEnrollment(formData: FormData) {
       factorName = "phone"
     }
 
-    const { data: enrollmentTicket } =
-      await managementClient.guardian.createEnrollmentTicket({
-        user_id: userId,
-        //@ts-ignore
-        factor: factorName,
-        allow_multiple_enrollments: true,
-      })
+    const enrollmentTicket = await managementClient.guardian.enrollments.createTicket({
+      user_id: userId,
+      //@ts-ignore
+      factor: factorName,
+      allow_multiple_enrollments: true,
+    })
 
     revalidatePath("/dashboard/account/security", "layout")
 
@@ -66,10 +65,10 @@ export async function deleteEnrollment(formData: FormData) {
   try {
     const userId = session?.user.sub
 
-    await managementClient.users.deleteAuthenticationMethod({
-      id: userId,
-      authentication_method_id: enrollmentId,
-    })
+    await managementClient.users.authenticationMethods.delete(
+      userId,
+      enrollmentId
+    )
 
     revalidatePath("/dashboard/account/security", "layout")
 

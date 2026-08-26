@@ -21,21 +21,16 @@ export const updateMfaPolicy = withServerActionAuth(
         : []
 
     try {
-      await managementClient.organizations.update(
-        {
-          id: session.user.org_id!,
+      await managementClient.organizations.update(session.user.org_id!, {
+        metadata: {
+          mfaPolicy: JSON.stringify({
+            ...DEFAULT_MFA_POLICY,
+            enforce,
+            skipForDomains: parsedSkipForDomains,
+            providers,
+          }),
         },
-        {
-          metadata: {
-            mfaPolicy: JSON.stringify({
-              ...DEFAULT_MFA_POLICY,
-              enforce,
-              skipForDomains: parsedSkipForDomains,
-              providers,
-            }),
-          },
-        }
-      )
+      })
 
       revalidatePath("/dashboard/organization/security-policies")
     } catch (error) {
