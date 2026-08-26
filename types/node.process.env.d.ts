@@ -26,5 +26,10 @@ declare namespace NodeJS {
 
     // The namespace used to prefix custom claims
     CUSTOM_CLAIMS_NAMESPACE: string
+
+    // Overrides detection of the Auth0 "Agents as Principal" capability. Optional: when unset the
+    // tenant is probed. "true"/"false" force the AI Agents section on or off without touching the
+    // tenant.
+    AUTH0_AGENTS_ENABLED?: "auto" | "true" | "false"
   }
 }

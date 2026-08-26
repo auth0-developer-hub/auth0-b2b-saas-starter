@@ -3,6 +3,7 @@ import { redirect } from "next/navigation"
 import { ArrowLeftIcon } from "@radix-ui/react-icons"
 
 import { appClient } from "@/lib/auth0"
+import { getAgentsCapability } from "@/lib/auth0-agents"
 import { getRole } from "@/lib/roles"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,25 +14,6 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { SidebarNav } from "@/components/sidebar-nav"
-
-const sidebarNavItems = [
-  {
-    title: "General Settings",
-    href: "/dashboard/organization/general",
-  },
-  {
-    title: "Members",
-    href: "/dashboard/organization/members",
-  },
-  {
-    title: "SSO",
-    href: "/dashboard/organization/sso",
-  },
-  {
-    title: "Security Policies",
-    href: "/dashboard/organization/security-policies",
-  },
-]
 
 interface AccountLayoutProps {
   children: React.ReactNode
@@ -74,6 +56,37 @@ export default async function AccountLayout({ children }: AccountLayoutProps) {
       </div>
     )
   }
+
+  // AI Agents is only offered when the connected tenant can actually serve /api/v2/agents. The route
+  // itself stays reachable and explains why when it can't.
+  const agents = await getAgentsCapability()
+
+  const sidebarNavItems = [
+    {
+      title: "General Settings",
+      href: "/dashboard/organization/general",
+    },
+    {
+      title: "Members",
+      href: "/dashboard/organization/members",
+    },
+    ...(agents.status === "enabled"
+      ? [
+          {
+            title: "AI Agents",
+            href: "/dashboard/organization/agents",
+          },
+        ]
+      : []),
+    {
+      title: "SSO",
+      href: "/dashboard/organization/sso",
+    },
+    {
+      title: "Security Policies",
+      href: "/dashboard/organization/security-policies",
+    },
+  ]
 
   return (
     <div className="space-y-1">

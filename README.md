@@ -120,7 +120,7 @@ This project uses the [Auth0 CLI](https://github.com/auth0/auth0-cli) to make se
 2. Log in by entering the following command and following the instructions to choose a specific tenant to authenticate with:
 
    ```shell
-   auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,create:email_templates,update:guardian_factors"
+   auth0 login --scopes "update:tenant_settings,create:connections,create:client_grants,read:client_grants,update:client_grants,create:email_templates,update:guardian_factors,read:agents,create:agents,delete:agents"
    ```
 
    This will take you through a flow that will securely retrieve a Management API token for your Auth0 tenant.
@@ -186,6 +186,25 @@ Users can be invited to a company organization, but can also create their own ho
 
 ### User Profile and Security
 Your users can set their own user profile settings, set and reset their own passwords, and manage their own multi-factor authentication (MFA) enrollments. They can also manage and delete their own account data.
+
+### AI Agents
+Register AI agents as first-class principals with [Auth0 Agents as Principal](https://auth0.com/docs), so that an autonomous agent acting in your application has its own identity rather than borrowing a user's. Each agent gets a stable `agt_…` identifier, and Auth0 records it in the tenant logs on every token issuance.
+
+The **AI Agents** tab appears under organization settings only when the connected tenant can actually serve `/api/v2/agents`. If it's missing, visit `/dashboard/organization/agents` directly — the page reports which of the two reasons applies:
+
+- **Missing scopes.** The Management API client grant needs `read:agents`, `create:agents` and `delete:agents`. On a tenant bootstrapped before those were added, top the grant up in place:
+
+  ```shell
+  npm run auth0:update-grant
+  ```
+
+  The script only ever adds scopes, so it's safe to re-run. Unlike `auth0:bootstrap`, it's intended for tenants that are already configured.
+
+- **Not enabled on the tenant.** Agents as Principal is an Early Access feature; contact Auth0 Support to have it enabled.
+
+Set `AUTH0_AGENTS_ENABLED` to `true` or `false` in `.env.local` to force the section on or off without touching the tenant. It defaults to `auto`, which probes.
+
+Registering an agent creates an identity and nothing more — it grants no access to anything.
 
 ---
 
