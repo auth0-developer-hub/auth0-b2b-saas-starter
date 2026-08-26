@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"**/*.{ts,tsx,mdx}\" --cache",
-    "auth0:bootstrap": "node ./scripts/bootstrap.mjs"
+    "auth0:bootstrap": "node ./scripts/bootstrap.mjs",
+    "auth0:update-grant": "node ./scripts/update-client-grant.mjs"
   },
   "dependencies": {
     "@auth0/nextjs-auth0": "^4.13.2",
