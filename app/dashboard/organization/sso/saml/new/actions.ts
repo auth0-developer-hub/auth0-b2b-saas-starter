@@ -84,7 +84,7 @@ export const createConnection = withServerActionAuth(
         signingCert: btoa(await certificate.text()),
       }
 
-      const { data: connection } = await managementClient.connections.create({
+      const connection = await managementClient.connections.create({
         display_name: displayName,
         // we append a suffix to the connection identifier as they must be globally
         // unique and we want to avoid collisions when supplied by the user
@@ -94,10 +94,10 @@ export const createConnection = withServerActionAuth(
         options: samlOptions,
       })
 
-      await managementClient.organizations.addEnabledConnection(
-        { id: session.user.org_id! },
+      await managementClient.organizations.enabledConnections.add(
+        session.user.org_id!,
         {
-          connection_id: connection.id,
+          connection_id: connection.id!,
           assign_membership_on_login:
             assignMembershipOnLogin === "enabled" ? true : false,
         }
@@ -128,11 +128,11 @@ export const deleteConnection = withServerActionAuth(
 
     try {
       // ensure that the connection being removed belongs to the organization
-      const { data: connection } =
-        await managementClient.organizations.getEnabledConnection({
-          id: session.user.org_id!,
-          connectionId,
-        })
+      const connection =
+        await managementClient.organizations.enabledConnections.get(
+          session.user.org_id!,
+          connectionId
+        )
 
       if (!connection) {
         return {
@@ -140,9 +140,7 @@ export const deleteConnection = withServerActionAuth(
         }
       }
 
-      await managementClient.connections.delete({
-        id: connectionId,
-      })
+      await managementClient.connections.delete(connectionId)
 
       revalidatePath("/dashboard/organization/sso")
 

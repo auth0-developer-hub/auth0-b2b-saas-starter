@@ -18,36 +18,47 @@ export default async function UpdateOidcConnection({
 
   // ensure that the connection ID being fetched is owned by the organization
   const { connectionId } = await params
-  const { data: enabledConnection } =
-    await managementClient.organizations.getEnabledConnection({
-      id: session.user.org_id!,
-      connectionId,
-    })
+  const enabledConnection =
+    await managementClient.organizations.enabledConnections.get(
+      session.user.org_id!,
+      connectionId
+    )
 
   if (!enabledConnection) {
     redirect("/dashboard/organization/sso")
   }
 
-  const [domainVerificationToken, { data: connection }] = await Promise.all([
+  const [domainVerificationToken, connection] = await Promise.all([
     getOrCreateDomainVerificationToken(session!.user.org_id!),
-    managementClient.connections.get({ id: connectionId }),
+    managementClient.connections.get(connectionId),
   ])
+
+  // the options shape is strategy-specific and typed as a generic record by the SDK
+  const options = connection.options as {
+    discovery_url: string
+    domain_aliases: string[]
+    client_id: string
+    client_secret: string
+    scope: string
+    type: "front_channel" | "back_channel"
+  }
 
   return (
     <div>
       <UpdateOidcConnectionForm
         connection={{
-          id: connection.id,
-          name: connection.name,
-          displayName: connection.display_name,
-          assignMembershipOnLogin: enabledConnection.assign_membership_on_login,
+          id: connection.id!,
+          name: connection.name!,
+          displayName: connection.display_name!,
+          assignMembershipOnLogin:
+            enabledConnection.assign_membership_on_login!,
           options: {
-            discoveryUrl: connection.options.discovery_url,
-            domainAliases: connection.options.domain_aliases,
-            clientId: connection.options.client_id,
-            clientSecret: connection.options.client_secret,
-            scope: connection.options.scope,
-            type: connection.options.type,
+            discoveryUrl: options.discovery_url,
+            domainAliases: options.domain_aliases,
+            clientId: options.client_id,
+            clientSecret: options.client_secret,
+            scope: options.scope,
+            type: options.type,
           },
         }}
         domainVerificationToken={domainVerificationToken}

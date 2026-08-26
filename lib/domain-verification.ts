@@ -11,9 +11,7 @@ import { DOMAIN_VERIFICATION_RECORD_IDENTIFIER } from "./constants"
 export async function getOrCreateDomainVerificationToken(
   organizationId: string
 ) {
-  const { data: organization } = await managementClient.organizations.get({
-    id: organizationId,
-  })
+  const organization = await managementClient.organizations.get(organizationId)
 
   if (organization.metadata?.domainVerificationToken) {
     return organization.metadata.domainVerificationToken
@@ -21,17 +19,12 @@ export async function getOrCreateDomainVerificationToken(
 
   const domainVerificationToken = randomBytes(32).toString("hex")
 
-  await managementClient.organizations.update(
-    {
-      id: organizationId,
+  await managementClient.organizations.update(organizationId, {
+    metadata: {
+      ...organization.metadata,
+      domainVerificationToken,
     },
-    {
-      metadata: {
-        ...organization.metadata,
-        domainVerificationToken,
-      },
-    }
-  )
+  })
 
   return domainVerificationToken
 }
@@ -41,9 +34,7 @@ export async function verifyDnsRecords(domain: string, organizationId: string) {
     return true
   }
 
-  const { data: organization } = await managementClient.organizations.get({
-    id: organizationId,
-  })
+  const organization = await managementClient.organizations.get(organizationId)
 
   const txtRecords = await resolveTxt(domain)
 
@@ -56,7 +47,7 @@ export async function verifyDnsRecords(domain: string, organizationId: string) {
         ""
       )
 
-      if (token === organization.metadata.domainVerificationToken) {
+      if (token === organization.metadata?.domainVerificationToken) {
         return true
       }
     }

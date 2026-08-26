@@ -21,14 +21,9 @@ export async function updateDisplayName(formData: FormData) {
   }
 
   try {
-    await managementClient.users.update(
-      {
-        id: session.user.sub,
-      },
-      {
-        name: displayName,
-      }
-    )
+    await managementClient.users.update(session.user.sub, {
+      name: displayName,
+    })
 
     // update the cached local session to reflect the new display name across the app
     await appClient.updateSession({
@@ -57,9 +52,7 @@ export async function deleteAccount() {
   }
 
   try {
-    await managementClient.users.delete({
-      id: session.user.sub,
-    })
+    await managementClient.users.delete(session.user.sub)
 
     return {}
   } catch (error) {

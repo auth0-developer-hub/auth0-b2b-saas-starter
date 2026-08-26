@@ -78,11 +78,11 @@ export const updateConnection = withServerActionAuth(
     }
 
     // ensure that the connection ID being updated is owned by the organization
-    const { data: enabledConnection } =
-      await managementClient.organizations.getEnabledConnection({
-        id: session.user.org_id!,
-        connectionId: connectionId,
-      })
+    const enabledConnection =
+      await managementClient.organizations.enabledConnections.get(
+        session.user.org_id!,
+        connectionId
+      )
 
     if (!enabledConnection) {
       return {
@@ -92,25 +92,20 @@ export const updateConnection = withServerActionAuth(
 
     try {
       await Promise.all([
-        managementClient.connections.update(
-          { id: connectionId },
-          {
-            display_name: displayName,
-            options: {
-              type,
-              discovery_url: discoveryUrl,
-              client_id: clientId,
-              client_secret: clientSecret,
-              domain_aliases: parsedDomains,
-              scope,
-            },
-          }
-        ),
-        managementClient.organizations.updateEnabledConnection(
-          {
-            id: session.user.org_id!,
-            connectionId,
+        managementClient.connections.update(connectionId, {
+          display_name: displayName,
+          options: {
+            type,
+            discovery_url: discoveryUrl,
+            client_id: clientId,
+            client_secret: clientSecret,
+            domain_aliases: parsedDomains,
+            scope,
           },
+        }),
+        managementClient.organizations.enabledConnections.update(
+          session.user.org_id!,
+          connectionId,
           {
             assign_membership_on_login:
               assignMembershipOnLogin === "enabled" ? true : false,

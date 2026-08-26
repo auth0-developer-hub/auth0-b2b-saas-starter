@@ -17,14 +17,9 @@ export const updateDisplayName = withServerActionAuth(
     }
 
     try {
-      await managementClient.organizations.update(
-        {
-          id: session.user.org_id!,
-        },
-        {
-          display_name: displayName,
-        }
-      )
+      await managementClient.organizations.update(session.user.org_id!, {
+        display_name: displayName,
+      })
 
       revalidatePath("/", "layout")
     } catch (error) {
