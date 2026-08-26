@@ -27,8 +27,7 @@ export interface Agent {
    * The value that will appear as `sub` (and `act.sub`) in tokens issued for this agent, and in
    * tenant logs. When `external_agent_id` is set it *replaces* `agent_id` in those places while
    * `agent_id` remains the Management API key, so the two can differ. Anything that has to
-   * recognise this agent from a token — FGA tuples, checks, the permissions index — must key off
-   * this and not off `id`.
+   * recognise this agent from a token must key off this and not off `id`.
    */
   tokenSubject: string
   /** From `metadata.org_id`. An agent without one belongs to no organization. */
